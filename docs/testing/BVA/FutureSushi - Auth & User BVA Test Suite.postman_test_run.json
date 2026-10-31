@@ -1,0 +1,2221 @@
+{
+	"id": "1fca6b51-c7e6-4299-a4c9-faf55e01362e",
+	"name": "FutureSushi - Auth & User BVA Test Suite",
+	"timestamp": "2026-08-21T07:31:10.164Z",
+	"collection_id": "57470364-89b7591c-4277-4a6f-a31c-24c10365a050",
+	"folder_id": 0,
+	"environment_id": "38502440-0a45a39d-e221-4828-959d-5da2db04b68d",
+	"totalPass": 66,
+	"delay": 0,
+	"persist": true,
+	"status": "finished",
+	"startedAt": "2026-08-21T07:31:02.982Z",
+	"totalFail": 14,
+	"results": [
+		{
+			"id": "d3e6f28d-7c42-42c3-bfe8-82359d3a437a",
+			"name": "0.1 Setup - Admin Login (Get Admin Token)",
+			"url": "http://localhost:3000/api/auth/login",
+			"time": 205,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				205
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "df2dc64d-0304-4364-b7bd-87f0c065d237",
+			"name": "0.2 Setup - Customer Login (Get Customer Token)",
+			"url": "http://localhost:3000/api/auth/login",
+			"time": 13,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				13
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "f03ec06a-fdf8-4cb0-811b-b2fa48cd31d6",
+			"name": "[TC_BVA_REG_001] fullName Min boundary = 1 char ('A')",
+			"url": "http://localhost:3000/api/auth/register",
+			"time": 86,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"TC_BVA_REG_001 - Status Code verification": true
+			},
+			"testPassFailCounts": {
+				"TC_BVA_REG_001 - Status Code verification": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				86
+			],
+			"allTests": [
+				{
+					"TC_BVA_REG_001 - Status Code verification": true
+				}
+			]
+		},
+		{
+			"id": "577930aa-72c5-478d-a61e-8035641cd844",
+			"name": "[TC_BVA_REG_002] fullName Min+1 boundary = 2 chars ('An')",
+			"url": "http://localhost:3000/api/auth/register",
+			"time": 88,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"TC_BVA_REG_002 - Status Code verification": true
+			},
+			"testPassFailCounts": {
+				"TC_BVA_REG_002 - Status Code verification": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				88
+			],
+			"allTests": [
+				{
+					"TC_BVA_REG_002 - Status Code verification": true
+				}
+			]
+		},
+		{
+			"id": "b95c1a7d-c3f7-447d-b6d9-c2817c4ad7db",
+			"name": "[TC_BVA_REG_003] fullName Max-1 boundary = 99 chars",
+			"url": "http://localhost:3000/api/auth/register",
+			"time": 80,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"TC_BVA_REG_003 - Status Code verification": true
+			},
+			"testPassFailCounts": {
+				"TC_BVA_REG_003 - Status Code verification": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				80
+			],
+			"allTests": [
+				{
+					"TC_BVA_REG_003 - Status Code verification": true
+				}
+			]
+		},
+		{
+			"id": "5f0627ed-0fb6-4d98-aab2-e6f8b2333eea",
+			"name": "[TC_BVA_REG_004] fullName Max boundary = 100 chars",
+			"url": "http://localhost:3000/api/auth/register",
+			"time": 81,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"TC_BVA_REG_004 - Status Code verification": true
+			},
+			"testPassFailCounts": {
+				"TC_BVA_REG_004 - Status Code verification": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				81
+			],
+			"allTests": [
+				{
+					"TC_BVA_REG_004 - Status Code verification": true
+				}
+			]
+		},
+		{
+			"id": "e97f3db3-f090-4d72-b2e8-7f0fe9b5fd2d",
+			"name": "[TC_BVA_REG_005] fullName Max+1 boundary = 101 chars (Invalid / Overflow)",
+			"url": "http://localhost:3000/api/auth/register",
+			"time": 83,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"TC_BVA_REG_005 - Status Code verification": false
+			},
+			"testPassFailCounts": {
+				"TC_BVA_REG_005 - Status Code verification": {
+					"pass": 0,
+					"fail": 1
+				}
+			},
+			"times": [
+				83
+			],
+			"allTests": [
+				{
+					"TC_BVA_REG_005 - Status Code verification": false
+				}
+			]
+		},
+		{
+			"id": "ff4829dd-619a-4419-b76a-1ed834936cf6",
+			"name": "[TC_BVA_REG_006] fullName Min-1 boundary = Empty string ''",
+			"url": "http://localhost:3000/api/auth/register",
+			"time": 78,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"TC_BVA_REG_006 - Status Code verification": false
+			},
+			"testPassFailCounts": {
+				"TC_BVA_REG_006 - Status Code verification": {
+					"pass": 0,
+					"fail": 1
+				}
+			},
+			"times": [
+				78
+			],
+			"allTests": [
+				{
+					"TC_BVA_REG_006 - Status Code verification": false
+				}
+			]
+		},
+		{
+			"id": "17326f67-f5fb-4efb-a3de-390ed52b4340",
+			"name": "[TC_BVA_REG_007] username Min-1 boundary = 2 chars ('ab')",
+			"url": "http://localhost:3000/api/auth/register",
+			"time": 77,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"TC_BVA_REG_007 - Status Code verification": true
+			},
+			"testPassFailCounts": {
+				"TC_BVA_REG_007 - Status Code verification": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				77
+			],
+			"allTests": [
+				{
+					"TC_BVA_REG_007 - Status Code verification": true
+				}
+			]
+		},
+		{
+			"id": "e6c01c73-9dd8-443c-a749-0543a71d4a09",
+			"name": "[TC_BVA_REG_008] username Min boundary = 3 chars",
+			"url": "http://localhost:3000/api/auth/register",
+			"time": 75,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"TC_BVA_REG_008 - Status Code verification": true
+			},
+			"testPassFailCounts": {
+				"TC_BVA_REG_008 - Status Code verification": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				75
+			],
+			"allTests": [
+				{
+					"TC_BVA_REG_008 - Status Code verification": true
+				}
+			]
+		},
+		{
+			"id": "1ff6981a-ac9d-47e1-9aab-361526cfbdeb",
+			"name": "[TC_BVA_REG_009] username Min+1 boundary = 4 chars",
+			"url": "http://localhost:3000/api/auth/register",
+			"time": 75,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"TC_BVA_REG_009 - Status Code verification": true
+			},
+			"testPassFailCounts": {
+				"TC_BVA_REG_009 - Status Code verification": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				75
+			],
+			"allTests": [
+				{
+					"TC_BVA_REG_009 - Status Code verification": true
+				}
+			]
+		},
+		{
+			"id": "7edccfe3-99fe-4490-958e-602d5eb1cc08",
+			"name": "[TC_BVA_REG_010] username Max-1 boundary = 39 chars",
+			"url": "http://localhost:3000/api/auth/register",
+			"time": 78,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"TC_BVA_REG_010 - Status Code verification": true
+			},
+			"testPassFailCounts": {
+				"TC_BVA_REG_010 - Status Code verification": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				78
+			],
+			"allTests": [
+				{
+					"TC_BVA_REG_010 - Status Code verification": true
+				}
+			]
+		},
+		{
+			"id": "05a93a24-f460-4b2c-8478-59b31211692f",
+			"name": "[TC_BVA_REG_011] username Max boundary = 40 chars",
+			"url": "http://localhost:3000/api/auth/register",
+			"time": 77,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"TC_BVA_REG_011 - Status Code verification": true
+			},
+			"testPassFailCounts": {
+				"TC_BVA_REG_011 - Status Code verification": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				77
+			],
+			"allTests": [
+				{
+					"TC_BVA_REG_011 - Status Code verification": true
+				}
+			]
+		},
+		{
+			"id": "15de6f4b-4115-4986-ae6a-42a24c2c1010",
+			"name": "[TC_BVA_REG_012] username Max+1 boundary = 41 chars (Overflow)",
+			"url": "http://localhost:3000/api/auth/register",
+			"time": 74,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"TC_BVA_REG_012 - Status Code verification": false
+			},
+			"testPassFailCounts": {
+				"TC_BVA_REG_012 - Status Code verification": {
+					"pass": 0,
+					"fail": 1
+				}
+			},
+			"times": [
+				74
+			],
+			"allTests": [
+				{
+					"TC_BVA_REG_012 - Status Code verification": false
+				}
+			]
+		},
+		{
+			"id": "a60b46c4-4698-4144-b3da-3e699c44d5ac",
+			"name": "[TC_BVA_REG_013] password Min-1 boundary = 5 chars ('12345')",
+			"url": "http://localhost:3000/api/auth/register",
+			"time": 80,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"TC_BVA_REG_013 - Status Code verification": true
+			},
+			"testPassFailCounts": {
+				"TC_BVA_REG_013 - Status Code verification": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				80
+			],
+			"allTests": [
+				{
+					"TC_BVA_REG_013 - Status Code verification": true
+				}
+			]
+		},
+		{
+			"id": "adc6db83-e182-452d-8f14-b578908626b8",
+			"name": "[TC_BVA_REG_014] password Min boundary = 6 chars ('123456')",
+			"url": "http://localhost:3000/api/auth/register",
+			"time": 86,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"TC_BVA_REG_014 - Status Code verification": true
+			},
+			"testPassFailCounts": {
+				"TC_BVA_REG_014 - Status Code verification": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				86
+			],
+			"allTests": [
+				{
+					"TC_BVA_REG_014 - Status Code verification": true
+				}
+			]
+		},
+		{
+			"id": "2cd95f9d-149d-42a7-9c42-d59fdac40b15",
+			"name": "[TC_BVA_REG_015] password Min+1 boundary = 7 chars ('1234567')",
+			"url": "http://localhost:3000/api/auth/register",
+			"time": 73,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"TC_BVA_REG_015 - Status Code verification": true
+			},
+			"testPassFailCounts": {
+				"TC_BVA_REG_015 - Status Code verification": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				73
+			],
+			"allTests": [
+				{
+					"TC_BVA_REG_015 - Status Code verification": true
+				}
+			]
+		},
+		{
+			"id": "976ad91c-92a7-4c18-9893-7fbdab392e27",
+			"name": "[TC_BVA_REG_016] password Max-1 boundary = 254 chars",
+			"url": "http://localhost:3000/api/auth/register",
+			"time": 76,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"TC_BVA_REG_016 - Status Code verification": true
+			},
+			"testPassFailCounts": {
+				"TC_BVA_REG_016 - Status Code verification": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				76
+			],
+			"allTests": [
+				{
+					"TC_BVA_REG_016 - Status Code verification": true
+				}
+			]
+		},
+		{
+			"id": "addf846d-e749-42cb-8e4f-ae03429054fb",
+			"name": "[TC_BVA_REG_017] password Max boundary = 255 chars",
+			"url": "http://localhost:3000/api/auth/register",
+			"time": 79,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"TC_BVA_REG_017 - Status Code verification": true
+			},
+			"testPassFailCounts": {
+				"TC_BVA_REG_017 - Status Code verification": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				79
+			],
+			"allTests": [
+				{
+					"TC_BVA_REG_017 - Status Code verification": true
+				}
+			]
+		},
+		{
+			"id": "dfa46bfe-f5e3-436d-8a0c-2c2adb46e5cb",
+			"name": "[TC_BVA_REG_018] password Max+1 boundary = 256 chars (Overflow)",
+			"url": "http://localhost:3000/api/auth/register",
+			"time": 76,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"TC_BVA_REG_018 - Status Code verification": false
+			},
+			"testPassFailCounts": {
+				"TC_BVA_REG_018 - Status Code verification": {
+					"pass": 0,
+					"fail": 1
+				}
+			},
+			"times": [
+				76
+			],
+			"allTests": [
+				{
+					"TC_BVA_REG_018 - Status Code verification": false
+				}
+			]
+		},
+		{
+			"id": "130a6beb-4df1-4023-a33f-ae86f52ee8c0",
+			"name": "[TC_BVA_REG_019] phone Min-1 boundary = 9 digits",
+			"url": "http://localhost:3000/api/auth/register",
+			"time": 77,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"TC_BVA_REG_019 - Status Code verification": true
+			},
+			"testPassFailCounts": {
+				"TC_BVA_REG_019 - Status Code verification": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				77
+			],
+			"allTests": [
+				{
+					"TC_BVA_REG_019 - Status Code verification": true
+				}
+			]
+		},
+		{
+			"id": "2a1dacec-9df1-40dc-966e-7c400f0d8fb3",
+			"name": "[TC_BVA_REG_020] phone Standard VN Min boundary = 10 digits",
+			"url": "http://localhost:3000/api/auth/register",
+			"time": 74,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"TC_BVA_REG_020 - Status Code verification": true
+			},
+			"testPassFailCounts": {
+				"TC_BVA_REG_020 - Status Code verification": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				74
+			],
+			"allTests": [
+				{
+					"TC_BVA_REG_020 - Status Code verification": true
+				}
+			]
+		},
+		{
+			"id": "8af919aa-2d92-4a6c-b9a7-103f8c92cab3",
+			"name": "[TC_BVA_REG_021] phone Min+1 boundary = 11 digits",
+			"url": "http://localhost:3000/api/auth/register",
+			"time": 80,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"TC_BVA_REG_021 - Status Code verification": true
+			},
+			"testPassFailCounts": {
+				"TC_BVA_REG_021 - Status Code verification": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				80
+			],
+			"allTests": [
+				{
+					"TC_BVA_REG_021 - Status Code verification": true
+				}
+			]
+		},
+		{
+			"id": "8c594c08-2037-4a81-af88-a4710be0a4dc",
+			"name": "[TC_BVA_REG_022] phone Max-1 boundary = 19 chars",
+			"url": "http://localhost:3000/api/auth/register",
+			"time": 84,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"TC_BVA_REG_022 - Status Code verification": true
+			},
+			"testPassFailCounts": {
+				"TC_BVA_REG_022 - Status Code verification": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				84
+			],
+			"allTests": [
+				{
+					"TC_BVA_REG_022 - Status Code verification": true
+				}
+			]
+		},
+		{
+			"id": "de864339-be7b-4acb-a0c0-68042491c3f9",
+			"name": "[TC_BVA_REG_023] phone Max boundary = 20 chars",
+			"url": "http://localhost:3000/api/auth/register",
+			"time": 95,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"TC_BVA_REG_023 - Status Code verification": true
+			},
+			"testPassFailCounts": {
+				"TC_BVA_REG_023 - Status Code verification": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				95
+			],
+			"allTests": [
+				{
+					"TC_BVA_REG_023 - Status Code verification": true
+				}
+			]
+		},
+		{
+			"id": "1c17451e-f09f-400e-bc9d-c8e922914bab",
+			"name": "[TC_BVA_REG_024] phone Max+1 boundary = 21 chars (Overflow)",
+			"url": "http://localhost:3000/api/auth/register",
+			"time": 83,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"TC_BVA_REG_024 - Status Code verification": false
+			},
+			"testPassFailCounts": {
+				"TC_BVA_REG_024 - Status Code verification": {
+					"pass": 0,
+					"fail": 1
+				}
+			},
+			"times": [
+				83
+			],
+			"allTests": [
+				{
+					"TC_BVA_REG_024 - Status Code verification": false
+				}
+			]
+		},
+		{
+			"id": "1e21016e-9be9-4de2-b32a-7c6085a75fd2",
+			"name": "[TC_BVA_REG_025] email Min boundary = 5 chars ('a@b.c')",
+			"url": "http://localhost:3000/api/auth/register",
+			"time": 74,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"TC_BVA_REG_025 - Status Code verification": true
+			},
+			"testPassFailCounts": {
+				"TC_BVA_REG_025 - Status Code verification": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				74
+			],
+			"allTests": [
+				{
+					"TC_BVA_REG_025 - Status Code verification": true
+				}
+			]
+		},
+		{
+			"id": "752d8084-d801-434c-91a4-6a1f1ad4a1ff",
+			"name": "[TC_BVA_REG_026] email Max boundary = 100 chars",
+			"url": "http://localhost:3000/api/auth/register",
+			"time": 75,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"TC_BVA_REG_026 - Status Code verification": true
+			},
+			"testPassFailCounts": {
+				"TC_BVA_REG_026 - Status Code verification": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				75
+			],
+			"allTests": [
+				{
+					"TC_BVA_REG_026 - Status Code verification": true
+				}
+			]
+		},
+		{
+			"id": "9b7dd541-4522-4e4e-8bea-499775f86dcb",
+			"name": "[TC_BVA_REG_027] email Max+1 boundary = 101 chars (Overflow)",
+			"url": "http://localhost:3000/api/auth/register",
+			"time": 77,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"TC_BVA_REG_027 - Status Code verification": false
+			},
+			"testPassFailCounts": {
+				"TC_BVA_REG_027 - Status Code verification": {
+					"pass": 0,
+					"fail": 1
+				}
+			},
+			"times": [
+				77
+			],
+			"allTests": [
+				{
+					"TC_BVA_REG_027 - Status Code verification": false
+				}
+			]
+		},
+		{
+			"id": "2d85eec2-4cd6-4882-900f-744e1b2c8596",
+			"name": "[TC_BVA_REG_028] email Null / Omitted (Optional field boundary)",
+			"url": "http://localhost:3000/api/auth/register",
+			"time": 79,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"TC_BVA_REG_028 - Status Code verification": true
+			},
+			"testPassFailCounts": {
+				"TC_BVA_REG_028 - Status Code verification": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				79
+			],
+			"allTests": [
+				{
+					"TC_BVA_REG_028 - Status Code verification": true
+				}
+			]
+		},
+		{
+			"id": "7c652933-f3fc-44b4-9bd9-6e77a6c807ae",
+			"name": "[TC_BVA_LOG_001] account Length = 0 (Empty '')",
+			"url": "http://localhost:3000/api/auth/login",
+			"time": 4,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"TC_BVA_LOG_001 - Status code check": true,
+				"TC_BVA_LOG_001 - Message pattern check": true
+			},
+			"testPassFailCounts": {
+				"TC_BVA_LOG_001 - Status code check": {
+					"pass": 1,
+					"fail": 0
+				},
+				"TC_BVA_LOG_001 - Message pattern check": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				4
+			],
+			"allTests": [
+				{
+					"TC_BVA_LOG_001 - Status code check": true,
+					"TC_BVA_LOG_001 - Message pattern check": true
+				}
+			]
+		},
+		{
+			"id": "1045ee45-fc20-49dd-aa8f-749363b5e1b7",
+			"name": "[TC_BVA_LOG_002] password Length = 0 (Empty '')",
+			"url": "http://localhost:3000/api/auth/login",
+			"time": 5,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"TC_BVA_LOG_002 - Status code check": true,
+				"TC_BVA_LOG_002 - Message pattern check": true
+			},
+			"testPassFailCounts": {
+				"TC_BVA_LOG_002 - Status code check": {
+					"pass": 1,
+					"fail": 0
+				},
+				"TC_BVA_LOG_002 - Message pattern check": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				5
+			],
+			"allTests": [
+				{
+					"TC_BVA_LOG_002 - Status code check": true,
+					"TC_BVA_LOG_002 - Message pattern check": true
+				}
+			]
+		},
+		{
+			"id": "33786baa-288b-4475-aeb5-3315aa2dc747",
+			"name": "[TC_BVA_LOG_003] account Length = 1 char ('a')",
+			"url": "http://localhost:3000/api/auth/login",
+			"time": 7,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"TC_BVA_LOG_003 - Status code check": true,
+				"TC_BVA_LOG_003 - Message pattern check": true
+			},
+			"testPassFailCounts": {
+				"TC_BVA_LOG_003 - Status code check": {
+					"pass": 1,
+					"fail": 0
+				},
+				"TC_BVA_LOG_003 - Message pattern check": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				7
+			],
+			"allTests": [
+				{
+					"TC_BVA_LOG_003 - Status code check": true,
+					"TC_BVA_LOG_003 - Message pattern check": true
+				}
+			]
+		},
+		{
+			"id": "25fa6886-4510-446f-96a3-d9a49ae552a3",
+			"name": "[TC_BVA_LOG_004] account Length = 40 chars (Max username boundary)",
+			"url": "http://localhost:3000/api/auth/login",
+			"time": 74,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"TC_BVA_LOG_004 - Status code check": true
+			},
+			"testPassFailCounts": {
+				"TC_BVA_LOG_004 - Status code check": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				74
+			],
+			"allTests": [
+				{
+					"TC_BVA_LOG_004 - Status code check": true
+				}
+			]
+		},
+		{
+			"id": "70f2bcd3-5ea0-4f31-884e-1c91f02792e6",
+			"name": "[TC_BVA_LOG_005] account Length = 100 chars (Max email boundary)",
+			"url": "http://localhost:3000/api/auth/login",
+			"time": 79,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"TC_BVA_LOG_005 - Status code check": true
+			},
+			"testPassFailCounts": {
+				"TC_BVA_LOG_005 - Status code check": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				79
+			],
+			"allTests": [
+				{
+					"TC_BVA_LOG_005 - Status code check": true
+				}
+			]
+		},
+		{
+			"id": "b783f648-d1a4-4bf0-bd72-c405b0a07025",
+			"name": "[TC_BVA_LOG_006] account Length = 101 chars (Overflow boundary)",
+			"url": "http://localhost:3000/api/auth/login",
+			"time": 4,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"TC_BVA_LOG_006 - Status code check": true
+			},
+			"testPassFailCounts": {
+				"TC_BVA_LOG_006 - Status code check": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				4
+			],
+			"allTests": [
+				{
+					"TC_BVA_LOG_006 - Status code check": true
+				}
+			]
+		},
+		{
+			"id": "7b35bca0-afb2-4f4e-889c-aca05aeb0c7d",
+			"name": "[TC_BVA_LOG_007] password Length = 255 chars",
+			"url": "http://localhost:3000/api/auth/login",
+			"time": 74,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"TC_BVA_LOG_007 - Status code check": true,
+				"TC_BVA_LOG_007 - Message pattern check": true
+			},
+			"testPassFailCounts": {
+				"TC_BVA_LOG_007 - Status code check": {
+					"pass": 1,
+					"fail": 0
+				},
+				"TC_BVA_LOG_007 - Message pattern check": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				74
+			],
+			"allTests": [
+				{
+					"TC_BVA_LOG_007 - Status code check": true,
+					"TC_BVA_LOG_007 - Message pattern check": true
+				}
+			]
+		},
+		{
+			"id": "4700e541-44e2-4edc-bc01-e0aba4ca52ee",
+			"name": "[TC_BVA_LOG_008] password Length = 256 chars",
+			"url": "http://localhost:3000/api/auth/login",
+			"time": 71,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"TC_BVA_LOG_008 - Status code check": true,
+				"TC_BVA_LOG_008 - Message pattern check": true
+			},
+			"testPassFailCounts": {
+				"TC_BVA_LOG_008 - Status code check": {
+					"pass": 1,
+					"fail": 0
+				},
+				"TC_BVA_LOG_008 - Message pattern check": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				71
+			],
+			"allTests": [
+				{
+					"TC_BVA_LOG_008 - Status code check": true,
+					"TC_BVA_LOG_008 - Message pattern check": true
+				}
+			]
+		},
+		{
+			"id": "3d8c3289-3030-4c87-8714-a626f5c28688",
+			"name": "[TC_BVA_USR_001] User ID Min valid = 1",
+			"url": "http://localhost:3000/api/users/1",
+			"time": 28,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"TC_BVA_USR_001 - Status code check": true
+			},
+			"testPassFailCounts": {
+				"TC_BVA_USR_001 - Status code check": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				28
+			],
+			"allTests": [
+				{
+					"TC_BVA_USR_001 - Status code check": true
+				}
+			]
+		},
+		{
+			"id": "0e8a2543-7660-4251-a968-29d71c42254d",
+			"name": "[TC_BVA_USR_002] User ID Min-1 invalid = 0",
+			"url": "http://localhost:3000/api/users/0",
+			"time": 5,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"TC_BVA_USR_002 - Status code check": true
+			},
+			"testPassFailCounts": {
+				"TC_BVA_USR_002 - Status code check": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				5
+			],
+			"allTests": [
+				{
+					"TC_BVA_USR_002 - Status code check": true
+				}
+			]
+		},
+		{
+			"id": "ef2650eb-44d8-425e-8795-7e935c5c4b1b",
+			"name": "[TC_BVA_USR_003] User ID Negative = -1",
+			"url": "http://localhost:3000/api/users/-1",
+			"time": 8,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"TC_BVA_USR_003 - Status code check": true
+			},
+			"testPassFailCounts": {
+				"TC_BVA_USR_003 - Status code check": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				8
+			],
+			"allTests": [
+				{
+					"TC_BVA_USR_003 - Status code check": true
+				}
+			]
+		},
+		{
+			"id": "c6ed2791-c400-4630-b617-2dc5285cb9b1",
+			"name": "[TC_BVA_USR_004] User ID MAX_SAFE_INTEGER = 9007199254740991",
+			"url": "http://localhost:3000/api/users/9007199254740991",
+			"time": 4,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"TC_BVA_USR_004 - Status code check": true
+			},
+			"testPassFailCounts": {
+				"TC_BVA_USR_004 - Status code check": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				4
+			],
+			"allTests": [
+				{
+					"TC_BVA_USR_004 - Status code check": true
+				}
+			]
+		},
+		{
+			"id": "7f74bbf0-0c5b-496c-9ede-cb22f09b913d",
+			"name": "[TC_BVA_USR_005] User ID Non-numeric = 'abc'",
+			"url": "http://localhost:3000/api/users/abc",
+			"time": 6,
+			"responseCode": {
+				"code": 500,
+				"name": "Internal Server Error"
+			},
+			"tests": {
+				"TC_BVA_USR_005 - Status code check": true
+			},
+			"testPassFailCounts": {
+				"TC_BVA_USR_005 - Status code check": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				6
+			],
+			"allTests": [
+				{
+					"TC_BVA_USR_005 - Status code check": true
+				}
+			]
+		},
+		{
+			"id": "990e0eaf-2def-4fbf-8872-5b67f9ef468e",
+			"name": "[TC_BVA_USR_006] Points Min boundary = 0",
+			"url": "http://localhost:3000/api/users/1",
+			"time": 7,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"TC_BVA_USR_006 - Status code check": true
+			},
+			"testPassFailCounts": {
+				"TC_BVA_USR_006 - Status code check": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				7
+			],
+			"allTests": [
+				{
+					"TC_BVA_USR_006 - Status code check": true
+				}
+			]
+		},
+		{
+			"id": "8563bdf5-8805-485c-8eff-34829c7ef272",
+			"name": "[TC_BVA_USR_007] Points Min+1 boundary = 1",
+			"url": "http://localhost:3000/api/users/1",
+			"time": 12,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"TC_BVA_USR_007 - Status code check": true
+			},
+			"testPassFailCounts": {
+				"TC_BVA_USR_007 - Status code check": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				12
+			],
+			"allTests": [
+				{
+					"TC_BVA_USR_007 - Status code check": true
+				}
+			]
+		},
+		{
+			"id": "d761f8ae-0e7b-462c-9e0f-b1c9613e1c72",
+			"name": "[TC_BVA_USR_008] Points Min-1 boundary = -1 (Invalid negative)",
+			"url": "http://localhost:3000/api/users/1",
+			"time": 13,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"TC_BVA_USR_008 - Status code check": true
+			},
+			"testPassFailCounts": {
+				"TC_BVA_USR_008 - Status code check": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				13
+			],
+			"allTests": [
+				{
+					"TC_BVA_USR_008 - Status code check": true
+				}
+			]
+		},
+		{
+			"id": "8000c780-a522-4403-bd6a-cd4ad0c20d2c",
+			"name": "[TC_BVA_USR_009] Points Max INT32 = 2147483647",
+			"url": "http://localhost:3000/api/users/1",
+			"time": 11,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"TC_BVA_USR_009 - Status code check": true
+			},
+			"testPassFailCounts": {
+				"TC_BVA_USR_009 - Status code check": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				11
+			],
+			"allTests": [
+				{
+					"TC_BVA_USR_009 - Status code check": true
+				}
+			]
+		},
+		{
+			"id": "3a5ebaab-52cc-44f9-91df-98b397072826",
+			"name": "[TC_BVA_USR_010] Points Max+1 Overflow = 2147483648",
+			"url": "http://localhost:3000/api/users/1",
+			"time": 9,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"TC_BVA_USR_010 - Status code check": true
+			},
+			"testPassFailCounts": {
+				"TC_BVA_USR_010 - Status code check": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				9
+			],
+			"allTests": [
+				{
+					"TC_BVA_USR_010 - Status code check": true
+				}
+			]
+		},
+		{
+			"id": "ac3066c3-a38f-4430-9980-5abbeb86f1b7",
+			"name": "[TC_BVA_USR_011] Role Valid Boundary = 'KITCHEN'",
+			"url": "http://localhost:3000/api/users/1",
+			"time": 14,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"TC_BVA_USR_011 - Status code check": true
+			},
+			"testPassFailCounts": {
+				"TC_BVA_USR_011 - Status code check": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				14
+			],
+			"allTests": [
+				{
+					"TC_BVA_USR_011 - Status code check": true
+				}
+			]
+		},
+		{
+			"id": "5ad44775-0364-4d85-b654-573ad68336c5",
+			"name": "[TC_BVA_USR_012] Role Invalid Boundary = 'SUPER_ADMIN'",
+			"url": "http://localhost:3000/api/users/1",
+			"time": 13,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"TC_BVA_USR_012 - Status code check": false
+			},
+			"testPassFailCounts": {
+				"TC_BVA_USR_012 - Status code check": {
+					"pass": 0,
+					"fail": 1
+				}
+			},
+			"times": [
+				13
+			],
+			"allTests": [
+				{
+					"TC_BVA_USR_012 - Status code check": false
+				}
+			]
+		},
+		{
+			"id": "f56b4cab-3fab-4887-8fe2-85f7ac3c8cdb",
+			"name": "[TC_BVA_USR_013] Status Valid Boundary = 'BLOCKED'",
+			"url": "http://localhost:3000/api/users/1",
+			"time": 13,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"TC_BVA_USR_013 - Status code check": true
+			},
+			"testPassFailCounts": {
+				"TC_BVA_USR_013 - Status code check": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				13
+			],
+			"allTests": [
+				{
+					"TC_BVA_USR_013 - Status code check": true
+				}
+			]
+		},
+		{
+			"id": "6d18a1c1-60ee-46c9-9735-850714e6caf0",
+			"name": "[TC_BVA_USR_014] Status Invalid Boundary = 'DELETED'",
+			"url": "http://localhost:3000/api/users/1",
+			"time": 13,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"TC_BVA_USR_014 - Status code check": false
+			},
+			"testPassFailCounts": {
+				"TC_BVA_USR_014 - Status code check": {
+					"pass": 0,
+					"fail": 1
+				}
+			},
+			"times": [
+				13
+			],
+			"allTests": [
+				{
+					"TC_BVA_USR_014 - Status code check": false
+				}
+			]
+		},
+		{
+			"id": "c1941659-97b6-4b08-99bd-bb52fa8e154e",
+			"name": "[TC_BVA_USR_015] Self-blocking Defense: Admin blocks self",
+			"url": "http://localhost:3000/api/users/1",
+			"time": 4,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"TC_BVA_USR_015 - Status code check": true,
+				"TC_BVA_USR_015 - Message check": true
+			},
+			"testPassFailCounts": {
+				"TC_BVA_USR_015 - Status code check": {
+					"pass": 1,
+					"fail": 0
+				},
+				"TC_BVA_USR_015 - Message check": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				4
+			],
+			"allTests": [
+				{
+					"TC_BVA_USR_015 - Status code check": true,
+					"TC_BVA_USR_015 - Message check": true
+				}
+			]
+		},
+		{
+			"id": "71512f5c-23cf-48b9-b2ee-1d226fd404f3",
+			"name": "[TC_BVA_PRF_001] Avatar Min valid URL length (15 chars)",
+			"url": "http://localhost:3000/api/users/profile",
+			"time": 6,
+			"responseCode": {
+				"code": 401,
+				"name": "Unauthorized"
+			},
+			"tests": {
+				"TC_BVA_PRF_001 - Status code check": false
+			},
+			"testPassFailCounts": {
+				"TC_BVA_PRF_001 - Status code check": {
+					"pass": 0,
+					"fail": 1
+				}
+			},
+			"times": [
+				6
+			],
+			"allTests": [
+				{
+					"TC_BVA_PRF_001 - Status code check": false
+				}
+			]
+		},
+		{
+			"id": "0028ce2c-e9f9-490b-bbf8-78316ba8519a",
+			"name": "[TC_BVA_PRF_002] Avatar Empty string '' (Clear avatar)",
+			"url": "http://localhost:3000/api/users/profile",
+			"time": 3,
+			"responseCode": {
+				"code": 401,
+				"name": "Unauthorized"
+			},
+			"tests": {
+				"TC_BVA_PRF_002 - Status code check": false
+			},
+			"testPassFailCounts": {
+				"TC_BVA_PRF_002 - Status code check": {
+					"pass": 0,
+					"fail": 1
+				}
+			},
+			"times": [
+				3
+			],
+			"allTests": [
+				{
+					"TC_BVA_PRF_002 - Status code check": false
+				}
+			]
+		},
+		{
+			"id": "c3c12498-d6a7-4df2-9318-2a4eed0d332a",
+			"name": "[TC_BVA_PRF_003] Avatar Large TEXT Base64 (10,000 chars)",
+			"url": "http://localhost:3000/api/users/profile",
+			"time": 3,
+			"responseCode": {
+				"code": 401,
+				"name": "Unauthorized"
+			},
+			"tests": {
+				"TC_BVA_PRF_003 - Status code check": false
+			},
+			"testPassFailCounts": {
+				"TC_BVA_PRF_003 - Status code check": {
+					"pass": 0,
+					"fail": 1
+				}
+			},
+			"times": [
+				3
+			],
+			"allTests": [
+				{
+					"TC_BVA_PRF_003 - Status code check": false
+				}
+			]
+		},
+		{
+			"id": "b39eb6a5-f938-47c9-8248-444caec98339",
+			"name": "[TC_BVA_PRF_004] fullName Max boundary = 100 chars",
+			"url": "http://localhost:3000/api/users/profile",
+			"time": 4,
+			"responseCode": {
+				"code": 401,
+				"name": "Unauthorized"
+			},
+			"tests": {
+				"TC_BVA_PRF_004 - Status code check": false
+			},
+			"testPassFailCounts": {
+				"TC_BVA_PRF_004 - Status code check": {
+					"pass": 0,
+					"fail": 1
+				}
+			},
+			"times": [
+				4
+			],
+			"allTests": [
+				{
+					"TC_BVA_PRF_004 - Status code check": false
+				}
+			]
+		},
+		{
+			"id": "f18d26d4-229a-40a6-a4c4-d51c2796a151",
+			"name": "[TC_BVA_PRF_005] fullName Max+1 boundary = 101 chars (Overflow)",
+			"url": "http://localhost:3000/api/users/profile",
+			"time": 3,
+			"responseCode": {
+				"code": 401,
+				"name": "Unauthorized"
+			},
+			"tests": {
+				"TC_BVA_PRF_005 - Status code check": false
+			},
+			"testPassFailCounts": {
+				"TC_BVA_PRF_005 - Status code check": {
+					"pass": 0,
+					"fail": 1
+				}
+			},
+			"times": [
+				3
+			],
+			"allTests": [
+				{
+					"TC_BVA_PRF_005 - Status code check": false
+				}
+			]
+		},
+		{
+			"id": "6aeb77b6-ee01-4445-953b-ebba1e2590b0",
+			"name": "[TC_BVA_PRF_006] phone Max boundary = 20 chars",
+			"url": "http://localhost:3000/api/users/profile",
+			"time": 3,
+			"responseCode": {
+				"code": 401,
+				"name": "Unauthorized"
+			},
+			"tests": {
+				"TC_BVA_PRF_006 - Status code check": false
+			},
+			"testPassFailCounts": {
+				"TC_BVA_PRF_006 - Status code check": {
+					"pass": 0,
+					"fail": 1
+				}
+			},
+			"times": [
+				3
+			],
+			"allTests": [
+				{
+					"TC_BVA_PRF_006 - Status code check": false
+				}
+			]
+		},
+		{
+			"id": "f82e315b-e41c-4865-bf03-722e553b8563",
+			"name": "[TC_BVA_QRY_001] search Query string Length = 0 (?search=)",
+			"url": "http://localhost:3000/api/users?search=",
+			"time": 10,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"TC_BVA_QRY_001 - Status code check": true,
+				"TC_BVA_QRY_001 - Return array check": true
+			},
+			"testPassFailCounts": {
+				"TC_BVA_QRY_001 - Status code check": {
+					"pass": 1,
+					"fail": 0
+				},
+				"TC_BVA_QRY_001 - Return array check": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				10
+			],
+			"allTests": [
+				{
+					"TC_BVA_QRY_001 - Status code check": true,
+					"TC_BVA_QRY_001 - Return array check": true
+				}
+			]
+		},
+		{
+			"id": "380e51ca-a02f-4f33-902a-53f1c87d5199",
+			"name": "[TC_BVA_QRY_002] search Query string Min non-empty = 1 char (?search=a)",
+			"url": "http://localhost:3000/api/users?search=a",
+			"time": 8,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"TC_BVA_QRY_002 - Status code check": true,
+				"TC_BVA_QRY_002 - Return array check": true
+			},
+			"testPassFailCounts": {
+				"TC_BVA_QRY_002 - Status code check": {
+					"pass": 1,
+					"fail": 0
+				},
+				"TC_BVA_QRY_002 - Return array check": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				8
+			],
+			"allTests": [
+				{
+					"TC_BVA_QRY_002 - Status code check": true,
+					"TC_BVA_QRY_002 - Return array check": true
+				}
+			]
+		},
+		{
+			"id": "8537412e-48d0-48ee-b595-17dc624a514f",
+			"name": "[TC_BVA_QRY_003] search Query string Max = 100 chars",
+			"url": "http://localhost:3000/api/users?search=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+			"time": 8,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"TC_BVA_QRY_003 - Status code check": true,
+				"TC_BVA_QRY_003 - Return array check": true
+			},
+			"testPassFailCounts": {
+				"TC_BVA_QRY_003 - Status code check": {
+					"pass": 1,
+					"fail": 0
+				},
+				"TC_BVA_QRY_003 - Return array check": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				8
+			],
+			"allTests": [
+				{
+					"TC_BVA_QRY_003 - Status code check": true,
+					"TC_BVA_QRY_003 - Return array check": true
+				}
+			]
+		},
+		{
+			"id": "5a3b60d9-50c9-4dd8-b047-71d3f1124b5b",
+			"name": "[TC_BVA_QRY_004] search Query with SQL Wildcard (?search=%25)",
+			"url": "http://localhost:3000/api/users?search=%25",
+			"time": 12,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"TC_BVA_QRY_004 - Status code check": true,
+				"TC_BVA_QRY_004 - Return array check": true
+			},
+			"testPassFailCounts": {
+				"TC_BVA_QRY_004 - Status code check": {
+					"pass": 1,
+					"fail": 0
+				},
+				"TC_BVA_QRY_004 - Return array check": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				12
+			],
+			"allTests": [
+				{
+					"TC_BVA_QRY_004 - Status code check": true,
+					"TC_BVA_QRY_004 - Return array check": true
+				}
+			]
+		},
+		{
+			"id": "f50e3695-38c6-47bd-ad2e-67e4d596af4c",
+			"name": "[TC_BVA_QRY_005] role Filter Valid Boundary (?role=ADMIN)",
+			"url": "http://localhost:3000/api/users?role=ADMIN",
+			"time": 4,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"TC_BVA_QRY_005 - Status code check": true,
+				"TC_BVA_QRY_005 - Return array check": true
+			},
+			"testPassFailCounts": {
+				"TC_BVA_QRY_005 - Status code check": {
+					"pass": 1,
+					"fail": 0
+				},
+				"TC_BVA_QRY_005 - Return array check": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				4
+			],
+			"allTests": [
+				{
+					"TC_BVA_QRY_005 - Status code check": true,
+					"TC_BVA_QRY_005 - Return array check": true
+				}
+			]
+		},
+		{
+			"id": "654520c8-493d-407a-827c-21c8556c13bb",
+			"name": "[TC_BVA_QRY_006] status Filter Valid Boundary (?status=BLOCKED)",
+			"url": "http://localhost:3000/api/users?status=BLOCKED",
+			"time": 6,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"TC_BVA_QRY_006 - Status code check": true,
+				"TC_BVA_QRY_006 - Return array check": true
+			},
+			"testPassFailCounts": {
+				"TC_BVA_QRY_006 - Status code check": {
+					"pass": 1,
+					"fail": 0
+				},
+				"TC_BVA_QRY_006 - Return array check": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				6
+			],
+			"allTests": [
+				{
+					"TC_BVA_QRY_006 - Status code check": true,
+					"TC_BVA_QRY_006 - Return array check": true
+				}
+			]
+		},
+		{
+			"id": "78b47f0f-2951-4569-b2d7-5d16c1c01194",
+			"name": "[TC_BVA_DEL_001] Delete User Min-1 ID = 0",
+			"url": "http://localhost:3000/api/users/0",
+			"time": 6,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"TC_BVA_DEL_001 - Status code check": true
+			},
+			"testPassFailCounts": {
+				"TC_BVA_DEL_001 - Status code check": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				6
+			],
+			"allTests": [
+				{
+					"TC_BVA_DEL_001 - Status code check": true
+				}
+			]
+		},
+		{
+			"id": "5331bc26-5076-47af-a40a-0fecfd9f6535",
+			"name": "[TC_BVA_DEL_002] Delete User Negative ID = -1",
+			"url": "http://localhost:3000/api/users/-1",
+			"time": 6,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"TC_BVA_DEL_002 - Status code check": true
+			},
+			"testPassFailCounts": {
+				"TC_BVA_DEL_002 - Status code check": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				6
+			],
+			"allTests": [
+				{
+					"TC_BVA_DEL_002 - Status code check": true
+				}
+			]
+		},
+		{
+			"id": "cf2ab3b3-753d-4881-9612-20106f737bdf",
+			"name": "[TC_BVA_DEL_003] Delete User Large Non-existent ID = 9999999",
+			"url": "http://localhost:3000/api/users/9999999",
+			"time": 7,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"TC_BVA_DEL_003 - Status code check": true
+			},
+			"testPassFailCounts": {
+				"TC_BVA_DEL_003 - Status code check": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				7
+			],
+			"allTests": [
+				{
+					"TC_BVA_DEL_003 - Status code check": true
+				}
+			]
+		},
+		{
+			"id": "f4f16ee8-0e81-49e0-b810-ccd17d4d8249",
+			"name": "[TC_BVA_DEL_004] Self-deletion Defense: Admin deletes self",
+			"url": "http://localhost:3000/api/users/1",
+			"time": 4,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"TC_BVA_DEL_004 - Status code check": true,
+				"TC_BVA_DEL_004 - Message pattern check": true
+			},
+			"testPassFailCounts": {
+				"TC_BVA_DEL_004 - Status code check": {
+					"pass": 1,
+					"fail": 0
+				},
+				"TC_BVA_DEL_004 - Message pattern check": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				4
+			],
+			"allTests": [
+				{
+					"TC_BVA_DEL_004 - Status code check": true,
+					"TC_BVA_DEL_004 - Message pattern check": true
+				}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 3009,
+	"collection": {
+		"requests": [
+			{
+				"id": "d3e6f28d-7c42-42c3-bfe8-82359d3a437a",
+				"method": "POST"
+			},
+			{
+				"id": "df2dc64d-0304-4364-b7bd-87f0c065d237",
+				"method": "POST"
+			},
+			{
+				"id": "f03ec06a-fdf8-4cb0-811b-b2fa48cd31d6",
+				"method": "POST"
+			},
+			{
+				"id": "577930aa-72c5-478d-a61e-8035641cd844",
+				"method": "POST"
+			},
+			{
+				"id": "b95c1a7d-c3f7-447d-b6d9-c2817c4ad7db",
+				"method": "POST"
+			},
+			{
+				"id": "5f0627ed-0fb6-4d98-aab2-e6f8b2333eea",
+				"method": "POST"
+			},
+			{
+				"id": "e97f3db3-f090-4d72-b2e8-7f0fe9b5fd2d",
+				"method": "POST"
+			},
+			{
+				"id": "ff4829dd-619a-4419-b76a-1ed834936cf6",
+				"method": "POST"
+			},
+			{
+				"id": "17326f67-f5fb-4efb-a3de-390ed52b4340",
+				"method": "POST"
+			},
+			{
+				"id": "e6c01c73-9dd8-443c-a749-0543a71d4a09",
+				"method": "POST"
+			},
+			{
+				"id": "1ff6981a-ac9d-47e1-9aab-361526cfbdeb",
+				"method": "POST"
+			},
+			{
+				"id": "7edccfe3-99fe-4490-958e-602d5eb1cc08",
+				"method": "POST"
+			},
+			{
+				"id": "05a93a24-f460-4b2c-8478-59b31211692f",
+				"method": "POST"
+			},
+			{
+				"id": "15de6f4b-4115-4986-ae6a-42a24c2c1010",
+				"method": "POST"
+			},
+			{
+				"id": "a60b46c4-4698-4144-b3da-3e699c44d5ac",
+				"method": "POST"
+			},
+			{
+				"id": "adc6db83-e182-452d-8f14-b578908626b8",
+				"method": "POST"
+			},
+			{
+				"id": "2cd95f9d-149d-42a7-9c42-d59fdac40b15",
+				"method": "POST"
+			},
+			{
+				"id": "976ad91c-92a7-4c18-9893-7fbdab392e27",
+				"method": "POST"
+			},
+			{
+				"id": "addf846d-e749-42cb-8e4f-ae03429054fb",
+				"method": "POST"
+			},
+			{
+				"id": "dfa46bfe-f5e3-436d-8a0c-2c2adb46e5cb",
+				"method": "POST"
+			},
+			{
+				"id": "130a6beb-4df1-4023-a33f-ae86f52ee8c0",
+				"method": "POST"
+			},
+			{
+				"id": "2a1dacec-9df1-40dc-966e-7c400f0d8fb3",
+				"method": "POST"
+			},
+			{
+				"id": "8af919aa-2d92-4a6c-b9a7-103f8c92cab3",
+				"method": "POST"
+			},
+			{
+				"id": "8c594c08-2037-4a81-af88-a4710be0a4dc",
+				"method": "POST"
+			},
+			{
+				"id": "de864339-be7b-4acb-a0c0-68042491c3f9",
+				"method": "POST"
+			},
+			{
+				"id": "1c17451e-f09f-400e-bc9d-c8e922914bab",
+				"method": "POST"
+			},
+			{
+				"id": "1e21016e-9be9-4de2-b32a-7c6085a75fd2",
+				"method": "POST"
+			},
+			{
+				"id": "752d8084-d801-434c-91a4-6a1f1ad4a1ff",
+				"method": "POST"
+			},
+			{
+				"id": "9b7dd541-4522-4e4e-8bea-499775f86dcb",
+				"method": "POST"
+			},
+			{
+				"id": "2d85eec2-4cd6-4882-900f-744e1b2c8596",
+				"method": "POST"
+			},
+			{
+				"id": "7c652933-f3fc-44b4-9bd9-6e77a6c807ae",
+				"method": "POST"
+			},
+			{
+				"id": "1045ee45-fc20-49dd-aa8f-749363b5e1b7",
+				"method": "POST"
+			},
+			{
+				"id": "33786baa-288b-4475-aeb5-3315aa2dc747",
+				"method": "POST"
+			},
+			{
+				"id": "25fa6886-4510-446f-96a3-d9a49ae552a3",
+				"method": "POST"
+			},
+			{
+				"id": "70f2bcd3-5ea0-4f31-884e-1c91f02792e6",
+				"method": "POST"
+			},
+			{
+				"id": "b783f648-d1a4-4bf0-bd72-c405b0a07025",
+				"method": "POST"
+			},
+			{
+				"id": "7b35bca0-afb2-4f4e-889c-aca05aeb0c7d",
+				"method": "POST"
+			},
+			{
+				"id": "4700e541-44e2-4edc-bc01-e0aba4ca52ee",
+				"method": "POST"
+			},
+			{
+				"id": "3d8c3289-3030-4c87-8714-a626f5c28688",
+				"method": "PUT"
+			},
+			{
+				"id": "0e8a2543-7660-4251-a968-29d71c42254d",
+				"method": "PUT"
+			},
+			{
+				"id": "ef2650eb-44d8-425e-8795-7e935c5c4b1b",
+				"method": "PUT"
+			},
+			{
+				"id": "c6ed2791-c400-4630-b617-2dc5285cb9b1",
+				"method": "PUT"
+			},
+			{
+				"id": "7f74bbf0-0c5b-496c-9ede-cb22f09b913d",
+				"method": "PUT"
+			},
+			{
+				"id": "990e0eaf-2def-4fbf-8872-5b67f9ef468e",
+				"method": "PUT"
+			},
+			{
+				"id": "8563bdf5-8805-485c-8eff-34829c7ef272",
+				"method": "PUT"
+			},
+			{
+				"id": "d761f8ae-0e7b-462c-9e0f-b1c9613e1c72",
+				"method": "PUT"
+			},
+			{
+				"id": "8000c780-a522-4403-bd6a-cd4ad0c20d2c",
+				"method": "PUT"
+			},
+			{
+				"id": "3a5ebaab-52cc-44f9-91df-98b397072826",
+				"method": "PUT"
+			},
+			{
+				"id": "ac3066c3-a38f-4430-9980-5abbeb86f1b7",
+				"method": "PUT"
+			},
+			{
+				"id": "5ad44775-0364-4d85-b654-573ad68336c5",
+				"method": "PUT"
+			},
+			{
+				"id": "f56b4cab-3fab-4887-8fe2-85f7ac3c8cdb",
+				"method": "PUT"
+			},
+			{
+				"id": "6d18a1c1-60ee-46c9-9735-850714e6caf0",
+				"method": "PUT"
+			},
+			{
+				"id": "c1941659-97b6-4b08-99bd-bb52fa8e154e",
+				"method": "PUT"
+			},
+			{
+				"id": "71512f5c-23cf-48b9-b2ee-1d226fd404f3",
+				"method": "PUT"
+			},
+			{
+				"id": "0028ce2c-e9f9-490b-bbf8-78316ba8519a",
+				"method": "PUT"
+			},
+			{
+				"id": "c3c12498-d6a7-4df2-9318-2a4eed0d332a",
+				"method": "PUT"
+			},
+			{
+				"id": "b39eb6a5-f938-47c9-8248-444caec98339",
+				"method": "PUT"
+			},
+			{
+				"id": "f18d26d4-229a-40a6-a4c4-d51c2796a151",
+				"method": "PUT"
+			},
+			{
+				"id": "6aeb77b6-ee01-4445-953b-ebba1e2590b0",
+				"method": "PUT"
+			},
+			{
+				"id": "f82e315b-e41c-4865-bf03-722e553b8563",
+				"method": "GET"
+			},
+			{
+				"id": "380e51ca-a02f-4f33-902a-53f1c87d5199",
+				"method": "GET"
+			},
+			{
+				"id": "8537412e-48d0-48ee-b595-17dc624a514f",
+				"method": "GET"
+			},
+			{
+				"id": "5a3b60d9-50c9-4dd8-b047-71d3f1124b5b",
+				"method": "GET"
+			},
+			{
+				"id": "f50e3695-38c6-47bd-ad2e-67e4d596af4c",
+				"method": "GET"
+			},
+			{
+				"id": "654520c8-493d-407a-827c-21c8556c13bb",
+				"method": "GET"
+			},
+			{
+				"id": "78b47f0f-2951-4569-b2d7-5d16c1c01194",
+				"method": "DELETE"
+			},
+			{
+				"id": "5331bc26-5076-47af-a40a-0fecfd9f6535",
+				"method": "DELETE"
+			},
+			{
+				"id": "cf2ab3b3-753d-4881-9612-20106f737bdf",
+				"method": "DELETE"
+			},
+			{
+				"id": "f4f16ee8-0e81-49e0-b810-ccd17d4d8249",
+				"method": "DELETE"
+			}
+		]
+	}
+}

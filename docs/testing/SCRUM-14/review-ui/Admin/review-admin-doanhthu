@@ -1,0 +1,329 @@
+# [UI Review] Admin - Trang Báo cáo & Thống kê
+
+| Thông tin | Chi tiết |
+| :--- | :--- |
+| Module | Admin - Báo cáo & Thống kê |
+| Phạm vi | Giao diện báo cáo doanh thu, bộ lọc và thống kê |
+| Loại Review | UI/UX Review - Lần 2 |
+| Người thực hiện | Nguyễn Phước Thịnh |
+| Ngày review | 10/08/2026 |
+| Kết quả | Đạt |
+
+---
+
+## 1. Mục tiêu Review
+
+- Kiểm tra bố cục tổng thể của trang Báo cáo & Thống kê.
+- Kiểm tra cách trình bày khu vực bộ lọc báo cáo.
+- Kiểm tra khả năng nhận biết các chỉ số doanh thu.
+- Kiểm tra cách trình bày chi tiết báo cáo.
+- Kiểm tra khu vực món ăn nổi bật.
+- Kiểm tra màu sắc, Typography và khoảng cách giữa các Component.
+- Kiểm tra Responsive trên giao diện Web.
+- Ghi nhận Defect liên quan đến giao diện nếu có.
+
+---
+
+## 2. Đánh giá giao diện
+
+### 2.1. Header và Sidebar
+
+- Sidebar được giữ thống nhất với các trang Admin khác.
+- Header có Breadcrumb `Trang chủ > Reports`.
+- Thanh tìm kiếm hệ thống được đặt ở vị trí trung tâm.
+- Các chức năng đồng hồ, làm mới, thông báo và `POS Gọi Món` được bố trí ở phía bên phải.
+- Bố cục Header rõ ràng và không gây ảnh hưởng đến khu vực nội dung chính.
+
+**Đánh giá: Đạt.**
+
+---
+
+### 2.2. Tiêu đề trang
+
+- Tiêu đề `Báo cáo & Thống kê` có kích thước lớn, dễ nhận biết.
+- Phần mô tả giải thích rõ mục đích của trang:
+  `Lọc theo ngày, tháng hoặc năm để xem tổng đơn hàng, doanh thu và các món ăn bán chạy nhất.`
+- Button `Đặt lại bộ lọc` được đặt bên phải.
+- Khu vực tiêu đề được thiết kế thành Card riêng, tạo sự phân tách rõ ràng với các thành phần phía dưới.
+
+**Đánh giá: Đạt.**
+
+---
+
+## 3. Khu vực bộ lọc
+
+Trang cung cấp khu vực lọc báo cáo gồm:
+
+- Kiểu thống kê.
+- Ngày tham chiếu.
+- Button `Áp dụng bộ lọc`.
+- Button `Đặt lại bộ lọc`.
+
+### Đánh giá UI
+
+- Các trường nhập liệu có kích thước đủ lớn.
+- Label được đặt phía trên Input giúp dễ nhận biết.
+- Select `Theo ngày` có giao diện rõ ràng.
+- Date Picker sử dụng đúng kiểu Input ngày.
+- Button `Áp dụng bộ lọc` có màu xanh nổi bật, dễ nhận biết.
+- Khu vực Filter được tách thành Card riêng nên dễ sử dụng.
+
+**Đánh giá: Đạt.**
+
+---
+
+## 4. Khu vực thống kê tổng quan
+
+Trang hiển thị 4 chỉ số chính:
+
+- Loại báo cáo.
+- Tổng doanh thu.
+- Tổng đơn hoàn thành.
+- Trung bình trên đơn hàng.
+
+Các chỉ số được trình bày dưới dạng Card.
+
+### Ưu điểm
+
+- Mỗi chỉ số có Icon riêng.
+- Số liệu chính có kích thước lớn hơn Label.
+- Các Card được chia đều theo chiều ngang.
+- Màu sắc của Icon được phân biệt theo từng loại dữ liệu.
+- Khoảng cách giữa các Card tương đối đồng đều.
+- Người dùng có thể nhanh chóng nắm được tình hình báo cáo.
+
+**Đánh giá: Đạt.**
+
+---
+
+## 5. Chi tiết báo cáo doanh thu
+
+Khu vực `Chi tiết báo cáo doanh thu` được đặt ở bên trái.
+
+Thông tin hiện tại gồm:
+
+- Thời gian báo cáo.
+- Số đơn hàng hợp lệ.
+- Tổng doanh thu ghi nhận.
+- Mốc thời gian bắt đầu.
+- Mốc thời gian kết thúc.
+
+### Đánh giá
+
+- Tiêu đề khu vực rõ ràng.
+- Thời gian báo cáo được đặt ngay bên dưới tiêu đề.
+- Các thông tin được trình bày theo từng dòng riêng.
+- Label và Value được phân biệt rõ.
+- Số liệu doanh thu sử dụng màu xanh giúp tạo điểm nhấn.
+- Cấu trúc dạng List/Row phù hợp với dữ liệu thống kê.
+
+**Đánh giá: Đạt.**
+
+---
+
+## 6. Khu vực món ăn nổi bật
+
+Khu vực `Món ăn nổi bật` được đặt bên phải phần báo cáo.
+
+Hiển thị:
+
+- Top món ăn bán chạy.
+- Thứ hạng.
+- Tên món.
+- Giá trị tương ứng.
+
+### Đánh giá
+
+- Thiết kế đơn giản và dễ đọc.
+- Badge `#1`, `#2` giúp nhận biết thứ hạng nhanh.
+- Tên món được đặt ở trung tâm của mỗi Row.
+- Giá trị được căn về phía bên phải.
+- Màu xanh được sử dụng để tạo điểm nhấn cho dữ liệu quan trọng.
+
+**Đánh giá: Đạt.**
+
+---
+
+## 7. Visual Hierarchy
+
+Thứ tự ưu tiên thông tin trên trang được tổ chức hợp lý:
+
+1. Tiêu đề Báo cáo & Thống kê.
+2. Bộ lọc báo cáo.
+3. Các chỉ số tổng quan.
+4. Chi tiết doanh thu.
+5. Món ăn nổi bật.
+
+Cách sắp xếp này phù hợp với mục đích của trang vì người quản trị có thể chọn thời gian báo cáo trước, sau đó xem các chỉ số tổng quan và đi sâu vào chi tiết.
+
+**Đánh giá: Đạt.**
+
+---
+
+## 8. Màu sắc
+
+- Xanh dương tiếp tục được sử dụng làm màu chủ đạo của hệ thống.
+- Các Icon trong Card được sử dụng nhiều màu phụ để phân biệt nhóm dữ liệu.
+- Màu xanh lá được sử dụng cho doanh thu.
+- Màu vàng được sử dụng cho một số chỉ số phụ.
+- Màu tím được sử dụng cho chỉ số trung bình đơn hàng.
+- Nền trắng và xám nhạt giúp nội dung nổi bật.
+
+### Đề xuất nhỏ
+
+Có thể giảm nhẹ số lượng màu phụ trong các Statistic Card để giao diện đồng nhất hơn.
+
+Ví dụ:
+
+- Xanh dương: thông tin chính.
+- Xanh lá: dữ liệu tích cực/doanh thu.
+- Vàng: cảnh báo hoặc thông tin cần chú ý.
+- Tím: dữ liệu phụ.
+
+Không cần thay đổi lớn vì hệ thống màu hiện tại đã tương đối hoàn thiện.
+
+**Đánh giá: Đạt.**
+
+---
+
+## 9. Typography và khoảng cách
+
+- Tiêu đề sử dụng Font Weight cao, tạo điểm nhấn.
+- Label sử dụng kích thước nhỏ hơn Value.
+- Các con số thống kê được làm nổi bật.
+- Khoảng cách giữa các Card khá đồng đều.
+- Padding bên trong Card tạo đủ khoảng trống cho nội dung.
+- Các khu vực được chia thành từng nhóm rõ ràng.
+
+**Đánh giá: Đạt.**
+
+---
+
+## 10. Responsive
+
+Review tập trung trên giao diện Web.
+
+- Các khu vực chính được bố trí theo Grid.
+- Statistic Card được chia thành nhiều cột trên màn hình Web.
+- Khu vực chi tiết báo cáo và món ăn nổi bật được chia thành hai khu vực.
+- Bộ lọc được đặt trên một khu vực riêng giúp dễ quản lý.
+- Các Component có khoảng cách phù hợp và không bị chồng lấn trên giao diện Web hiện tại.
+- Nội dung chính được giữ trong vùng hiển thị rõ ràng.
+
+**Đánh giá: Đạt.**
+
+---
+
+## 11. Danh sách Defect
+
+Qua quá trình review UI lần 2:
+
+**Không ghi nhận Defect UI.**
+
+| Defect ID | Nội dung | Mức độ | Ưu tiên | Trạng thái |
+| :--- | :--- | :--- | :--- | :--- |
+| - | Không ghi nhận lỗi giao diện | - | - | Đạt |
+
+Trang hiện tại đáp ứng tốt về bố cục, khả năng đọc dữ liệu và tính nhất quán với các trang Admin khác.
+
+---
+
+## 12. Đề xuất cải tiến UI/UX
+
+Các đề xuất dưới đây chỉ mang tính cải thiện giao diện, không phải Defect:
+
+### 12.1. Cải thiện Statistic Card
+
+Có thể bổ sung hiệu ứng Hover nhẹ cho các Card thống kê.
+
+Ví dụ:
+
+- Card nâng nhẹ khi Hover.
+- Box Shadow thay đổi nhẹ.
+- Icon có Animation rất nhỏ.
+
+Mục đích là giúp giao diện có cảm giác tương tác hơn.
+
+---
+
+### 12.2. Cải thiện màu sắc
+
+Có thể chuẩn hóa màu sắc của các Statistic Card theo ý nghĩa dữ liệu:
+
+- Xanh dương: thông tin tổng quan.
+- Xanh lá: doanh thu/kết quả tích cực.
+- Vàng: chỉ số cần chú ý.
+- Tím: dữ liệu phụ.
+
+Không nên sử dụng quá nhiều màu nổi bật cùng lúc.
+
+---
+
+### 12.3. Cải thiện khu vực bộ lọc
+
+Có thể làm nổi bật trạng thái Filter sau khi người dùng áp dụng bộ lọc.
+
+Ví dụ:
+
+`Báo cáo theo ngày | 10/08/2026`
+
+Điều này giúp người dùng nhận biết ngay báo cáo hiện tại đang được xem theo điều kiện nào.
+
+---
+
+### 12.4. Cải thiện khu vực món ăn nổi bật
+
+Có thể bổ sung Icon hoặc hình ảnh nhỏ của món ăn bên cạnh tên món.
+
+Ví dụ:
+
+`#1  [Ảnh món]  Cơm bò        50.000 ₫`
+
+Điều này giúp khu vực Top món ăn trực quan hơn.
+
+---
+
+### 12.5. Cải thiện biểu diễn dữ liệu
+
+Nếu hệ thống phát triển thêm, có thể bổ sung:
+
+- Biểu đồ doanh thu theo thời gian.
+- Biểu đồ số lượng đơn hàng.
+- Biểu đồ tỷ lệ đóng góp doanh thu theo món.
+- So sánh doanh thu giữa các khoảng thời gian.
+
+Các biểu đồ này sẽ giúp trang Báo cáo & Thống kê trực quan hơn thay vì chỉ hiển thị số liệu.
+
+---
+
+## 13. Kết luận
+
+Trang `Báo cáo & Thống kê` có giao diện rõ ràng, phù hợp với mục đích quản trị và thống nhất với hệ thống Admin.
+
+Các thành phần chính như Header, Sidebar, Filter, Statistic Card, Chi tiết doanh thu và Món ăn nổi bật đều được bố trí hợp lý.
+
+Giao diện có Visual Hierarchy tốt, các số liệu quan trọng được làm nổi bật và màu sắc được sử dụng tương đối hợp lý.
+
+Responsive trên giao diện Web đáp ứng tốt, không ghi nhận hiện tượng chồng lấn hoặc mất bố cục trong phạm vi review.
+
+**Không ghi nhận Defect UI trong lần review thứ 2.**
+
+Các cải tiến chủ yếu mang tính nâng cao trải nghiệm như thêm Hover Effect, chuẩn hóa màu sắc, làm nổi bật trạng thái Filter và bổ sung biểu đồ trực quan.
+
+### Kết quả tổng hợp
+
+| Hạng mục | Kết quả |
+| :--- | :--- |
+| Layout | Đạt |
+| Header / Sidebar | Đạt |
+| Filter | Đạt |
+| Statistic Card | Đạt |
+| Chi tiết doanh thu | Đạt |
+| Món ăn nổi bật | Đạt |
+| Typography | Đạt |
+| Màu sắc | Đạt |
+| Visual Hierarchy | Đạt |
+| Responsive Web | Đạt |
+| Defect | **Không có** |
+| Đề xuất cải tiến | **Có** |
+| Kết quả Review | **Đạt** |

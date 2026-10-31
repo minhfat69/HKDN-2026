@@ -1,0 +1,16 @@
+Table orders {
+  id bigint [primary key, increment]
+  user_id bigint
+  table_id bigint
+  reservation_id bigint
+  totalPrice decimal(10,2) [not null]
+  discountAmount decimal(10,2) [default: 0]
+  finalPrice decimal(10,2) [not null]
+  note text
+  status enum('PENDING', 'CONFIRMED', 'PREPARING', 'READY', 'COMPLETED', 'CANCELLED') [default: 'PENDING']
+  paymentStatus enum('UNPAID', 'PAID', 'REFUNDED') [default: 'UNPAID']
+  paymentMethod enum('CASH', 'TRANSFER')
+  isPointsAdded boolean [default: false]
+  created_at timestamp
+  updated_at timestamp
+}

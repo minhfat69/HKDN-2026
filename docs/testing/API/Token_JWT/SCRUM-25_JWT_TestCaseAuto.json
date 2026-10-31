@@ -1,0 +1,574 @@
+{
+  "info": {
+    "_postman_id": "438f8201-cb5f-4f9c-9d9b-7fcacdc3a405",
+    "name": "SCRUM-25 - JWT Testcase",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "56967522",
+    "_collection_link": "https://go.postman.co/collection/56967522-438f8201-cb5f-4f9c-9d9b-7fcacdc3a405?source=collection_link",
+    "description": "SCRUM-25 - JWT Testcase. Đã bổ sung/cập nhật Assertions cho toàn bộ 11 testcase. JWT-TOKEN-06 kỳ vọng 'No token'; JWT-TOKEN-07 kỳ vọng 'Invalid token'."
+  },
+  "item": [
+    {
+      "name": "JWT-AUTH-01 - Login thành công",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"account\": \"admin\",\r\n  \"password\": \"123\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/auth/login",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "auth",
+            "login"
+          ]
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "const json = pm.response.json();",
+              "",
+              "pm.test(\"Có JWT token\", function () {",
+              "    pm.expect(json).to.have.property(\"token\");",
+              "    pm.expect(json.token).to.be.a(\"string\").and.not.empty;",
+              "});",
+              "",
+              "pm.test(\"Có thông tin user\", function () {",
+              "    pm.expect(json).to.have.property(\"user\");",
+              "});",
+              "",
+              "// Lưu JWT mới để các testcase JWT phía sau sử dụng.",
+              "pm.collectionVariables.set(\"jwt_token\", json.token);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "JWT-AUTH-02 – Login sai password",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"account\": \"admin\",\r\n  \"password\": \"sai_password\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/auth/login",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "auth",
+            "login"
+          ]
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 400\", function () {",
+              "    pm.response.to.have.status(400);",
+              "});",
+              "",
+              "pm.test(\"Message đúng\", function () {",
+              "    pm.expect(pm.response.json().message).to.eql(\"Mật khẩu không chính xác!\");",
+              "});",
+              "",
+              "pm.test(\"Không trả JWT\", function () {",
+              "    const json = pm.response.json();",
+              "    pm.expect(json.token).to.be.undefined;",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "JWT-AUTH-03 — Account không tồn tại",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"account\": \"account_khong_ton_tai_123\",\r\n  \"password\": \"123\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/auth/login",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "auth",
+            "login"
+          ]
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 404\", function () {",
+              "    pm.response.to.have.status(404);",
+              "});",
+              "",
+              "pm.test(\"Message đúng\", function () {",
+              "    pm.expect(pm.response.json().message).to.eql(\"Tài khoản không tồn tại!\");",
+              "});",
+              "",
+              "pm.test(\"Không trả JWT\", function () {",
+              "    const json = pm.response.json();",
+              "    pm.expect(json.token).to.be.undefined;",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "JWT-AUTH-04 - Thiếu thông tin",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"account\": \"\",\r\n  \"password\": \"\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/auth/login",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "auth",
+            "login"
+          ]
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 400\", function () {",
+              "    pm.response.to.have.status(400);",
+              "});",
+              "",
+              "pm.test(\"Message đúng\", function () {",
+              "    pm.expect(pm.response.json().message).to.eql(\"Vui lòng nhập đầy đủ thông tin!\");",
+              "});",
+              "",
+              "pm.test(\"Không trả JWT\", function () {",
+              "    const json = pm.response.json();",
+              "    pm.expect(json.token).to.be.undefined;",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "JWT-TOKEN-01 - JWT hợp lệ",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{jwt_token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/api/users/profile",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "users",
+            "profile"
+          ]
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"JWT hợp lệ - trả về profile user\", function () {",
+              "    const json = pm.response.json();",
+              "    pm.expect(json).to.have.property(\"id\");",
+              "    pm.expect(json).to.have.property(\"username\");",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "JWT-TOKEN-02 — Không có JWT",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/api/users/profile",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "users",
+            "profile"
+          ]
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 401\", function () {",
+              "    pm.response.to.have.status(401);",
+              "});",
+              "",
+              "pm.test(\"Message đúng\", function () {",
+              "    pm.expect(pm.response.json().message).to.eql(\"No token\");",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "JWT-TOKEN-03 — JWT giả",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "abc.def.xyz",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/api/users/profile",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "users",
+            "profile"
+          ]
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 401\", function () {",
+              "    pm.response.to.have.status(401);",
+              "});",
+              "",
+              "pm.test(\"Message đúng\", function () {",
+              "    pm.expect(pm.response.json().message).to.eql(\"Invalid token\");",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "JWT-TOKEN-04 — JWT bị sửa",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{supabase_service_role_api_key_10l4}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/api/users/profile",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "users",
+            "profile"
+          ]
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 401\", function () {",
+              "    pm.response.to.have.status(401);",
+              "});",
+              "",
+              "pm.test(\"Message đúng\", function () {",
+              "    pm.expect(pm.response.json().message).to.eql(\"Invalid token\");",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "JWT-TOKEN-05 — Authorization sai format",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "abc123",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/api/users/profile",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "users",
+            "profile"
+          ]
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 401\", function () {",
+              "    pm.response.to.have.status(401);",
+              "});",
+              "",
+              "pm.test(\"Message đúng\", function () {",
+              "    pm.expect(pm.response.json().message).to.eql(\"Invalid token\");",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "JWT-TOKEN-06 – Bearer token rỗng.",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/api/users/profile",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "users",
+            "profile"
+          ]
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 401\", function () {",
+              "    pm.response.to.have.status(401);",
+              "});",
+              "",
+              "pm.test(\"Message đúng\", function () {",
+              "    pm.expect(pm.response.json().message).to.eql(\"No token\");",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "JWT-TOKEN-07 – JWT hết hạn",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{supabase_service_role_api_key_1blp}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/api/users/profile",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "users",
+            "profile"
+          ]
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 401\", function () {",
+              "    pm.response.to.have.status(401);",
+              "});",
+              "",
+              "pm.test(\"Message đúng\", function () {",
+              "    pm.expect(pm.response.json().message).to.eql(\"Invalid token\");",
+              "});"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "supabase_service_role_api_key_0x3a",
+      "secret": true
+    },
+    {
+      "key": "supabase_service_role_api_key_10l4",
+      "secret": true
+    },
+    {
+      "key": "supabase_service_role_api_key_1blp",
+      "secret": true
+    },
+    {
+      "key": "jwt_token",
+      "value": "",
+      "type": "string"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+Table reservations {
+  id bigint [primary key, increment]
+  user_id bigint
+  table_id bigint
+  guestName varchar [not null]
+  guestPhone varchar [not null]
+  reservationTime timestamp [not null]
+  numberOfGuests integer [default: 1]
+  note text
+  status enum('PENDING', 'CONFIRMED', 'ARRIVED', 'CHECKED_IN', 'COMPLETED', 'CANCELLED', 'EXPIRED') [default: 'PENDING']
+  created_at timestamp
+  updated_at timestamp
+}

@@ -1,0 +1,1590 @@
+{
+	"id": "a68b58f2-e6ba-465f-9beb-8c28916574cc",
+	"name": "FutureSushi - Category CRUD API Test Suite",
+	"timestamp": "2026-08-15T17:09:29.727Z",
+	"collection_id": "38502440-58a723bc-4d62-45ac-9332-0947664abad8",
+	"folder_id": 0,
+	"environment_id": "38502440-0a45a39d-e221-4828-959d-5da2db04b68d",
+	"totalPass": 49,
+	"delay": 0,
+	"persist": true,
+	"status": "finished",
+	"startedAt": "2026-08-15T17:09:24.424Z",
+	"totalFail": 4,
+	"results": [
+		{
+			"id": "5d3bd44c-f7d2-423a-b7a4-579f824a0321",
+			"name": "Auth - Login as Admin",
+			"url": "http://localhost:3000/api/auth/login",
+			"time": 93,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Login Admin successful (200 OK)": true
+			},
+			"testPassFailCounts": {
+				"Login Admin successful (200 OK)": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				93
+			],
+			"allTests": [
+				{
+					"Login Admin successful (200 OK)": true
+				}
+			]
+		},
+		{
+			"id": "fe053df5-1efe-4815-b57d-f67b26002c37",
+			"name": "Auth - Login as Customer",
+			"url": "http://localhost:3000/api/auth/login",
+			"time": 87,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Login Customer successful (200 OK)": true
+			},
+			"testPassFailCounts": {
+				"Login Customer successful (200 OK)": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				87
+			],
+			"allTests": [
+				{
+					"Login Customer successful (200 OK)": true
+				}
+			]
+		},
+		{
+			"id": "d10e794a-aba1-4307-a504-7aed3a9da318",
+			"name": "Auth - Login as Staff",
+			"url": "http://localhost:3000/api/auth/login",
+			"time": 87,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Login Staff successful (200 OK)": true
+			},
+			"testPassFailCounts": {
+				"Login Staff successful (200 OK)": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				87
+			],
+			"allTests": [
+				{
+					"Login Staff successful (200 OK)": true
+				}
+			]
+		},
+		{
+			"id": "96dd74cd-438b-4e2c-bdf9-a08a3a4db30c",
+			"name": "Auth - Login as Kitchen",
+			"url": "http://localhost:3000/api/auth/login",
+			"time": 87,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Login Kitchen successful (200 OK)": true
+			},
+			"testPassFailCounts": {
+				"Login Kitchen successful (200 OK)": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				87
+			],
+			"allTests": [
+				{
+					"Login Kitchen successful (200 OK)": true
+				}
+			]
+		},
+		{
+			"id": "32a76660-b797-4286-88fd-616277a5d88c",
+			"name": "TC_API_CAT_001 - Tạo danh mục hợp lệ đầy đủ các trường (201 Created)",
+			"url": "http://localhost:3000/api/categories",
+			"time": 15,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"Status code is 201 Created": true,
+				"Response contains Category properties": true
+			},
+			"testPassFailCounts": {
+				"Status code is 201 Created": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response contains Category properties": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				15
+			],
+			"allTests": [
+				{
+					"Status code is 201 Created": true,
+					"Response contains Category properties": true
+				}
+			]
+		},
+		{
+			"id": "5e3df989-7e8d-44e5-9fe2-8dc71159d7a6",
+			"name": "TC_API_CAT_002 - Tạo danh mục chỉ có trường bắt buộc (201 Created)",
+			"url": "http://localhost:3000/api/categories",
+			"time": 12,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"Status code is 201 Created": true
+			},
+			"testPassFailCounts": {
+				"Status code is 201 Created": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				12
+			],
+			"allTests": [
+				{
+					"Status code is 201 Created": true
+				}
+			]
+		},
+		{
+			"id": "1b400f06-8535-4edc-9896-09e59ce1ff39",
+			"name": "TC_API_CAT_003 - Tạo danh mục với tên 100 ký tự (Boundary Max - 201)",
+			"url": "http://localhost:3000/api/categories",
+			"time": 6,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"Status code is 201 Created": false
+			},
+			"testPassFailCounts": {
+				"Status code is 201 Created": {
+					"pass": 0,
+					"fail": 1
+				}
+			},
+			"times": [
+				6
+			],
+			"allTests": [
+				{
+					"Status code is 201 Created": false
+				}
+			]
+		},
+		{
+			"id": "53769f02-b352-4644-9884-72dcbcae0941",
+			"name": "TC_API_CAT_004 - Tạo danh mục với tiếng Việt có dấu và Emoji (201 Created)",
+			"url": "http://localhost:3000/api/categories",
+			"time": 11,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"Status code is 201 Created with UTF-8": true
+			},
+			"testPassFailCounts": {
+				"Status code is 201 Created with UTF-8": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				11
+			],
+			"allTests": [
+				{
+					"Status code is 201 Created with UTF-8": true
+				}
+			]
+		},
+		{
+			"id": "536b1fba-45b9-4519-ad55-dbcd5639f064",
+			"name": "TC_API_CAT_005 - Thiếu trường bắt buộc name (400 Bad Request)",
+			"url": "http://localhost:3000/api/categories",
+			"time": 3,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"Status code is 400 Bad Request": true
+			},
+			"testPassFailCounts": {
+				"Status code is 400 Bad Request": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				3
+			],
+			"allTests": [
+				{
+					"Status code is 400 Bad Request": true
+				}
+			]
+		},
+		{
+			"id": "788b3a4a-d3f2-4bd6-8c50-5d59a4960d8c",
+			"name": "TC_API_CAT_006 - Tên danh mục rỗng (400 Bad Request)",
+			"url": "http://localhost:3000/api/categories",
+			"time": 10,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"Status code is 400 Bad Request": false
+			},
+			"testPassFailCounts": {
+				"Status code is 400 Bad Request": {
+					"pass": 0,
+					"fail": 1
+				}
+			},
+			"times": [
+				10
+			],
+			"allTests": [
+				{
+					"Status code is 400 Bad Request": false
+				}
+			]
+		},
+		{
+			"id": "cf434f44-c38f-481f-a48d-f4d9e4b7f2db",
+			"name": "TC_API_CAT_007 - Tên danh mục vượt quá 100 ký tự (400 / 500)",
+			"url": "http://localhost:3000/api/categories",
+			"time": 4,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"Status code is 400 or 500": true
+			},
+			"testPassFailCounts": {
+				"Status code is 400 or 500": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				4
+			],
+			"allTests": [
+				{
+					"Status code is 400 or 500": true
+				}
+			]
+		},
+		{
+			"id": "6b6ba151-32bc-4c7a-b3d4-2ddfdae5f35f",
+			"name": "TC_API_CAT_008 - Body rỗng {} (400 Bad Request)",
+			"url": "http://localhost:3000/api/categories",
+			"time": 4,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"Status code is 400 Bad Request": true
+			},
+			"testPassFailCounts": {
+				"Status code is 400 Bad Request": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				4
+			],
+			"allTests": [
+				{
+					"Status code is 400 Bad Request": true
+				}
+			]
+		},
+		{
+			"id": "c0a5aac4-32a1-4a2e-9d67-6f74a412151b",
+			"name": "TC_API_CAT_009 - Không có Token / Guest (401 Unauthorized)",
+			"url": "http://localhost:3000/api/categories",
+			"time": 2,
+			"responseCode": {
+				"code": 401,
+				"name": "Unauthorized"
+			},
+			"tests": {
+				"Status code is 401 Unauthorized": true
+			},
+			"testPassFailCounts": {
+				"Status code is 401 Unauthorized": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				2
+			],
+			"allTests": [
+				{
+					"Status code is 401 Unauthorized": true
+				}
+			]
+		},
+		{
+			"id": "78c8071b-756a-4e11-afff-90fda2fc5fae",
+			"name": "TC_API_CAT_010 - Token hết hạn (401 Unauthorized)",
+			"url": "http://localhost:3000/api/categories",
+			"time": 3,
+			"responseCode": {
+				"code": 401,
+				"name": "Unauthorized"
+			},
+			"tests": {
+				"Status code is 401 Unauthorized": true
+			},
+			"testPassFailCounts": {
+				"Status code is 401 Unauthorized": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				3
+			],
+			"allTests": [
+				{
+					"Status code is 401 Unauthorized": true
+				}
+			]
+		},
+		{
+			"id": "f7f74878-c00e-436a-a86c-a4fb67919aaf",
+			"name": "TC_API_CAT_011 - Token giả mạo / Invalid (401 Unauthorized)",
+			"url": "http://localhost:3000/api/categories",
+			"time": 2,
+			"responseCode": {
+				"code": 401,
+				"name": "Unauthorized"
+			},
+			"tests": {
+				"Status code is 401 Unauthorized": true
+			},
+			"testPassFailCounts": {
+				"Status code is 401 Unauthorized": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				2
+			],
+			"allTests": [
+				{
+					"Status code is 401 Unauthorized": true
+				}
+			]
+		},
+		{
+			"id": "5f95e6af-1a9d-448c-8a55-da849f6b93c3",
+			"name": "TC_API_CAT_012 - Role CUSTOMER tạo danh mục (403 Forbidden)",
+			"url": "http://localhost:3000/api/categories",
+			"time": 3,
+			"responseCode": {
+				"code": 403,
+				"name": "Forbidden"
+			},
+			"tests": {
+				"Status code is 403 Forbidden": true
+			},
+			"testPassFailCounts": {
+				"Status code is 403 Forbidden": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				3
+			],
+			"allTests": [
+				{
+					"Status code is 403 Forbidden": true
+				}
+			]
+		},
+		{
+			"id": "39c9a742-addd-430d-80a4-3b6c5ee4b4c6",
+			"name": "TC_API_CAT_013 - Role STAFF tạo danh mục (403 Forbidden)",
+			"url": "http://localhost:3000/api/categories",
+			"time": 3,
+			"responseCode": {
+				"code": 403,
+				"name": "Forbidden"
+			},
+			"tests": {
+				"Status code is 403 Forbidden": true
+			},
+			"testPassFailCounts": {
+				"Status code is 403 Forbidden": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				3
+			],
+			"allTests": [
+				{
+					"Status code is 403 Forbidden": true
+				}
+			]
+		},
+		{
+			"id": "89110a15-faac-47dd-9cb6-0c1d7eafae13",
+			"name": "TC_API_CAT_014 - Role KITCHEN tạo danh mục (403 Forbidden)",
+			"url": "http://localhost:3000/api/categories",
+			"time": 3,
+			"responseCode": {
+				"code": 403,
+				"name": "Forbidden"
+			},
+			"tests": {
+				"Status code is 403 Forbidden": true
+			},
+			"testPassFailCounts": {
+				"Status code is 403 Forbidden": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				3
+			],
+			"allTests": [
+				{
+					"Status code is 403 Forbidden": true
+				}
+			]
+		},
+		{
+			"id": "82fb2b13-41c3-4f0e-b4dc-e3c8e2abcb7f",
+			"name": "TC_API_CAT_015 - Bảo mật chống SQL Injection trong Payload (201 / 400)",
+			"url": "http://localhost:3000/api/categories",
+			"time": 13,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"API handles SQLi safely without DB corruption": true
+			},
+			"testPassFailCounts": {
+				"API handles SQLi safely without DB corruption": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				13
+			],
+			"allTests": [
+				{
+					"API handles SQLi safely without DB corruption": true
+				}
+			]
+		},
+		{
+			"id": "b1864721-16a6-413d-9036-1d9a7f501a20",
+			"name": "TC_API_CAT_016 - Lưu trữ an toàn XSS Payload (201 Created)",
+			"url": "http://localhost:3000/api/categories",
+			"time": 12,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"Status code is 201 Created": true
+			},
+			"testPassFailCounts": {
+				"Status code is 201 Created": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				12
+			],
+			"allTests": [
+				{
+					"Status code is 201 Created": true
+				}
+			]
+		},
+		{
+			"id": "b5bdd882-132f-4daf-bb3f-b98868d1f2a9",
+			"name": "TC_API_CAT_017 - Lấy danh sách toàn bộ danh mục (200 OK)",
+			"url": "http://localhost:3000/api/categories",
+			"time": 6,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200 OK": true,
+				"Response is an Array of Categories": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200 OK": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response is an Array of Categories": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				6
+			],
+			"allTests": [
+				{
+					"Status code is 200 OK": true,
+					"Response is an Array of Categories": true
+				}
+			]
+		},
+		{
+			"id": "6b554ba6-0e9d-47df-9f6a-17f6a6120a8d",
+			"name": "TC_API_CAT_018 - Lấy danh sách khi chưa có dữ liệu (200 OK Array)",
+			"url": "http://localhost:3000/api/categories",
+			"time": 4,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200 OK": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200 OK": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				4
+			],
+			"allTests": [
+				{
+					"Status code is 200 OK": true
+				}
+			]
+		},
+		{
+			"id": "8f626073-ad04-46cc-96b9-63bb7b83d86c",
+			"name": "TC_API_CAT_019 - Tìm kiếm danh mục theo từ khóa (?search=Sushi) (200 OK)",
+			"url": "http://localhost:3000/api/categories?search=Sushi",
+			"time": 7,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200 OK": true,
+				"Filtered results match search term": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200 OK": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Filtered results match search term": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				7
+			],
+			"allTests": [
+				{
+					"Status code is 200 OK": true,
+					"Filtered results match search term": true
+				}
+			]
+		},
+		{
+			"id": "5fb3f071-fbbc-46b0-92f5-94a255e78408",
+			"name": "TC_API_CAT_020 - Tìm kiếm Case-insensitive (?search=sushi) (200 OK)",
+			"url": "http://localhost:3000/api/categories?search=sushi",
+			"time": 5,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200 OK": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200 OK": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				5
+			],
+			"allTests": [
+				{
+					"Status code is 200 OK": true
+				}
+			]
+		},
+		{
+			"id": "97ca6633-5262-4c9d-b487-e724b9ab0cf0",
+			"name": "TC_API_CAT_021 - Tìm kiếm từ khóa không tồn tại (200 OK Empty Array)",
+			"url": "http://localhost:3000/api/categories?search=NonExistentCategoryXYZ999",
+			"time": 4,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200 OK": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200 OK": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				4
+			],
+			"allTests": [
+				{
+					"Status code is 200 OK": true
+				}
+			]
+		},
+		{
+			"id": "92c1414b-fcd1-4372-8e13-72ded02a9c95",
+			"name": "TC_API_CAT_022 - Tìm kiếm ký tự đặc biệt URL Encoded (?search=%25) (200 OK)",
+			"url": "http://localhost:3000/api/categories?search=%25",
+			"time": 4,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200 OK": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200 OK": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				4
+			],
+			"allTests": [
+				{
+					"Status code is 200 OK": true
+				}
+			]
+		},
+		{
+			"id": "655329fc-f561-416d-8417-1f5b184b62db",
+			"name": "TC_API_CAT_023 - Kiểm tra thuộc tính productCount tính toán (200 OK)",
+			"url": "http://localhost:3000/api/categories",
+			"time": 4,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200 OK": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200 OK": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				4
+			],
+			"allTests": [
+				{
+					"Status code is 200 OK": true
+				}
+			]
+		},
+		{
+			"id": "0fffabf1-9db4-4315-95e2-649c85c67f15",
+			"name": "TC_API_CAT_024 - Lấy chi tiết danh mục theo ID hợp lệ (200 OK)",
+			"url": "http://localhost:3000/api/categories/7",
+			"time": 3,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200 OK": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200 OK": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				3
+			],
+			"allTests": [
+				{
+					"Status code is 200 OK": true
+				}
+			]
+		},
+		{
+			"id": "4418cc66-2743-4baf-bebb-11d4d5120d51",
+			"name": "TC_API_CAT_025 - ID không tồn tại (404 Not Found)",
+			"url": "http://localhost:3000/api/categories/999999",
+			"time": 3,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"Status code is 404 Not Found": true
+			},
+			"testPassFailCounts": {
+				"Status code is 404 Not Found": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				3
+			],
+			"allTests": [
+				{
+					"Status code is 404 Not Found": true
+				}
+			]
+		},
+		{
+			"id": "15a98538-e8d8-4a09-9701-897028b3741a",
+			"name": "TC_API_CAT_026 - ID số nguyên âm (404 Not Found)",
+			"url": "http://localhost:3000/api/categories/-1",
+			"time": 3,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"Status code is 404 Not Found": true
+			},
+			"testPassFailCounts": {
+				"Status code is 404 Not Found": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				3
+			],
+			"allTests": [
+				{
+					"Status code is 404 Not Found": true
+				}
+			]
+		},
+		{
+			"id": "37bbf13c-c94c-4a7f-b71b-fa2a7ddf77b4",
+			"name": "TC_API_CAT_027 - ID chuỗi ký tự 'abc' (404 / 400)",
+			"url": "http://localhost:3000/api/categories/abc",
+			"time": 4,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"Status code is 404 or 400": true
+			},
+			"testPassFailCounts": {
+				"Status code is 404 or 400": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				4
+			],
+			"allTests": [
+				{
+					"Status code is 404 or 400": true
+				}
+			]
+		},
+		{
+			"id": "1c289e67-4a41-4d93-9b53-200303408f95",
+			"name": "TC_API_CAT_028 - ID số siêu lớn vượt ngưỡng (404 / 400)",
+			"url": "http://localhost:3000/api/categories/9999999999999999999999",
+			"time": 3,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"Status code is 404 or 400": true
+			},
+			"testPassFailCounts": {
+				"Status code is 404 or 400": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				3
+			],
+			"allTests": [
+				{
+					"Status code is 404 or 400": true
+				}
+			]
+		},
+		{
+			"id": "82142352-9b61-4a33-a08f-c9bb0ddbda54",
+			"name": "TC_API_CAT_029 - Cập nhật toàn bộ thông tin danh mục (200 OK)",
+			"url": "http://localhost:3000/api/categories/7",
+			"time": 16,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200 OK": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200 OK": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				16
+			],
+			"allTests": [
+				{
+					"Status code is 200 OK": true
+				}
+			]
+		},
+		{
+			"id": "0444993e-c4e0-4150-879d-54f28a6288d2",
+			"name": "TC_API_CAT_030 - Cập nhật chỉ riêng trường name (200 OK)",
+			"url": "http://localhost:3000/api/categories/7",
+			"time": 13,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200 OK": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200 OK": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				13
+			],
+			"allTests": [
+				{
+					"Status code is 200 OK": true
+				}
+			]
+		},
+		{
+			"id": "03099d08-ff84-4b38-8c9e-f1aa1c2d51d4",
+			"name": "TC_API_CAT_031 - Gỡ bỏ hình ảnh danh mục (image: null) (200 OK)",
+			"url": "http://localhost:3000/api/categories/7",
+			"time": 13,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200 OK": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200 OK": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				13
+			],
+			"allTests": [
+				{
+					"Status code is 200 OK": true
+				}
+			]
+		},
+		{
+			"id": "9846abe0-4afe-45d2-9c7d-1ecf1b4fa984",
+			"name": "TC_API_CAT_032 - Cập nhật với tên rỗng '' (400 Bad Request)",
+			"url": "http://localhost:3000/api/categories/7",
+			"time": 12,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 400 Bad Request": false
+			},
+			"testPassFailCounts": {
+				"Status code is 400 Bad Request": {
+					"pass": 0,
+					"fail": 1
+				}
+			},
+			"times": [
+				12
+			],
+			"allTests": [
+				{
+					"Status code is 400 Bad Request": false
+				}
+			]
+		},
+		{
+			"id": "dfbfad2e-de44-4188-89ee-cae71f10c434",
+			"name": "TC_API_CAT_033 - Cập nhật tên dài hơn 100 ký tự (400 / 500)",
+			"url": "http://localhost:3000/api/categories/7",
+			"time": 5,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"Status code is 400 or 500": true
+			},
+			"testPassFailCounts": {
+				"Status code is 400 or 500": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				5
+			],
+			"allTests": [
+				{
+					"Status code is 400 or 500": true
+				}
+			]
+		},
+		{
+			"id": "c6a19361-1866-42d4-a4a5-382e4cbcc8eb",
+			"name": "TC_API_CAT_034 - Cập nhật ID không tồn tại (404 Not Found)",
+			"url": "http://localhost:3000/api/categories/999999",
+			"time": 5,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"Status code is 404 Not Found": true
+			},
+			"testPassFailCounts": {
+				"Status code is 404 Not Found": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				5
+			],
+			"allTests": [
+				{
+					"Status code is 404 Not Found": true
+				}
+			]
+		},
+		{
+			"id": "3975dc1f-2760-4d2a-9ead-4e72384e55fd",
+			"name": "TC_API_CAT_035 - Cập nhật không có Token / Guest (401 Unauthorized)",
+			"url": "http://localhost:3000/api/categories/7",
+			"time": 2,
+			"responseCode": {
+				"code": 401,
+				"name": "Unauthorized"
+			},
+			"tests": {
+				"Status code is 401 Unauthorized": true
+			},
+			"testPassFailCounts": {
+				"Status code is 401 Unauthorized": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				2
+			],
+			"allTests": [
+				{
+					"Status code is 401 Unauthorized": true
+				}
+			]
+		},
+		{
+			"id": "65f98c0b-d79a-4ffa-9a9e-0afabb074560",
+			"name": "TC_API_CAT_036 - Role CUSTOMER cập nhật danh mục (403 Forbidden)",
+			"url": "http://localhost:3000/api/categories/7",
+			"time": 3,
+			"responseCode": {
+				"code": 403,
+				"name": "Forbidden"
+			},
+			"tests": {
+				"Status code is 403 Forbidden": true
+			},
+			"testPassFailCounts": {
+				"Status code is 403 Forbidden": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				3
+			],
+			"allTests": [
+				{
+					"Status code is 403 Forbidden": true
+				}
+			]
+		},
+		{
+			"id": "b60144c0-5cb8-40cf-a64f-488d4607574a",
+			"name": "TC_API_CAT_037 - Role STAFF cập nhật danh mục (403 Forbidden)",
+			"url": "http://localhost:3000/api/categories/7",
+			"time": 4,
+			"responseCode": {
+				"code": 403,
+				"name": "Forbidden"
+			},
+			"tests": {
+				"Status code is 403 Forbidden": true
+			},
+			"testPassFailCounts": {
+				"Status code is 403 Forbidden": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				4
+			],
+			"allTests": [
+				{
+					"Status code is 403 Forbidden": true
+				}
+			]
+		},
+		{
+			"id": "f53be148-85a2-44f5-959b-9a24bc4feb37",
+			"name": "TC_API_CAT_038 - Role KITCHEN cập nhật danh mục (403 Forbidden)",
+			"url": "http://localhost:3000/api/categories/7",
+			"time": 3,
+			"responseCode": {
+				"code": 403,
+				"name": "Forbidden"
+			},
+			"tests": {
+				"Status code is 403 Forbidden": true
+			},
+			"testPassFailCounts": {
+				"Status code is 403 Forbidden": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				3
+			],
+			"allTests": [
+				{
+					"Status code is 403 Forbidden": true
+				}
+			]
+		},
+		{
+			"id": "8ae435e5-13cc-4527-a235-7bd225e3c66f",
+			"name": "TC_API_CAT_039 - Xóa danh mục hợp lệ không có sản phẩm (204 No Content)",
+			"url": "http://localhost:3000/api/categories/7",
+			"time": 13,
+			"responseCode": {
+				"code": 204,
+				"name": "No Content"
+			},
+			"tests": {
+				"Status code is 204 No Content": true
+			},
+			"testPassFailCounts": {
+				"Status code is 204 No Content": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				13
+			],
+			"allTests": [
+				{
+					"Status code is 204 No Content": true
+				}
+			]
+		},
+		{
+			"id": "be77117a-83e8-4060-a867-8dc3e30677ab",
+			"name": "TC_API_CAT_040 - Ràng buộc khóa ngoại khi xóa danh mục có sản phẩm (400 / 409 / 500)",
+			"url": "http://localhost:3000/api/categories/1",
+			"time": 41,
+			"responseCode": {
+				"code": 204,
+				"name": "No Content"
+			},
+			"tests": {
+				"Handled foreign key constraint on delete": false
+			},
+			"testPassFailCounts": {
+				"Handled foreign key constraint on delete": {
+					"pass": 0,
+					"fail": 1
+				}
+			},
+			"times": [
+				41
+			],
+			"allTests": [
+				{
+					"Handled foreign key constraint on delete": false
+				}
+			]
+		},
+		{
+			"id": "5b96d26b-5a6d-4486-9ecf-639d01ef59c1",
+			"name": "TC_API_CAT_041 - Xóa ID không tồn tại (404 Not Found)",
+			"url": "http://localhost:3000/api/categories/999999",
+			"time": 4,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"Status code is 404 Not Found": true
+			},
+			"testPassFailCounts": {
+				"Status code is 404 Not Found": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				4
+			],
+			"allTests": [
+				{
+					"Status code is 404 Not Found": true
+				}
+			]
+		},
+		{
+			"id": "ffe9cd34-39fa-4af3-93d2-1cb7dfbbcf85",
+			"name": "TC_API_CAT_042 - Double Delete cùng một danh mục (404 Not Found)",
+			"url": "http://localhost:3000/api/categories/7",
+			"time": 4,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"Status code is 404 Not Found": true
+			},
+			"testPassFailCounts": {
+				"Status code is 404 Not Found": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				4
+			],
+			"allTests": [
+				{
+					"Status code is 404 Not Found": true
+				}
+			]
+		},
+		{
+			"id": "88b5ed88-0d05-40af-9a2a-b4420611556c",
+			"name": "TC_API_CAT_043 - Xóa không có Token / Guest (401 Unauthorized)",
+			"url": "http://localhost:3000/api/categories/1",
+			"time": 2,
+			"responseCode": {
+				"code": 401,
+				"name": "Unauthorized"
+			},
+			"tests": {
+				"Status code is 401 Unauthorized": true
+			},
+			"testPassFailCounts": {
+				"Status code is 401 Unauthorized": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				2
+			],
+			"allTests": [
+				{
+					"Status code is 401 Unauthorized": true
+				}
+			]
+		},
+		{
+			"id": "7a777131-4361-47b3-8dad-ae46fa198598",
+			"name": "TC_API_CAT_044 - Role CUSTOMER xóa danh mục (403 Forbidden)",
+			"url": "http://localhost:3000/api/categories/1",
+			"time": 3,
+			"responseCode": {
+				"code": 403,
+				"name": "Forbidden"
+			},
+			"tests": {
+				"Status code is 403 Forbidden": true
+			},
+			"testPassFailCounts": {
+				"Status code is 403 Forbidden": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				3
+			],
+			"allTests": [
+				{
+					"Status code is 403 Forbidden": true
+				}
+			]
+		},
+		{
+			"id": "ba72f234-9649-41f8-92b0-bc8b01b77b1f",
+			"name": "TC_API_CAT_045 - Role STAFF xóa danh mục (403 Forbidden)",
+			"url": "http://localhost:3000/api/categories/1",
+			"time": 4,
+			"responseCode": {
+				"code": 403,
+				"name": "Forbidden"
+			},
+			"tests": {
+				"Status code is 403 Forbidden": true
+			},
+			"testPassFailCounts": {
+				"Status code is 403 Forbidden": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				4
+			],
+			"allTests": [
+				{
+					"Status code is 403 Forbidden": true
+				}
+			]
+		},
+		{
+			"id": "e7b44ed0-502c-47cb-ae4c-547798c8535c",
+			"name": "TC_API_CAT_046 - Role KITCHEN xóa danh mục (403 Forbidden)",
+			"url": "http://localhost:3000/api/categories/1",
+			"time": 4,
+			"responseCode": {
+				"code": 403,
+				"name": "Forbidden"
+			},
+			"tests": {
+				"Status code is 403 Forbidden": true
+			},
+			"testPassFailCounts": {
+				"Status code is 403 Forbidden": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				4
+			],
+			"allTests": [
+				{
+					"Status code is 403 Forbidden": true
+				}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 661,
+	"collection": {
+		"requests": [
+			{
+				"id": "5d3bd44c-f7d2-423a-b7a4-579f824a0321",
+				"method": "POST"
+			},
+			{
+				"id": "fe053df5-1efe-4815-b57d-f67b26002c37",
+				"method": "POST"
+			},
+			{
+				"id": "d10e794a-aba1-4307-a504-7aed3a9da318",
+				"method": "POST"
+			},
+			{
+				"id": "96dd74cd-438b-4e2c-bdf9-a08a3a4db30c",
+				"method": "POST"
+			},
+			{
+				"id": "32a76660-b797-4286-88fd-616277a5d88c",
+				"method": "POST"
+			},
+			{
+				"id": "5e3df989-7e8d-44e5-9fe2-8dc71159d7a6",
+				"method": "POST"
+			},
+			{
+				"id": "1b400f06-8535-4edc-9896-09e59ce1ff39",
+				"method": "POST"
+			},
+			{
+				"id": "53769f02-b352-4644-9884-72dcbcae0941",
+				"method": "POST"
+			},
+			{
+				"id": "536b1fba-45b9-4519-ad55-dbcd5639f064",
+				"method": "POST"
+			},
+			{
+				"id": "788b3a4a-d3f2-4bd6-8c50-5d59a4960d8c",
+				"method": "POST"
+			},
+			{
+				"id": "cf434f44-c38f-481f-a48d-f4d9e4b7f2db",
+				"method": "POST"
+			},
+			{
+				"id": "6b6ba151-32bc-4c7a-b3d4-2ddfdae5f35f",
+				"method": "POST"
+			},
+			{
+				"id": "c0a5aac4-32a1-4a2e-9d67-6f74a412151b",
+				"method": "POST"
+			},
+			{
+				"id": "78c8071b-756a-4e11-afff-90fda2fc5fae",
+				"method": "POST"
+			},
+			{
+				"id": "f7f74878-c00e-436a-a86c-a4fb67919aaf",
+				"method": "POST"
+			},
+			{
+				"id": "5f95e6af-1a9d-448c-8a55-da849f6b93c3",
+				"method": "POST"
+			},
+			{
+				"id": "39c9a742-addd-430d-80a4-3b6c5ee4b4c6",
+				"method": "POST"
+			},
+			{
+				"id": "89110a15-faac-47dd-9cb6-0c1d7eafae13",
+				"method": "POST"
+			},
+			{
+				"id": "82fb2b13-41c3-4f0e-b4dc-e3c8e2abcb7f",
+				"method": "POST"
+			},
+			{
+				"id": "b1864721-16a6-413d-9036-1d9a7f501a20",
+				"method": "POST"
+			},
+			{
+				"id": "b5bdd882-132f-4daf-bb3f-b98868d1f2a9",
+				"method": "GET"
+			},
+			{
+				"id": "6b554ba6-0e9d-47df-9f6a-17f6a6120a8d",
+				"method": "GET"
+			},
+			{
+				"id": "8f626073-ad04-46cc-96b9-63bb7b83d86c",
+				"method": "GET"
+			},
+			{
+				"id": "5fb3f071-fbbc-46b0-92f5-94a255e78408",
+				"method": "GET"
+			},
+			{
+				"id": "97ca6633-5262-4c9d-b487-e724b9ab0cf0",
+				"method": "GET"
+			},
+			{
+				"id": "92c1414b-fcd1-4372-8e13-72ded02a9c95",
+				"method": "GET"
+			},
+			{
+				"id": "655329fc-f561-416d-8417-1f5b184b62db",
+				"method": "GET"
+			},
+			{
+				"id": "0fffabf1-9db4-4315-95e2-649c85c67f15",
+				"method": "GET"
+			},
+			{
+				"id": "4418cc66-2743-4baf-bebb-11d4d5120d51",
+				"method": "GET"
+			},
+			{
+				"id": "15a98538-e8d8-4a09-9701-897028b3741a",
+				"method": "GET"
+			},
+			{
+				"id": "37bbf13c-c94c-4a7f-b71b-fa2a7ddf77b4",
+				"method": "GET"
+			},
+			{
+				"id": "1c289e67-4a41-4d93-9b53-200303408f95",
+				"method": "GET"
+			},
+			{
+				"id": "82142352-9b61-4a33-a08f-c9bb0ddbda54",
+				"method": "PUT"
+			},
+			{
+				"id": "0444993e-c4e0-4150-879d-54f28a6288d2",
+				"method": "PUT"
+			},
+			{
+				"id": "03099d08-ff84-4b38-8c9e-f1aa1c2d51d4",
+				"method": "PUT"
+			},
+			{
+				"id": "9846abe0-4afe-45d2-9c7d-1ecf1b4fa984",
+				"method": "PUT"
+			},
+			{
+				"id": "dfbfad2e-de44-4188-89ee-cae71f10c434",
+				"method": "PUT"
+			},
+			{
+				"id": "c6a19361-1866-42d4-a4a5-382e4cbcc8eb",
+				"method": "PUT"
+			},
+			{
+				"id": "3975dc1f-2760-4d2a-9ead-4e72384e55fd",
+				"method": "PUT"
+			},
+			{
+				"id": "65f98c0b-d79a-4ffa-9a9e-0afabb074560",
+				"method": "PUT"
+			},
+			{
+				"id": "b60144c0-5cb8-40cf-a64f-488d4607574a",
+				"method": "PUT"
+			},
+			{
+				"id": "f53be148-85a2-44f5-959b-9a24bc4feb37",
+				"method": "PUT"
+			},
+			{
+				"id": "8ae435e5-13cc-4527-a235-7bd225e3c66f",
+				"method": "DELETE"
+			},
+			{
+				"id": "be77117a-83e8-4060-a867-8dc3e30677ab",
+				"method": "DELETE"
+			},
+			{
+				"id": "5b96d26b-5a6d-4486-9ecf-639d01ef59c1",
+				"method": "DELETE"
+			},
+			{
+				"id": "ffe9cd34-39fa-4af3-93d2-1cb7dfbbcf85",
+				"method": "DELETE"
+			},
+			{
+				"id": "88b5ed88-0d05-40af-9a2a-b4420611556c",
+				"method": "DELETE"
+			},
+			{
+				"id": "7a777131-4361-47b3-8dad-ae46fa198598",
+				"method": "DELETE"
+			},
+			{
+				"id": "ba72f234-9649-41f8-92b0-bc8b01b77b1f",
+				"method": "DELETE"
+			},
+			{
+				"id": "e7b44ed0-502c-47cb-ae4c-547798c8535c",
+				"method": "DELETE"
+			}
+		]
+	}
+}

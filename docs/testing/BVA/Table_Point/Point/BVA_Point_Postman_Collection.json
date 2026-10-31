@@ -1,0 +1,226 @@
+{
+  "info": {
+    "_postman_id": "future-sushi-bva-point-2026",
+    "name": "FutureSushi - BVA Point API Test Suite",
+    "description": "Boundary Value Analysis (BVA) test suite for Point API.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "0. Authentication",
+      "item": [
+        {
+          "name": "AUTH - Đăng nhập Admin",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"account\": \"admin\",\n  \"password\": \"123\"\n}"
+            },
+            "url": "{{baseUrl}}/api/auth/login"
+          }
+        }
+      ]
+    },
+    {
+      "name": "1. Point BVA Tests",
+      "item": [
+        {
+          "name": "TB_BVA_POINT_001 - phone: Thiếu trường",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"orderId\":1}"
+            },
+            "url": "{{baseUrl}}/api/points/add-points"
+          }
+        },
+        {
+          "name": "TB_BVA_POINT_002 - phone: Chuỗi rỗng \"\"",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"phone\":\"\",\"orderId\":1}"
+            },
+            "url": "{{baseUrl}}/api/points/add-points"
+          }
+        },
+        {
+          "name": "TB_BVA_POINT_003 - phone: Giá trị null",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"phone\":null,\"orderId\":1}"
+            },
+            "url": "{{baseUrl}}/api/points/add-points"
+          }
+        },
+        {
+          "name": "TB_BVA_POINT_004 - orderId: Thiếu trường",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"phone\":\"0900000000\"}"
+            },
+            "url": "{{baseUrl}}/api/points/add-points"
+          }
+        },
+        {
+          "name": "TB_BVA_POINT_005 - orderId: 0",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"phone\":\"0900000000\",\"orderId\":0}"
+            },
+            "url": "{{baseUrl}}/api/points/add-points"
+          }
+        },
+        {
+          "name": "TB_BVA_POINT_006 - orderId: -1",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"phone\":\"0900000000\",\"orderId\":-1}"
+            },
+            "url": "{{baseUrl}}/api/points/add-points"
+          }
+        },
+        {
+          "name": "TB_BVA_POINT_007 - orderId: null",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"phone\":\"0900000000\",\"orderId\":null}"
+            },
+            "url": "{{baseUrl}}/api/points/add-points"
+          }
+        },
+        {
+          "name": "TB_BVA_POINT_008 - orderId: Sai kiểu (\"abc\")",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"phone\":\"0900000000\",\"orderId\":\"abc\"}"
+            },
+            "url": "{{baseUrl}}/api/points/add-points"
+          }
+        },
+        {
+          "name": "TB_BVA_POINT_009 - Dữ liệu hợp lệ",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"phone\":\"0900000000\",\"orderId\":1}"
+            },
+            "url": "{{baseUrl}}/api/points/add-points"
+          }
+        }
+      ]
+    }
+  ]
+}

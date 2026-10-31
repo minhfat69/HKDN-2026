@@ -1,0 +1,59 @@
+{
+  "suite": "FutureSushi - WhiteBox Point Controller",
+  "target": "addPointsFromOrder",
+  "framework": "Jest",
+  "test_file": "pointController.test.js",
+  "execution": {
+    "test_suites": 1,
+    "passed_suites": 1,
+    "failed_suites": 0,
+    "tests": 7,
+    "passed": 7,
+    "failed": 0,
+    "snapshots": 0
+  },
+  "coverage": {
+    "statements": 100,
+    "branches": 100,
+    "functions": 100,
+    "lines": 100
+  },
+  "test_cases": [
+    {
+      "id": "WB-POINT-001",
+      "description": "thiếu phone hoặc orderId",
+      "status": "PASS"
+    },
+    {
+      "id": "WB-POINT-002",
+      "description": "không tìm thấy khách hàng",
+      "status": "PASS"
+    },
+    {
+      "id": "WB-POINT-003",
+      "description": "không tìm thấy hóa đơn",
+      "status": "PASS"
+    },
+    {
+      "id": "WB-POINT-004",
+      "description": "đơn hàng chưa hoàn thành hoặc chưa thanh toán",
+      "status": "PASS"
+    },
+    {
+      "id": "WB-POINT-005",
+      "description": "đơn hàng đã được tích điểm trước đó",
+      "status": "PASS"
+    },
+    {
+      "id": "WB-POINT-006",
+      "description": "tích điểm thành công",
+      "status": "PASS"
+    },
+    {
+      "id": "WB-POINT-007",
+      "description": "xử lý lỗi hệ thống và rollback transaction",
+      "status": "PASS"
+    }
+  ],
+  "conclusion": "White-box test đạt 7/7 testcase và 100% statement, branch, function, line coverage theo lượt chạy Jest đã ghi nhận."
+}

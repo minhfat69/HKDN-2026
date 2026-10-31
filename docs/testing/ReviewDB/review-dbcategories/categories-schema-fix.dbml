@@ -1,0 +1,7 @@
+Table categories {
+  id bigint [primary key, increment]
+  name varchar(100) [not null]
+  description text
+  image text
+  created_at timestamp
+}

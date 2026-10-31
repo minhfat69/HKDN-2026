@@ -1,0 +1,453 @@
+{
+	"id": "2b274f0c-0974-4412-b754-0afe6fae6071",
+	"name": "SCRUM-25 - JWT Testcase",
+	"timestamp": "2026-08-17T04:40:29.841Z",
+	"collection_id": "56967522-f5fe9881-4226-48fd-ac0a-720600dd7394",
+	"folder_id": 0,
+	"environment_id": "0",
+	"totalPass": 26,
+	"delay": 0,
+	"persist": true,
+	"status": "finished",
+	"startedAt": "2026-08-17T04:40:26.394Z",
+	"totalFail": 0,
+	"results": [
+		{
+			"id": "6d5f4191-b575-4843-b50c-fab554e999e8",
+			"name": "JWT-AUTH-01 - Login thành công",
+			"url": "http://localhost:3000/api/auth/login",
+			"time": 738,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"HTTP 200": true,
+				"Có JWT token": true,
+				"Có thông tin user": true
+			},
+			"testPassFailCounts": {
+				"HTTP 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Có JWT token": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Có thông tin user": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				738
+			],
+			"allTests": [
+				{
+					"HTTP 200": true,
+					"Có JWT token": true,
+					"Có thông tin user": true
+				}
+			]
+		},
+		{
+			"id": "a7297dd0-a30f-49ed-9032-897c1ea442d3",
+			"name": "JWT-AUTH-02 – Login sai password",
+			"url": "http://localhost:3000/api/auth/login",
+			"time": 189,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"HTTP 400": true,
+				"Message đúng": true,
+				"Không trả JWT": true
+			},
+			"testPassFailCounts": {
+				"HTTP 400": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Message đúng": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Không trả JWT": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				189
+			],
+			"allTests": [
+				{
+					"HTTP 400": true,
+					"Message đúng": true,
+					"Không trả JWT": true
+				}
+			]
+		},
+		{
+			"id": "d3ff4fcd-a4da-4bc1-b68a-755f30a0b2af",
+			"name": "JWT-AUTH-03 — Account không tồn tại",
+			"url": "http://localhost:3000/api/auth/login",
+			"time": 10,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"HTTP 404": true,
+				"Message đúng": true,
+				"Không trả JWT": true
+			},
+			"testPassFailCounts": {
+				"HTTP 404": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Message đúng": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Không trả JWT": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				10
+			],
+			"allTests": [
+				{
+					"HTTP 404": true,
+					"Message đúng": true,
+					"Không trả JWT": true
+				}
+			]
+		},
+		{
+			"id": "ee236535-0435-4b30-afa7-3d75192af9ff",
+			"name": "JWT-AUTH-04 - Thiếu thông tin",
+			"url": "http://localhost:3000/api/auth/login",
+			"time": 6,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"HTTP 400": true,
+				"Message đúng": true,
+				"Không trả JWT": true
+			},
+			"testPassFailCounts": {
+				"HTTP 400": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Message đúng": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Không trả JWT": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				6
+			],
+			"allTests": [
+				{
+					"HTTP 400": true,
+					"Message đúng": true,
+					"Không trả JWT": true
+				}
+			]
+		},
+		{
+			"id": "10027aae-2564-4f8a-8c96-2400578d2272",
+			"name": "JWT-TOKEN-01 - JWT hợp lệ",
+			"url": "http://localhost:3000/api/users/profile",
+			"time": 39,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"HTTP 200": true,
+				"JWT hợp lệ - trả về profile user": true
+			},
+			"testPassFailCounts": {
+				"HTTP 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"JWT hợp lệ - trả về profile user": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				39
+			],
+			"allTests": [
+				{
+					"HTTP 200": true,
+					"JWT hợp lệ - trả về profile user": true
+				}
+			]
+		},
+		{
+			"id": "e06188ba-b44a-4a15-940f-31c4256dc502",
+			"name": "JWT-TOKEN-02 — Không có JWT",
+			"url": "http://localhost:3000/api/users/profile",
+			"time": 8,
+			"responseCode": {
+				"code": 401,
+				"name": "Unauthorized"
+			},
+			"tests": {
+				"HTTP 401": true,
+				"Message đúng": true
+			},
+			"testPassFailCounts": {
+				"HTTP 401": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Message đúng": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				8
+			],
+			"allTests": [
+				{
+					"HTTP 401": true,
+					"Message đúng": true
+				}
+			]
+		},
+		{
+			"id": "065b1324-c420-4c83-be57-99d4cb6b80d2",
+			"name": "JWT-TOKEN-03 — JWT giả",
+			"url": "http://localhost:3000/api/users/profile",
+			"time": 4,
+			"responseCode": {
+				"code": 401,
+				"name": "Unauthorized"
+			},
+			"tests": {
+				"HTTP 401": true,
+				"Message đúng": true
+			},
+			"testPassFailCounts": {
+				"HTTP 401": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Message đúng": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				4
+			],
+			"allTests": [
+				{
+					"HTTP 401": true,
+					"Message đúng": true
+				}
+			]
+		},
+		{
+			"id": "82d768c5-19f9-43aa-b799-e17ebdb66b43",
+			"name": "JWT-TOKEN-04 — JWT bị sửa",
+			"url": "http://localhost:3000/api/users/profile",
+			"time": 5,
+			"responseCode": {
+				"code": 401,
+				"name": "Unauthorized"
+			},
+			"tests": {
+				"HTTP 401": true,
+				"Message đúng": true
+			},
+			"testPassFailCounts": {
+				"HTTP 401": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Message đúng": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				5
+			],
+			"allTests": [
+				{
+					"HTTP 401": true,
+					"Message đúng": true
+				}
+			]
+		},
+		{
+			"id": "6bbafcbd-11ba-47c1-a145-365bf3e2ebee",
+			"name": "JWT-TOKEN-05 — Authorization sai format",
+			"url": "http://localhost:3000/api/users/profile",
+			"time": 6,
+			"responseCode": {
+				"code": 401,
+				"name": "Unauthorized"
+			},
+			"tests": {
+				"HTTP 401": true,
+				"Message đúng": true
+			},
+			"testPassFailCounts": {
+				"HTTP 401": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Message đúng": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				6
+			],
+			"allTests": [
+				{
+					"HTTP 401": true,
+					"Message đúng": true
+				}
+			]
+		},
+		{
+			"id": "a4eaf433-a7a5-4b68-bcdb-ad232e8dfd03",
+			"name": "JWT-TOKEN-06 – Bearer token rỗng.",
+			"url": "http://localhost:3000/api/users/profile",
+			"time": 5,
+			"responseCode": {
+				"code": 401,
+				"name": "Unauthorized"
+			},
+			"tests": {
+				"HTTP 401": true,
+				"Message đúng": true
+			},
+			"testPassFailCounts": {
+				"HTTP 401": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Message đúng": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				5
+			],
+			"allTests": [
+				{
+					"HTTP 401": true,
+					"Message đúng": true
+				}
+			]
+		},
+		{
+			"id": "ca73897a-107f-4e81-a355-f87d66034a70",
+			"name": "JWT-TOKEN-07 – JWT hết hạn",
+			"url": "http://localhost:3000/api/users/profile",
+			"time": 4,
+			"responseCode": {
+				"code": 401,
+				"name": "Unauthorized"
+			},
+			"tests": {
+				"HTTP 401": true,
+				"Message đúng": true
+			},
+			"testPassFailCounts": {
+				"HTTP 401": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Message đúng": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				4
+			],
+			"allTests": [
+				{
+					"HTTP 401": true,
+					"Message đúng": true
+				}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 1014,
+	"collection": {
+		"requests": [
+			{
+				"id": "6d5f4191-b575-4843-b50c-fab554e999e8",
+				"method": "POST"
+			},
+			{
+				"id": "a7297dd0-a30f-49ed-9032-897c1ea442d3",
+				"method": "POST"
+			},
+			{
+				"id": "d3ff4fcd-a4da-4bc1-b68a-755f30a0b2af",
+				"method": "POST"
+			},
+			{
+				"id": "ee236535-0435-4b30-afa7-3d75192af9ff",
+				"method": "POST"
+			},
+			{
+				"id": "10027aae-2564-4f8a-8c96-2400578d2272",
+				"method": "GET"
+			},
+			{
+				"id": "e06188ba-b44a-4a15-940f-31c4256dc502",
+				"method": "GET"
+			},
+			{
+				"id": "065b1324-c420-4c83-be57-99d4cb6b80d2",
+				"method": "GET"
+			},
+			{
+				"id": "82d768c5-19f9-43aa-b799-e17ebdb66b43",
+				"method": "GET"
+			},
+			{
+				"id": "6bbafcbd-11ba-47c1-a145-365bf3e2ebee",
+				"method": "GET"
+			},
+			{
+				"id": "a4eaf433-a7a5-4b68-bcdb-ad232e8dfd03",
+				"method": "GET"
+			},
+			{
+				"id": "ca73897a-107f-4e81-a355-f87d66034a70",
+				"method": "GET"
+			}
+		]
+	}
+}

@@ -1,0 +1,1144 @@
+/*==================================================
+                    SETTING PAGE
+==================================================*/
+
+.setting-page {
+
+    min-height:100vh;
+
+    padding-top:80px;
+
+}
+
+
+/*==================================================
+                    HERO
+==================================================*/
+
+.setting-hero {
+
+    padding:90px 8% 45px;
+
+}
+
+
+.setting-hero .section-title {
+
+    margin-bottom:0;
+
+}
+
+
+.setting-hero h1 {
+
+    color:#ffffff;
+
+}
+
+
+/*==================================================
+                    SETTINGS SECTION
+==================================================*/
+
+.settings-section {
+
+    padding:20px 8% 100px;
+
+}
+
+
+/*==================================================
+                    SETTINGS CARD
+==================================================*/
+
+.settings-card {
+
+    width:min(850px,100%);
+
+    margin:auto;
+
+    background:#18181b;
+
+    border:1px solid rgba(255,255,255,.07);
+
+    border-radius:24px;
+
+    overflow:hidden;
+
+    box-shadow:
+        0 20px 50px rgba(0,0,0,.35);
+
+}
+
+
+/*==================================================
+                    SETTING ITEM
+==================================================*/
+
+.setting-item {
+
+    display:flex;
+
+    align-items:center;
+
+    gap:18px;
+
+    padding:23px 28px;
+
+    border-bottom:
+        1px solid rgba(255,255,255,.07);
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+
+.setting-item:last-child {
+
+    border-bottom:none;
+
+}
+
+
+.setting-item:hover {
+
+    background:#222225;
+
+}
+
+
+/*==================================================
+                    ICON
+==================================================*/
+
+.setting-icon {
+
+    width:50px;
+
+    height:50px;
+
+    flex-shrink:0;
+
+    border-radius:15px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    background:
+        rgba(214,40,40,.10);
+
+    color:#d62828;
+
+    font-size:20px;
+
+    transition:.25s;
+
+}
+
+
+.setting-item:hover .setting-icon {
+
+    background:#d62828;
+
+    color:#ffffff;
+
+}
+
+
+/*==================================================
+                    CONTENT
+==================================================*/
+
+.setting-content {
+
+    flex:1;
+
+}
+
+
+.setting-content h3 {
+
+    color:#ffffff;
+
+    font-size:16px;
+
+    font-weight:600;
+
+    margin-bottom:5px;
+
+}
+
+
+.setting-content p {
+
+    color:#999;
+
+    font-size:13px;
+
+    line-height:1.6;
+
+}
+
+
+/*==================================================
+                    ARROW
+==================================================*/
+
+.setting-arrow {
+
+    color:#666;
+
+    font-size:14px;
+
+    transition:.25s;
+
+}
+
+
+.setting-item:hover .setting-arrow {
+
+    color:#d62828;
+
+    transform:translateX(5px);
+
+}
+
+
+/*==================================================
+                    CONTENT AREA
+==================================================*/
+
+.setting-content-area {
+
+    width:min(850px,100%);
+
+    margin:25px auto 0;
+
+}
+
+
+.setting-panel {
+
+    background:#18181b;
+
+    border:1px solid rgba(255,255,255,.07);
+
+    border-radius:22px;
+
+    padding:28px;
+
+    box-shadow:
+        0 18px 45px rgba(0,0,0,.3);
+
+    animation:settingFade .3s ease;
+
+}
+
+
+@keyframes settingFade {
+
+    from {
+
+        opacity:0;
+
+        transform:translateY(10px);
+
+    }
+
+    to {
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+
+/*==================================================
+                    PLACEHOLDER
+==================================================*/
+
+.setting-placeholder {
+
+    text-align:center;
+
+    padding:50px 20px;
+
+    color:#777;
+
+}
+
+
+.setting-placeholder i {
+
+    font-size:35px;
+
+    color:#d62828;
+
+    margin-bottom:15px;
+
+}
+
+
+.setting-placeholder h3 {
+
+    color:#ffffff;
+
+    margin-bottom:8px;
+
+}
+
+
+.setting-placeholder p {
+
+    color:#777;
+
+}
+
+
+/*==================================================
+                    PANEL TITLE
+==================================================*/
+
+.setting-panel-title {
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    margin-bottom:25px;
+
+}
+
+
+.setting-panel-title i {
+
+    color:#d62828;
+
+    font-size:20px;
+
+}
+
+
+.setting-panel-title h2 {
+
+    color:#ffffff;
+
+    font-size:22px;
+
+}
+
+
+/*==================================================
+                    INFO ROW
+==================================================*/
+
+.info-row {
+
+    display:flex;
+
+    justify-content:space-between;
+
+    gap:20px;
+
+    padding:15px 0;
+
+    border-bottom:
+        1px solid rgba(255,255,255,.07);
+
+}
+
+
+.info-row:last-child {
+
+    border-bottom:none;
+
+}
+
+
+.info-label {
+
+    color:#888;
+
+}
+
+
+.info-value {
+
+    color:#ffffff;
+
+    font-weight:500;
+
+    text-align:right;
+
+}
+
+
+/*==================================================
+                    HISTORY ITEM
+==================================================*/
+
+.history-item {
+
+    background:#222225;
+
+    border:1px solid rgba(255,255,255,.06);
+
+    border-radius:15px;
+
+    padding:18px;
+
+    margin-bottom:12px;
+
+}
+
+
+.history-item:last-child {
+
+    margin-bottom:0;
+
+}
+
+
+.history-top {
+
+    display:flex;
+
+    justify-content:space-between;
+
+    gap:15px;
+
+    margin-bottom:10px;
+
+}
+
+
+.history-title {
+
+    color:#ffffff;
+
+    font-weight:600;
+
+}
+
+
+.history-date {
+
+    color:#888;
+
+    font-size:12px;
+
+}
+
+
+.history-info {
+
+    color:#aaa;
+
+    font-size:13px;
+
+    line-height:1.7;
+
+}
+
+
+.history-price {
+
+    color:#ff595e;
+
+    font-weight:700;
+
+    margin-top:8px;
+
+}
+
+
+/*==================================================
+                    REVIEW
+==================================================*/
+
+.review-stars {
+
+    color:#f4b400;
+
+    font-size:18px;
+
+    letter-spacing:2px;
+
+    margin-bottom:8px;
+
+}
+
+
+.review-comment {
+
+    color:#bbb;
+
+    line-height:1.7;
+
+}
+
+
+/*==================================================
+                    FORM
+==================================================*/
+
+.setting-form {
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:18px;
+
+}
+
+
+.setting-form label {
+
+    color:#ffffff;
+
+    font-size:14px;
+
+    font-weight:500;
+
+}
+
+
+.setting-form input {
+
+    width:100%;
+
+    padding:14px 16px;
+
+    margin-top:7px;
+
+    border-radius:12px;
+
+    border:1px solid #34343a;
+
+    background:#222225;
+
+    color:#ffffff;
+
+    outline:none;
+
+}
+
+
+.setting-form input:focus {
+
+    border-color:#d62828;
+
+    box-shadow:
+        0 0 0 3px rgba(214,40,40,.1);
+
+}
+
+
+.setting-form button {
+
+    margin-top:5px;
+
+}
+
+
+/*==================================================
+                    DANGER
+==================================================*/
+
+.setting-danger {
+
+    background:
+        rgba(214,40,40,.02);
+
+}
+
+
+.setting-danger .setting-icon {
+
+    color:#ff595e;
+
+    background:
+        rgba(214,40,40,.12);
+
+}
+
+
+.setting-danger h3 {
+
+    color:#ff595e;
+
+}
+
+
+.setting-danger:hover {
+
+    background:
+        rgba(214,40,40,.08);
+
+}
+
+
+/*==================================================
+                    LOADING
+==================================================*/
+
+.setting-loading {
+
+    text-align:center;
+
+    padding:30px;
+
+    color:#888;
+
+}
+
+
+.setting-loading i {
+
+    color:#d62828;
+
+    margin-right:8px;
+
+}
+
+
+/*==================================================
+                    EMPTY
+==================================================*/
+
+.setting-empty {
+
+    text-align:center;
+
+    padding:35px 20px;
+
+    color:#777;
+
+}
+
+
+.setting-empty i {
+
+    display:block;
+
+    font-size:30px;
+
+    color:#555;
+
+    margin-bottom:12px;
+
+}
+
+
+/*==================================================
+                MY REVIEWS - SETTING
+==================================================*/
+
+.my-reviews-list {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+
+/*================ REVIEW CARD =================*/
+
+.my-review-card {
+
+    background: #18181b;
+
+    border: 1px solid rgba(255,255,255,.08);
+
+    border-radius: 18px;
+
+    padding: 22px;
+
+    transition: .25s;
+
+    box-shadow: 0 10px 25px rgba(0,0,0,.18);
+
+}
+
+
+.my-review-card:hover {
+
+    border-color: rgba(214,40,40,.45);
+
+    transform: translateY(-3px);
+
+    box-shadow: 0 15px 30px rgba(0,0,0,.25);
+
+}
+
+
+/*================ REVIEW HEADER =================*/
+
+.my-review-header {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: flex-start;
+
+    gap: 20px;
+
+}
+
+
+.my-review-header h3 {
+
+    color: #ffffff;
+
+    font-size: 18px;
+
+    font-weight: 600;
+
+    margin: 0 0 8px;
+
+}
+
+
+/*================ STARS =================*/
+
+.my-review-stars {
+
+    color: #ffb703;
+
+    font-size: 20px;
+
+    letter-spacing: 2px;
+
+    line-height: 1;
+
+}
+
+
+/*================ RATING =================*/
+
+.review-rating {
+
+    color: var(--accent);
+
+    font-size: 16px;
+
+    font-weight: 700;
+
+    white-space: nowrap;
+
+}
+
+
+/*================ CONTENT =================*/
+
+.my-review-content {
+
+    color: #d0d0d0;
+
+    font-size: 15px;
+
+    line-height: 1.8;
+
+    margin: 18px 0 12px;
+
+}
+
+
+/*================ DATE =================*/
+
+.my-review-card small {
+
+    display: block;
+
+    color: #888;
+
+    font-size: 13px;
+
+}
+
+
+/*==================================================
+                EMPTY REVIEW
+==================================================*/
+
+.setting-empty {
+
+    text-align: center;
+
+    padding: 50px 20px;
+
+    color: var(--muted);
+
+}
+
+
+.setting-empty i {
+
+    display: block;
+
+    font-size: 42px;
+
+    color: var(--accent);
+
+    margin-bottom: 18px;
+
+}
+
+
+.setting-empty h3 {
+
+    color: #ffffff;
+
+    font-size: 20px;
+
+    margin-bottom: 8px;
+
+}
+
+
+.setting-empty p {
+
+    color: #999;
+
+    line-height: 1.7;
+
+}
+
+
+/*==================================================
+                LOADING
+==================================================*/
+
+.setting-loading {
+
+    text-align: center;
+
+    padding: 40px 20px;
+
+    color: var(--muted);
+
+}
+
+
+.setting-loading i {
+
+    color: var(--accent);
+
+    margin-right: 8px;
+
+}
+
+
+/*==================================================
+                RESPONSIVE
+==================================================*/
+
+@media (max-width: 768px) {
+
+    .my-review-card {
+
+        padding: 18px;
+
+    }
+
+
+    .my-review-header {
+
+        flex-direction: column;
+
+        gap: 10px;
+
+    }
+
+
+    .review-rating {
+
+        font-size: 14px;
+
+    }
+
+
+    .my-review-stars {
+
+        font-size: 18px;
+
+    }
+
+}
+
+/*==================================================
+                    POINTS
+==================================================*/
+
+.points-detail{
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+}
+
+.points-detail-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.points-label{
+    color:var(--accent);
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:2px;
+}
+
+.points-detail-header h2{
+    margin:5px 0;
+    font-size:28px;
+}
+
+.points-detail-header p{
+    margin:0;
+    color:var(--muted);
+    font-size:13px;
+}
+
+.points-big-icon{
+    width:48px;
+    height:48px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:14px;
+    background:rgba(255,183,3,.12);
+    color:#ffb703;
+    font-size:20px;
+}
+
+
+/* TỔNG ĐIỂM */
+
+.points-main-card{
+    padding:25px;
+    border-radius:18px;
+    color:white;
+    background:linear-gradient(135deg,#d62828,#ff595e);
+    box-shadow:0 10px 25px rgba(214,40,40,.18);
+}
+
+.points-card-label{
+    font-size:10px;
+    letter-spacing:1.5px;
+    opacity:.85;
+}
+
+.points-number{
+    margin:8px 0;
+    font-size:45px;
+    font-weight:800;
+}
+
+.points-number small{
+    font-size:14px;
+    font-weight:500;
+}
+
+.points-main-card p{
+    margin:0;
+    font-size:12px;
+    opacity:.9;
+}
+
+
+/* HẠNG THÀNH VIÊN */
+
+.points-member-card{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:18px;
+    background:#1d1d20;
+    color:#fff;
+    border:1px solid rgba(255,255,255,.07);
+    border-radius:16px;
+    box-shadow:var(--shadow);
+}
+
+.points-member-icon{
+    width:42px;
+    height:42px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:12px;
+    background:rgba(255,183,3,.12);
+    color:#ffb703;
+}
+
+.points-member-info span{
+    color:#999;
+    font-size:9px;
+    letter-spacing:1px;
+}
+
+.points-member-info h3{
+    margin:3px 0 0;
+    color:#fff;
+    font-size:16px;
+}
+
+.member-badge{
+    padding:5px 9px;
+    border-radius:15px;
+    background:#29292d;
+    color:#ddd;
+    font-size:9px;
+    font-weight:700;
+}
+
+
+/* TIẾN TRÌNH */
+
+.points-progress-card,
+.points-history-card{
+    padding:20px;
+    background:#1d1d20;
+    color:#fff;
+    border:1px solid rgba(255,255,255,.07);
+    border-radius:16px;
+    box-shadow:var(--shadow);
+}
+
+.points-progress-title,
+.history-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.points-progress-title h3,
+.history-header h3{
+    margin:0;
+    color:#fff;
+    font-size:16px;
+}
+
+.points-progress-title p{
+    margin:4px 0 0;
+    color:#999;
+    font-size:11px;
+}
+
+.points-progress-title strong{
+    color:var(--accent);
+    font-size:13px;
+}
+
+.progress-bar{
+    height:8px;
+    margin-top:15px;
+    overflow:hidden;
+    border-radius:20px;
+    background:#303033;
+}
+
+.progress-fill{
+    height:100%;
+    border-radius:20px;
+    background:linear-gradient(90deg,#d62828,#ff595e);
+}
+
+.progress-footer{
+    display:flex;
+    justify-content:space-between;
+    margin-top:7px;
+    color:#999;
+    font-size:10px;
+}
+
+
+/* LỊCH SỬ */
+
+.history-header{
+    margin-bottom:4px;
+}
+
+.history-header span{
+    color:var(--muted);
+    font-size:11px;
+}
+
+.point-history-item{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:13px 0;
+    border-bottom:1px solid #eee;
+}
+
+.point-history-item:last-child{
+    border-bottom:none;
+}
+
+.history-left{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.history-icon{
+    width:36px;
+    height:36px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    background:rgba(214,40,40,.08);
+    color:var(--accent);
+    font-size:13px;
+}
+
+.history-left strong{
+    display:block;
+    font-size:13px;
+}
+
+.history-left small{
+    display:block;
+    margin-top:2px;
+    color:var(--muted);
+    font-size:10px;
+}
+
+.point-plus{
+    color:#2a9d8f;
+    font-size:14px;
+    font-weight:700;
+}
+
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+    .points-detail-header h2{
+        font-size:23px;
+    }
+
+    .points-number{
+        font-size:40px;
+    }
+
+    .points-progress-title{
+        align-items:flex-start;
+    }
+
+}

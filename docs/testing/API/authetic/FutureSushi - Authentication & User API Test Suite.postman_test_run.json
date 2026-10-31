@@ -1,0 +1,1206 @@
+{
+	"id": "1df2c6c7-7ec2-4e48-89db-1f2644c7d88f",
+	"name": "FutureSushi - Authentication & User API Test Suite",
+	"timestamp": "2026-08-18T04:53:35.666Z",
+	"collection_id": "57470364-46a28955-df74-469d-8eda-edf18edccb55",
+	"folder_id": 0,
+	"environment_id": "38502440-0a45a39d-e221-4828-959d-5da2db04b68d",
+	"totalPass": 39,
+	"delay": 0,
+	"persist": true,
+	"status": "finished",
+	"startedAt": "2026-08-18T04:53:30.336Z",
+	"totalFail": 0,
+	"results": [
+		{
+			"id": "bfcbcb61-c982-4dea-9c68-5173e1ad9bb9",
+			"name": "Auth - Login as Admin",
+			"url": "http://localhost:3000/api/auth/login",
+			"time": 224,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Login Admin successful (200 OK)": true
+			},
+			"testPassFailCounts": {
+				"Login Admin successful (200 OK)": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				224
+			],
+			"allTests": [
+				{
+					"Login Admin successful (200 OK)": true
+				}
+			]
+		},
+		{
+			"id": "4366d391-2bff-4ce4-9664-473513c953ef",
+			"name": "Auth - Login as Customer",
+			"url": "http://localhost:3000/api/auth/login",
+			"time": 9,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Login Customer successful (200 OK)": true
+			},
+			"testPassFailCounts": {
+				"Login Customer successful (200 OK)": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				9
+			],
+			"allTests": [
+				{
+					"Login Customer successful (200 OK)": true
+				}
+			]
+		},
+		{
+			"id": "ab6cc9b9-4011-405b-95a9-b881efa0d7d2",
+			"name": "Auth - Login as Staff",
+			"url": "http://localhost:3000/api/auth/login",
+			"time": 6,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Login Staff successful (200 OK)": true
+			},
+			"testPassFailCounts": {
+				"Login Staff successful (200 OK)": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				6
+			],
+			"allTests": [
+				{
+					"Login Staff successful (200 OK)": true
+				}
+			]
+		},
+		{
+			"id": "756708cf-dd18-4bb1-ac7a-aa2b8bf42ed8",
+			"name": "Auth - Login as Kitchen",
+			"url": "http://localhost:3000/api/auth/login",
+			"time": 6,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Login Kitchen successful (200 OK)": true
+			},
+			"testPassFailCounts": {
+				"Login Kitchen successful (200 OK)": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				6
+			],
+			"allTests": [
+				{
+					"Login Kitchen successful (200 OK)": true
+				}
+			]
+		},
+		{
+			"id": "c753c139-3748-4759-988f-79d515a051cf",
+			"name": "TC_API_AUTH_001 - Đăng ký tài khoản mới thành công với đầy đủ các trường hợp lệ",
+			"url": "http://localhost:3000/api/auth/register",
+			"time": 157,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"Status code is 201 Created": true,
+				"Response contains user registration info": true
+			},
+			"testPassFailCounts": {
+				"Status code is 201 Created": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response contains user registration info": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				157
+			],
+			"allTests": [
+				{
+					"Status code is 201 Created": true,
+					"Response contains user registration info": true
+				}
+			]
+		},
+		{
+			"id": "134ef437-0a76-4c8c-878f-8316feabba07",
+			"name": "TC_API_AUTH_002 - Đăng ký tài khoản thành công khi không có trường email (Trường tùy chọn)",
+			"url": "http://localhost:3000/api/auth/register",
+			"time": 116,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"Status code is 201 Created without email": true
+			},
+			"testPassFailCounts": {
+				"Status code is 201 Created without email": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				116
+			],
+			"allTests": [
+				{
+					"Status code is 201 Created without email": true
+				}
+			]
+		},
+		{
+			"id": "98623ec9-3f9a-4707-9363-f01682cb308c",
+			"name": "TC_API_AUTH_003 - Đăng ký tài khoản với họ tên chứa tiếng Việt có dấu và Emoji",
+			"url": "http://localhost:3000/api/auth/register",
+			"time": 91,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"Status code is 201 Created with Unicode and Emoji": true
+			},
+			"testPassFailCounts": {
+				"Status code is 201 Created with Unicode and Emoji": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				91
+			],
+			"allTests": [
+				{
+					"Status code is 201 Created with Unicode and Emoji": true
+				}
+			]
+		},
+		{
+			"id": "17023385-f89d-455d-8928-3c7304b96aa8",
+			"name": "TC_API_AUTH_004 - Đăng ký tài khoản với username đạt độ dài biên tối đa 40 ký tự (Boundary Max)",
+			"url": "http://localhost:3000/api/auth/register",
+			"time": 110,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"Status code is 201 Created with 40-char username": true
+			},
+			"testPassFailCounts": {
+				"Status code is 201 Created with 40-char username": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				110
+			],
+			"allTests": [
+				{
+					"Status code is 201 Created with 40-char username": true
+				}
+			]
+		},
+		{
+			"id": "dada2f04-ebe3-4f8b-85b6-e579cb41330c",
+			"name": "TC_API_AUTH_005 - Đăng ký tài khoản với số điện thoại định dạng chuẩn Việt Nam 10 chữ số",
+			"url": "http://localhost:3000/api/auth/register",
+			"time": 104,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"Status code is 201 Created with standard 10-digit phone": true
+			},
+			"testPassFailCounts": {
+				"Status code is 201 Created with standard 10-digit phone": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				104
+			],
+			"allTests": [
+				{
+					"Status code is 201 Created with standard 10-digit phone": true
+				}
+			]
+		},
+		{
+			"id": "a4807f3f-bf4a-4959-b091-11c3507538b8",
+			"name": "TC_API_AUTH_006 - Đăng ký tài khoản với mật khẩu phức tạp chứa nhiều ký tự đặc biệt",
+			"url": "http://localhost:3000/api/auth/register",
+			"time": 83,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"Status code is 201 Created with complex password": true
+			},
+			"testPassFailCounts": {
+				"Status code is 201 Created with complex password": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				83
+			],
+			"allTests": [
+				{
+					"Status code is 201 Created with complex password": true
+				}
+			]
+		},
+		{
+			"id": "ceeb0724-c4a9-404e-b255-e8ad43bf7687",
+			"name": "TC_API_AUTH_007 - Đăng ký thất bại khi thiếu hoàn toàn trường bắt buộc fullName",
+			"url": "http://localhost:3000/api/auth/register",
+			"time": 107,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"Status code is 400 Bad Request when fullName missing": true
+			},
+			"testPassFailCounts": {
+				"Status code is 400 Bad Request when fullName missing": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				107
+			],
+			"allTests": [
+				{
+					"Status code is 400 Bad Request when fullName missing": true
+				}
+			]
+		},
+		{
+			"id": "1f09d2d2-afdb-4605-8d6b-b4cf43783568",
+			"name": "TC_API_AUTH_008 - Đăng ký thất bại khi thiếu hoàn toàn trường bắt buộc phone",
+			"url": "http://localhost:3000/api/auth/register",
+			"time": 3,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"Status code is 400 Bad Request when phone missing": true
+			},
+			"testPassFailCounts": {
+				"Status code is 400 Bad Request when phone missing": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				3
+			],
+			"allTests": [
+				{
+					"Status code is 400 Bad Request when phone missing": true
+				}
+			]
+		},
+		{
+			"id": "7ebe9e42-7f11-435b-a3c9-f841419e7148",
+			"name": "TC_API_AUTH_009 - Đăng ký thất bại khi thiếu hoàn toàn trường bắt buộc username",
+			"url": "http://localhost:3000/api/auth/register",
+			"time": 4,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"Status code is 400 Bad Request when username missing": true
+			},
+			"testPassFailCounts": {
+				"Status code is 400 Bad Request when username missing": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				4
+			],
+			"allTests": [
+				{
+					"Status code is 400 Bad Request when username missing": true
+				}
+			]
+		},
+		{
+			"id": "9b84705b-5169-4c7b-813b-b7abcbdbca8e",
+			"name": "TC_API_AUTH_010 - Đăng ký thất bại khi thiếu hoàn toàn trường bắt buộc password",
+			"url": "http://localhost:3000/api/auth/register",
+			"time": 5,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"Status code is 400 Bad Request when password missing": true
+			},
+			"testPassFailCounts": {
+				"Status code is 400 Bad Request when password missing": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				5
+			],
+			"allTests": [
+				{
+					"Status code is 400 Bad Request when password missing": true
+				}
+			]
+		},
+		{
+			"id": "068634fa-dc90-4937-adab-fcd25ca7d326",
+			"name": "TC_API_AUTH_011 - Đăng ký thất bại khi gửi Request Body rỗng {}",
+			"url": "http://localhost:3000/api/auth/register",
+			"time": 3,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"Status code is 400 Bad Request for empty body": true
+			},
+			"testPassFailCounts": {
+				"Status code is 400 Bad Request for empty body": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				3
+			],
+			"allTests": [
+				{
+					"Status code is 400 Bad Request for empty body": true
+				}
+			]
+		},
+		{
+			"id": "0160fd81-7ae6-4a55-a9e4-01b4a55bd560",
+			"name": "TC_API_AUTH_012 - Đăng ký thất bại khi username đã tồn tại trong hệ thống (Duplicate Username)",
+			"url": "http://localhost:3000/api/auth/register",
+			"time": 4,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"Status code is 400 Bad Request on duplicate username": true
+			},
+			"testPassFailCounts": {
+				"Status code is 400 Bad Request on duplicate username": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				4
+			],
+			"allTests": [
+				{
+					"Status code is 400 Bad Request on duplicate username": true
+				}
+			]
+		},
+		{
+			"id": "587284ff-8288-40b2-97e0-554f71c2a55c",
+			"name": "TC_API_AUTH_013 - Đăng ký thất bại khi số điện thoại đã được đăng ký (Duplicate Phone)",
+			"url": "http://localhost:3000/api/auth/register",
+			"time": 5,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"Status code is 400 Bad Request on duplicate phone": true
+			},
+			"testPassFailCounts": {
+				"Status code is 400 Bad Request on duplicate phone": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				5
+			],
+			"allTests": [
+				{
+					"Status code is 400 Bad Request on duplicate phone": true
+				}
+			]
+		},
+		{
+			"id": "310dea51-c4b5-48c7-82c2-e0be6e2af521",
+			"name": "TC_API_AUTH_014 - Đăng ký thất bại khi email đã tồn tại trong hệ thống (Duplicate Email)",
+			"url": "http://localhost:3000/api/auth/register",
+			"time": 105,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"Status code is 400 Bad Request on duplicate email": true
+			},
+			"testPassFailCounts": {
+				"Status code is 400 Bad Request on duplicate email": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				105
+			],
+			"allTests": [
+				{
+					"Status code is 400 Bad Request on duplicate email": true
+				}
+			]
+		},
+		{
+			"id": "92533326-0630-48b1-9806-c8ce85643762",
+			"name": "TC_API_AUTH_015 - Đăng ký thất bại khi username vượt quá 40 ký tự (Boundary 41 chars)",
+			"url": "http://localhost:3000/api/auth/register",
+			"time": 103,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"Rejected when username > 40 chars": true
+			},
+			"testPassFailCounts": {
+				"Rejected when username > 40 chars": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				103
+			],
+			"allTests": [
+				{
+					"Rejected when username > 40 chars": true
+				}
+			]
+		},
+		{
+			"id": "4c94b7e7-5bbf-44a5-aef4-d44e0f37ef3d",
+			"name": "TC_API_AUTH_016 - Kiểm tra chống leo thang đặc quyền Mass Assignment (role: ADMIN, points: 9999)",
+			"url": "http://localhost:3000/api/auth/register",
+			"time": 97,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"Status code is 201 Created and role is not escalated": true
+			},
+			"testPassFailCounts": {
+				"Status code is 201 Created and role is not escalated": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				97
+			],
+			"allTests": [
+				{
+					"Status code is 201 Created and role is not escalated": true
+				}
+			]
+		},
+		{
+			"id": "dbf365a7-33d6-4e07-a1d5-ad62e188eff6",
+			"name": "TC_API_AUTH_017 - Kiểm tra bảo mật chống SQL Injection trong Payload đăng ký",
+			"url": "http://localhost:3000/api/auth/register",
+			"time": 105,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"SQL Injection handled safely": true
+			},
+			"testPassFailCounts": {
+				"SQL Injection handled safely": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				105
+			],
+			"allTests": [
+				{
+					"SQL Injection handled safely": true
+				}
+			]
+		},
+		{
+			"id": "df76b516-4a68-411c-a591-1df5dfcd7f75",
+			"name": "TC_API_AUTH_018 - Kiểm tra lưu trữ an toàn khi truyền XSS Payload vào trường fullName",
+			"url": "http://localhost:3000/api/auth/register",
+			"time": 95,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"XSS Payload stored safely without corrupting JSON": true
+			},
+			"testPassFailCounts": {
+				"XSS Payload stored safely without corrupting JSON": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				95
+			],
+			"allTests": [
+				{
+					"XSS Payload stored safely without corrupting JSON": true
+				}
+			]
+		},
+		{
+			"id": "36f6da5a-e9e0-4132-abc0-4da9bd4ff7bd",
+			"name": "TC_API_AUTH_019 - Đăng nhập thành công bằng tài khoản Quản trị viên (Admin Login)",
+			"url": "http://localhost:3000/api/auth/login",
+			"time": 95,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Admin login successful (200 OK)": true
+			},
+			"testPassFailCounts": {
+				"Admin login successful (200 OK)": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				95
+			],
+			"allTests": [
+				{
+					"Admin login successful (200 OK)": true
+				}
+			]
+		},
+		{
+			"id": "8fcfa2e5-8c04-4501-aef8-0cff2a286fd2",
+			"name": "TC_API_AUTH_020 - Đăng nhập thành công bằng Username tài khoản Khách hàng (Customer Login)",
+			"url": "http://localhost:3000/api/auth/login",
+			"time": 5,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Customer login by username successful (200 OK)": true
+			},
+			"testPassFailCounts": {
+				"Customer login by username successful (200 OK)": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				5
+			],
+			"allTests": [
+				{
+					"Customer login by username successful (200 OK)": true
+				}
+			]
+		},
+		{
+			"id": "34b5b15b-a3c9-4326-803d-710a5ab66333",
+			"name": "TC_API_AUTH_021 - Đăng nhập thành công bằng Số điện thoại (Phone Login)",
+			"url": "http://localhost:3000/api/auth/login",
+			"time": 98,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Login by Phone successful (200 OK)": true
+			},
+			"testPassFailCounts": {
+				"Login by Phone successful (200 OK)": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				98
+			],
+			"allTests": [
+				{
+					"Login by Phone successful (200 OK)": true
+				}
+			]
+		},
+		{
+			"id": "aef31885-03e5-49b6-aa71-4ba1fdfd1fa0",
+			"name": "TC_API_AUTH_022 - Đăng nhập thành công bằng địa chỉ Email (Email Login)",
+			"url": "http://localhost:3000/api/auth/login",
+			"time": 101,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Login by Email successful (200 OK)": true
+			},
+			"testPassFailCounts": {
+				"Login by Email successful (200 OK)": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				101
+			],
+			"allTests": [
+				{
+					"Login by Email successful (200 OK)": true
+				}
+			]
+		},
+		{
+			"id": "fff02f50-701c-4977-aadc-c67e58e51a45",
+			"name": "TC_API_AUTH_023 - Kiểm tra tính toàn vẹn và bảo mật của Response sau khi Đăng nhập thành công",
+			"url": "http://localhost:3000/api/auth/login",
+			"time": 101,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Login response contains expected properties and no password leak": true
+			},
+			"testPassFailCounts": {
+				"Login response contains expected properties and no password leak": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				101
+			],
+			"allTests": [
+				{
+					"Login response contains expected properties and no password leak": true
+				}
+			]
+		},
+		{
+			"id": "2ae0d2ac-76a9-4f23-ad3a-0a916e27a33c",
+			"name": "TC_API_AUTH_024 - Đăng nhập thất bại khi thiếu trường account trong Request Body",
+			"url": "http://localhost:3000/api/auth/login",
+			"time": 3,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"Status code is 400 Bad Request when account missing": true
+			},
+			"testPassFailCounts": {
+				"Status code is 400 Bad Request when account missing": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				3
+			],
+			"allTests": [
+				{
+					"Status code is 400 Bad Request when account missing": true
+				}
+			]
+		},
+		{
+			"id": "ad379492-1742-4612-b261-9a087445be2a",
+			"name": "TC_API_AUTH_025 - Đăng nhập thất bại khi thiếu trường password trong Request Body",
+			"url": "http://localhost:3000/api/auth/login",
+			"time": 3,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"Status code is 400 Bad Request when password missing": true
+			},
+			"testPassFailCounts": {
+				"Status code is 400 Bad Request when password missing": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				3
+			],
+			"allTests": [
+				{
+					"Status code is 400 Bad Request when password missing": true
+				}
+			]
+		},
+		{
+			"id": "a76f389e-ea8b-441b-8010-738020cb01fc",
+			"name": "TC_API_AUTH_026 - Đăng nhập thất bại khi Request Body rỗng {}",
+			"url": "http://localhost:3000/api/auth/login",
+			"time": 2,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"Status code is 400 Bad Request on empty login body": true
+			},
+			"testPassFailCounts": {
+				"Status code is 400 Bad Request on empty login body": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				2
+			],
+			"allTests": [
+				{
+					"Status code is 400 Bad Request on empty login body": true
+				}
+			]
+		},
+		{
+			"id": "00efbf3f-91e8-4469-a4db-4f63ec53bb64",
+			"name": "TC_API_AUTH_027 - Đăng nhập thất bại khi account và password là chuỗi rỗng \"\"",
+			"url": "http://localhost:3000/api/auth/login",
+			"time": 3,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"Status code is 400 Bad Request on empty strings": true
+			},
+			"testPassFailCounts": {
+				"Status code is 400 Bad Request on empty strings": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				3
+			],
+			"allTests": [
+				{
+					"Status code is 400 Bad Request on empty strings": true
+				}
+			]
+		},
+		{
+			"id": "5a116003-2db5-455c-9a4c-0cad543c86ac",
+			"name": "TC_API_AUTH_028 - Đăng nhập thất bại khi tài khoản không tồn tại trong hệ thống",
+			"url": "http://localhost:3000/api/auth/login",
+			"time": 5,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"Status code is 404 Not Found for non-existent user": true
+			},
+			"testPassFailCounts": {
+				"Status code is 404 Not Found for non-existent user": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				5
+			],
+			"allTests": [
+				{
+					"Status code is 404 Not Found for non-existent user": true
+				}
+			]
+		},
+		{
+			"id": "6ee77700-8aa6-4f23-b7e2-a00cd8bcd196",
+			"name": "TC_API_AUTH_029 - Đăng nhập thất bại khi nhập sai mật khẩu (Wrong Password)",
+			"url": "http://localhost:3000/api/auth/login",
+			"time": 104,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"Status code is 400 Bad Request on wrong password": true
+			},
+			"testPassFailCounts": {
+				"Status code is 400 Bad Request on wrong password": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				104
+			],
+			"allTests": [
+				{
+					"Status code is 400 Bad Request on wrong password": true
+				}
+			]
+		},
+		{
+			"id": "2179469c-174f-4f09-98fd-b6f72246351e",
+			"name": "TC_API_AUTH_030 - Đăng nhập thất bại khi mật khẩu sai chữ hoa / chữ thường (Case Sensitivity)",
+			"url": "http://localhost:3000/api/auth/login",
+			"time": 89,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"Status code is 400 Bad Request on case/space sensitive password": true
+			},
+			"testPassFailCounts": {
+				"Status code is 400 Bad Request on case/space sensitive password": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				89
+			],
+			"allTests": [
+				{
+					"Status code is 400 Bad Request on case/space sensitive password": true
+				}
+			]
+		},
+		{
+			"id": "3b5683e0-d4f7-4ac2-a321-7de0d86c3141",
+			"name": "TC_API_AUTH_031 - Đăng nhập thất bại khi tài khoản ở trạng thái bị khóa (status: BLOCKED)",
+			"url": "http://localhost:3000/api/auth/login",
+			"time": 8,
+			"responseCode": {
+				"code": 403,
+				"name": "Forbidden"
+			},
+			"tests": {
+				"Status code is 403 Forbidden when account is blocked": true
+			},
+			"testPassFailCounts": {
+				"Status code is 403 Forbidden when account is blocked": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				8
+			],
+			"allTests": [
+				{
+					"Status code is 403 Forbidden when account is blocked": true
+				}
+			]
+		},
+		{
+			"id": "f736128f-df98-4556-9a2b-f211e59c8ad8",
+			"name": "TC_API_AUTH_032 - Kiểm tra bảo mật chống SQL Injection trong trường account",
+			"url": "http://localhost:3000/api/auth/login",
+			"time": 7,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"Status code is 404 Not Found on SQL Injection in account": true
+			},
+			"testPassFailCounts": {
+				"Status code is 404 Not Found on SQL Injection in account": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				7
+			],
+			"allTests": [
+				{
+					"Status code is 404 Not Found on SQL Injection in account": true
+				}
+			]
+		},
+		{
+			"id": "7d659bfc-2efa-40eb-83cf-fee315b1e92f",
+			"name": "TC_API_AUTH_033 - Kiểm tra bảo mật chống SQL Injection trong trường password",
+			"url": "http://localhost:3000/api/auth/login",
+			"time": 101,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"Status code is 400 Bad Request on SQL Injection in password": true
+			},
+			"testPassFailCounts": {
+				"Status code is 400 Bad Request on SQL Injection in password": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				101
+			],
+			"allTests": [
+				{
+					"Status code is 400 Bad Request on SQL Injection in password": true
+				}
+			]
+		},
+		{
+			"id": "e20c6122-b3ad-4e13-8b58-0367565f9b46",
+			"name": "TC_API_AUTH_034 - Kiểm tra xử lý an toàn XSS Payload trong trường account",
+			"url": "http://localhost:3000/api/auth/login",
+			"time": 5,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"Status code is 404 Not Found on XSS in account": true
+			},
+			"testPassFailCounts": {
+				"Status code is 404 Not Found on XSS in account": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				5
+			],
+			"allTests": [
+				{
+					"Status code is 404 Not Found on XSS in account": true
+				}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 2272,
+	"collection": {
+		"requests": [
+			{
+				"id": "bfcbcb61-c982-4dea-9c68-5173e1ad9bb9",
+				"method": "POST"
+			},
+			{
+				"id": "4366d391-2bff-4ce4-9664-473513c953ef",
+				"method": "POST"
+			},
+			{
+				"id": "ab6cc9b9-4011-405b-95a9-b881efa0d7d2",
+				"method": "POST"
+			},
+			{
+				"id": "756708cf-dd18-4bb1-ac7a-aa2b8bf42ed8",
+				"method": "POST"
+			},
+			{
+				"id": "c753c139-3748-4759-988f-79d515a051cf",
+				"method": "POST"
+			},
+			{
+				"id": "134ef437-0a76-4c8c-878f-8316feabba07",
+				"method": "POST"
+			},
+			{
+				"id": "98623ec9-3f9a-4707-9363-f01682cb308c",
+				"method": "POST"
+			},
+			{
+				"id": "17023385-f89d-455d-8928-3c7304b96aa8",
+				"method": "POST"
+			},
+			{
+				"id": "dada2f04-ebe3-4f8b-85b6-e579cb41330c",
+				"method": "POST"
+			},
+			{
+				"id": "a4807f3f-bf4a-4959-b091-11c3507538b8",
+				"method": "POST"
+			},
+			{
+				"id": "ceeb0724-c4a9-404e-b255-e8ad43bf7687",
+				"method": "POST"
+			},
+			{
+				"id": "1f09d2d2-afdb-4605-8d6b-b4cf43783568",
+				"method": "POST"
+			},
+			{
+				"id": "7ebe9e42-7f11-435b-a3c9-f841419e7148",
+				"method": "POST"
+			},
+			{
+				"id": "9b84705b-5169-4c7b-813b-b7abcbdbca8e",
+				"method": "POST"
+			},
+			{
+				"id": "068634fa-dc90-4937-adab-fcd25ca7d326",
+				"method": "POST"
+			},
+			{
+				"id": "0160fd81-7ae6-4a55-a9e4-01b4a55bd560",
+				"method": "POST"
+			},
+			{
+				"id": "587284ff-8288-40b2-97e0-554f71c2a55c",
+				"method": "POST"
+			},
+			{
+				"id": "310dea51-c4b5-48c7-82c2-e0be6e2af521",
+				"method": "POST"
+			},
+			{
+				"id": "92533326-0630-48b1-9806-c8ce85643762",
+				"method": "POST"
+			},
+			{
+				"id": "4c94b7e7-5bbf-44a5-aef4-d44e0f37ef3d",
+				"method": "POST"
+			},
+			{
+				"id": "dbf365a7-33d6-4e07-a1d5-ad62e188eff6",
+				"method": "POST"
+			},
+			{
+				"id": "df76b516-4a68-411c-a591-1df5dfcd7f75",
+				"method": "POST"
+			},
+			{
+				"id": "36f6da5a-e9e0-4132-abc0-4da9bd4ff7bd",
+				"method": "POST"
+			},
+			{
+				"id": "8fcfa2e5-8c04-4501-aef8-0cff2a286fd2",
+				"method": "POST"
+			},
+			{
+				"id": "34b5b15b-a3c9-4326-803d-710a5ab66333",
+				"method": "POST"
+			},
+			{
+				"id": "aef31885-03e5-49b6-aa71-4ba1fdfd1fa0",
+				"method": "POST"
+			},
+			{
+				"id": "fff02f50-701c-4977-aadc-c67e58e51a45",
+				"method": "POST"
+			},
+			{
+				"id": "2ae0d2ac-76a9-4f23-ad3a-0a916e27a33c",
+				"method": "POST"
+			},
+			{
+				"id": "ad379492-1742-4612-b261-9a087445be2a",
+				"method": "POST"
+			},
+			{
+				"id": "a76f389e-ea8b-441b-8010-738020cb01fc",
+				"method": "POST"
+			},
+			{
+				"id": "00efbf3f-91e8-4469-a4db-4f63ec53bb64",
+				"method": "POST"
+			},
+			{
+				"id": "5a116003-2db5-455c-9a4c-0cad543c86ac",
+				"method": "POST"
+			},
+			{
+				"id": "6ee77700-8aa6-4f23-b7e2-a00cd8bcd196",
+				"method": "POST"
+			},
+			{
+				"id": "2179469c-174f-4f09-98fd-b6f72246351e",
+				"method": "POST"
+			},
+			{
+				"id": "3b5683e0-d4f7-4ac2-a321-7de0d86c3141",
+				"method": "POST"
+			},
+			{
+				"id": "f736128f-df98-4556-9a2b-f211e59c8ad8",
+				"method": "POST"
+			},
+			{
+				"id": "7d659bfc-2efa-40eb-83cf-fee315b1e92f",
+				"method": "POST"
+			},
+			{
+				"id": "e20c6122-b3ad-4e13-8b58-0367565f9b46",
+				"method": "POST"
+			}
+		]
+	}
+}

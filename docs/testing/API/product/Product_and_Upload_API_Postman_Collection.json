@@ -1,0 +1,3056 @@
+{
+  "info": {
+    "_postman_id": "e4b2d1c9-7f3a-4e5b-9a1c-8d2e4f6a7b8c",
+    "name": "FutureSushi - Product & Upload API Test Suite",
+    "description": "Bộ Postman Collection kiểm thử tự động toàn diện cho Module CRUD Món ăn (/api/products) & Upload ảnh (/api/upload) theo chuẩn Formal Test Cases (SCRUM-10 / SCRUM-13).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000",
+      "type": "string"
+    },
+    {
+      "key": "admin_token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "customer_token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "staff_token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "kitchen_token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "createdProductId",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "key": "uploadedImageUrl",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "expired_token",
+      "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFETUlOIiwiaWF0IjoxNTE2MjM5MDIyLCJleHAiOjE1MTYyMzkwMjJ9.invalid",
+      "type": "string"
+    },
+    {
+      "key": "invalid_token",
+      "value": "invalid.token.signature.12345",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "00. Auth Setup (Get Tokens)",
+      "item": [
+        {
+          "name": "Auth - Login as Admin",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Login Admin successful (200 OK)\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('token');",
+                  "    pm.collectionVariables.set(\"admin_token\", jsonData.token);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"account\": \"admin\",\n  \"password\": \"123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Auth - Login as Customer",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Login Customer successful (200 OK)\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('token');",
+                  "    pm.collectionVariables.set(\"customer_token\", jsonData.token);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"account\": \"soicaca77\",\n  \"password\": \"123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Auth - Login as Staff",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Login Staff successful (200 OK)\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('token');",
+                  "    pm.collectionVariables.set(\"staff_token\", jsonData.token);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"account\": \"staff\",\n  \"password\": \"123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Auth - Login as Kitchen",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Login Kitchen successful (200 OK)\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('token');",
+                  "    pm.collectionVariables.set(\"kitchen_token\", jsonData.token);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"account\": \"kitchen\",\n  \"password\": \"123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "01. POST - Create Product",
+      "item": [
+        {
+          "name": "TC_API_PRD_001: Tạo món ăn mới thành công với đầy đủ các trường hợp lệ (name, description, price, image, stock, isAvailable, category_id)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC_API_PRD_001 - Status code is 201\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "    pm.expect(pm.response.responseTime).to.be.below(500);",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('id');",
+                  "    pm.expect(jsonData.name).to.eql('Sashimi Cá Hồi Na Uy Thượng Hạng');",
+                  "    pm.collectionVariables.set('createdProductId', jsonData.id.toString());",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"Sashimi Cá Hồi Na Uy Thượng Hạng\", \"description\": \"Cá hồi tươi nhập khẩu trực tiếp từ Na Uy\", \"price\": 189000, \"image\": \"https://example.com/salmon.jpg\", \"stock\": 50, \"isAvailable\": true, \"category_id\": 1}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/products",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products"
+              ]
+            },
+            "description": "**Test Case ID:** TC_API_PRD_001\n**Expected:** Status: 201 Created\nResponse trả về object Product có đầy đủ id, name, description, price, image, stock, isAvailable, category_id, created_at. Dữ liệu lưu đúng trong DB."
+          }
+        },
+        {
+          "name": "TC_API_PRD_002: Tạo món ăn thành công chỉ với các trường bắt buộc (name, price, category_id)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC_API_PRD_002 - Status code is 201\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "    pm.expect(pm.response.responseTime).to.be.below(500);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"Sushi Cá Ngừ Đại Dương\", \"price\": 120000, \"category_id\": 1}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/products",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products"
+              ]
+            },
+            "description": "**Test Case ID:** TC_API_PRD_002\n**Expected:** Status: 201 Created\nObject có id hợp lệ, stock mặc định là 0, isAvailable mặc định là true, description và image là null."
+          }
+        },
+        {
+          "name": "TC_API_PRD_003: Tạo món ăn với tên đạt độ dài biên tối đa 150 ký tự (STRING(150) Boundary Max)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC_API_PRD_003 - Status code is 201\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "    pm.expect(pm.response.responseTime).to.be.below(500);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"Món ăn đặc biệt phong cách Tokyo kết hợp hương vị ẩm thực truyền thống Nhật Bản và sốt cay hảo hạng thượng hạng tuyển chọn dành riêng cho đại tiệc số 12345\", \"price\": 250000, \"category_id\": 1}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/products",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products"
+              ]
+            },
+            "description": "**Test Case ID:** TC_API_PRD_003\n**Expected:** Status: 201 Created\nLưu trữ trọn vẹn 150 ký tự không bị cắt ngắn hoặc phát sinh lỗi."
+          }
+        },
+        {
+          "name": "TC_API_PRD_004: Tạo món ăn với Tên chứa tiếng Việt có dấu, ký tự đặc biệt & Emoji",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC_API_PRD_004 - Status code is 201\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "    pm.expect(pm.response.responseTime).to.be.below(500);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"🍣 Maki Cá Hồi & Bơ Sáp Nhật Bản (Combo #VIP - Cay Nồng! 🔥)\", \"price\": 165000, \"category_id\": 1}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/products",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products"
+              ]
+            },
+            "description": "**Test Case ID:** TC_API_PRD_004\n**Expected:** Status: 201 Created\nLưu đúng định dạng UTF-8, không bị lỗi font hay vỡ ký tự."
+          }
+        },
+        {
+          "name": "TC_API_PRD_005: Tạo món ăn với giá trị price số thập phân (DECIMAL(10,2))",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC_API_PRD_005 - Status code is 201\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "    pm.expect(pm.response.responseTime).to.be.below(500);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"Combo Sushi Thập Cẩm Đặc Biệt\", \"price\": 199999.50, \"category_id\": 1}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/products",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products"
+              ]
+            },
+            "description": "**Test Case ID:** TC_API_PRD_005\n**Expected:** Status: 201 Created\nGiá tiền lưu đúng định dạng thập phân 2 chữ số sau dấu chấm."
+          }
+        },
+        {
+          "name": "TC_API_PRD_006: Tạo món ăn gán URL hình ảnh từ API Upload nội bộ (/uploads/image-...)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC_API_PRD_006 - Status code is 201\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "    pm.expect(pm.response.responseTime).to.be.below(500);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"Tempura Tôm Giòn Rụm\", \"price\": 95000, \"image\": \"/uploads/image-1718000000000-123456789.jpg\", \"category_id\": 1}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/products",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products"
+              ]
+            },
+            "description": "**Test Case ID:** TC_API_PRD_006\n**Expected:** Status: 201 Created\nLưu đường dẫn ảnh nội bộ chính xác."
+          }
+        },
+        {
+          "name": "TC_API_PRD_007: Tạo món ăn thất bại khi thiếu hoàn toàn trường bắt buộc name trong Body",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC_API_PRD_007 - Status code is 400\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "    pm.expect(pm.response.responseTime).to.be.below(500);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"price\": 150000, \"category_id\": 1}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/products",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products"
+              ]
+            },
+            "description": "**Test Case ID:** TC_API_PRD_007\n**Expected:** Status: 400 Bad Request\nResponse chứa thông báo lỗi validation thiếu trường bắt buộc name."
+          }
+        },
+        {
+          "name": "TC_API_PRD_008: Tạo món ăn thất bại khi thiếu hoàn toàn trường bắt buộc price trong Body",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC_API_PRD_008 - Status code is 400\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "    pm.expect(pm.response.responseTime).to.be.below(500);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"Sushi Cá Ngừ\", \"category_id\": 1}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/products",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products"
+              ]
+            },
+            "description": "**Test Case ID:** TC_API_PRD_008\n**Expected:** Status: 400 Bad Request\nResponse chứa thông báo lỗi validation thiếu trường price."
+          }
+        },
+        {
+          "name": "TC_API_PRD_009: Tạo món ăn thất bại khi thiếu hoàn toàn trường bắt buộc category_id trong Body",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC_API_PRD_009 - Status code is 400\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "    pm.expect(pm.response.responseTime).to.be.below(500);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"Sushi Cá Ngừ\", \"price\": 120000}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/products",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products"
+              ]
+            },
+            "description": "**Test Case ID:** TC_API_PRD_009\n**Expected:** Status: 400 Bad Request\nResponse chứa thông báo lỗi validation thiếu category_id."
+          }
+        },
+        {
+          "name": "TC_API_PRD_010: Tạo món ăn thất bại khi trường name là chuỗi rỗng ''",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC_API_PRD_010 - Status code is 400\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "    pm.expect(pm.response.responseTime).to.be.below(500);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"\", \"price\": 120000, \"category_id\": 1}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/products",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products"
+              ]
+            },
+            "description": "**Test Case ID:** TC_API_PRD_010\n**Expected:** Status: 400 Bad Request\nBáo lỗi tên món ăn không được để trống."
+          }
+        },
+        {
+          "name": "TC_API_PRD_011: Tạo món ăn thất bại khi trường name vượt quá 150 ký tự (Boundary 151 chars)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC_API_PRD_011 - Status code is 400\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "    pm.expect(pm.response.responseTime).to.be.below(500);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\", \"price\": 100000, \"category_id\": 1}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/products",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products"
+              ]
+            },
+            "description": "**Test Case ID:** TC_API_PRD_011\n**Expected:** Status: 400 Bad Request (hoặc 500 Data too long)\nBáo lỗi độ dài vượt ngưỡng cho phép."
+          }
+        },
+        {
+          "name": "TC_API_PRD_012: Tạo món ăn thất bại khi price là số âm (price < 0)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC_API_PRD_012 - Status code is 400\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "    pm.expect(pm.response.responseTime).to.be.below(500);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"Món Ăn Giá Âm\", \"price\": -50000, \"category_id\": 1}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/products",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products"
+              ]
+            },
+            "description": "**Test Case ID:** TC_API_PRD_012\n**Expected:** Status: 400 Bad Request\nBáo lỗi giá tiền món ăn phải là số dương hợp lệ (> 0)."
+          }
+        },
+        {
+          "name": "TC_API_PRD_013: Tạo món ăn thất bại khi price là chuỗi không phải số",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC_API_PRD_013 - Status code is 400\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "    pm.expect(pm.response.responseTime).to.be.below(500);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"Món Sai Giá\", \"price\": \"mot-tram-nghin\", \"category_id\": 1}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/products",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products"
+              ]
+            },
+            "description": "**Test Case ID:** TC_API_PRD_013\n**Expected:** Status: 400 Bad Request\nBáo lỗi sai kiểu dữ liệu số thập phân."
+          }
+        },
+        {
+          "name": "TC_API_PRD_014: Tạo món ăn thất bại khi category_id không tồn tại trong Database (Khóa ngoại)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC_API_PRD_014 - Status code is 400\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "    pm.expect(pm.response.responseTime).to.be.below(500);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"Món Không Danh Mục\", \"price\": 100000, \"category_id\": 999999}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/products",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products"
+              ]
+            },
+            "description": "**Test Case ID:** TC_API_PRD_014\n**Expected:** Status: 400 Bad Request / 500 (Foreign Key Constraint Failed)\nBáo lỗi danh mục không tồn tại."
+          }
+        },
+        {
+          "name": "TC_API_PRD_015: Tạo món ăn thất bại khi không truyền Token (Khách vãng lai / Guest)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC_API_PRD_015 - Status code is 401\", function () {",
+                  "    pm.response.to.have.status(401);",
+                  "    pm.expect(pm.response.responseTime).to.be.below(500);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"Guest Dish\", \"price\": 50000, \"category_id\": 1}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/products",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products"
+              ]
+            },
+            "description": "**Test Case ID:** TC_API_PRD_015\n**Expected:** Status: 401 Unauthorized\nResponse: {\"message\": \"No token\"}."
+          }
+        },
+        {
+          "name": "TC_API_PRD_016: Tạo món ăn thất bại khi Token hết hạn hoặc sai chữ ký (Invalid Signature)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC_API_PRD_016 - Status code is 401\", function () {",
+                  "    pm.response.to.have.status(401);",
+                  "    pm.expect(pm.response.responseTime).to.be.below(500);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{invalid_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"Fake Dish\", \"price\": 50000, \"category_id\": 1}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/products",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products"
+              ]
+            },
+            "description": "**Test Case ID:** TC_API_PRD_016\n**Expected:** Status: 401 Unauthorized\nResponse: {\"message\": \"Invalid token\"}."
+          }
+        },
+        {
+          "name": "TC_API_PRD_017: Tạo món ăn thất bại khi người dùng có vai trò không phải ADMIN (CUSTOMER / STAFF / KITCHEN)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC_API_PRD_017 - Status code is 403\", function () {",
+                  "    pm.response.to.have.status(403);",
+                  "    pm.expect(pm.response.responseTime).to.be.below(500);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customer_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"Customer Dish\", \"price\": 50000, \"category_id\": 1}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/products",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products"
+              ]
+            },
+            "description": "**Test Case ID:** TC_API_PRD_017\n**Expected:** Status: 403 Forbidden\nResponse: {\"message\": \"Access denied. Admin only.\"}."
+          }
+        },
+        {
+          "name": "TC_API_PRD_018: Kiểm tra an toàn bảo mật SQL Injection & XSS Payload trong thông tin món ăn",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC_API_PRD_018 - Status code is 201\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "    pm.expect(pm.response.responseTime).to.be.below(500);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"Sushi Cá Ngừ'); DROP TABLE products;--\", \"description\": \"<script>alert('XSS_Product')</script>\", \"price\": 99000, \"category_id\": 1}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/products",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products"
+              ]
+            },
+            "description": "**Test Case ID:** TC_API_PRD_018\n**Expected:** Status: 201 Created\nDB an toàn nhờ Sequelize Prepared Statements, không thực thi mã độc SQL/XSS."
+          }
+        }
+      ]
+    },
+    {
+      "name": "02. GET - List & Search Products",
+      "item": [
+        {
+          "name": "TC_API_PRD_019: Lấy toàn bộ danh sách món ăn (Public Access)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC_API_PRD_019 - Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "    pm.expect(pm.response.responseTime).to.be.below(500);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": null,
+            "url": {
+              "raw": "{{baseUrl}}/api/products",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products"
+              ]
+            },
+            "description": "**Test Case ID:** TC_API_PRD_019\n**Expected:** Status: 200 OK\nTrả về mảng JSON danh sách tất cả các món ăn trong hệ thống."
+          }
+        },
+        {
+          "name": "TC_API_PRD_020: Lọc danh sách món ăn theo danh mục (?category_id=1)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC_API_PRD_020 - Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "    pm.expect(pm.response.responseTime).to.be.below(500);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": null,
+            "url": {
+              "raw": "{{baseUrl}}/api/products?category_id=1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products"
+              ]
+            },
+            "description": "**Test Case ID:** TC_API_PRD_020\n**Expected:** Status: 200 OK\n100% các món ăn trong danh sách có category_id = 1."
+          }
+        },
+        {
+          "name": "TC_API_PRD_021: Lọc theo category_id không tồn tại (?category_id=999999)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC_API_PRD_021 - Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "    pm.expect(pm.response.responseTime).to.be.below(500);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": null,
+            "url": {
+              "raw": "{{baseUrl}}/api/products?category_id=999999",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products"
+              ]
+            },
+            "description": "**Test Case ID:** TC_API_PRD_021\n**Expected:** Status: 200 OK\nTrả về mảng rỗng []."
+          }
+        },
+        {
+          "name": "TC_API_PRD_022: Tìm kiếm món ăn theo từ khóa (?search=Sushi)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC_API_PRD_022 - Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "    pm.expect(pm.response.responseTime).to.be.below(500);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": null,
+            "url": {
+              "raw": "{{baseUrl}}/api/products?search=Sushi",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products"
+              ]
+            },
+            "description": "**Test Case ID:** TC_API_PRD_022\n**Expected:** Status: 200 OK\nTrả về danh sách các món có tên chứa 'Sushi'."
+          }
+        },
+        {
+          "name": "TC_API_PRD_023: Tìm kiếm món ăn không phân biệt chữ hoa / chữ thường (?search=sushi)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC_API_PRD_023 - Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "    pm.expect(pm.response.responseTime).to.be.below(500);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": null,
+            "url": {
+              "raw": "{{baseUrl}}/api/products?search=sushi",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products"
+              ]
+            },
+            "description": "**Test Case ID:** TC_API_PRD_023\n**Expected:** Status: 200 OK\nKết quả tìm kiếm đồng nhất không phân biệt hoa thường."
+          }
+        },
+        {
+          "name": "TC_API_PRD_024: Kết hợp đồng thời bộ lọc danh mục và từ khóa tìm kiếm (?category_id=1&search=Sashimi)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC_API_PRD_024 - Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "    pm.expect(pm.response.responseTime).to.be.below(500);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": null,
+            "url": {
+              "raw": "{{baseUrl}}/api/products?category_id=1&search=Sashimi",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products"
+              ]
+            },
+            "description": "**Test Case ID:** TC_API_PRD_024\n**Expected:** Status: 200 OK\nChỉ trả về các món thuộc category 1 và tên chứa 'Sashimi'."
+          }
+        },
+        {
+          "name": "TC_API_PRD_025: Tìm kiếm với từ khóa không tồn tại (?search=MonAnKhongCoThucTe999)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC_API_PRD_025 - Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "    pm.expect(pm.response.responseTime).to.be.below(500);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": null,
+            "url": {
+              "raw": "{{baseUrl}}/api/products?search=MonAnKhongCoThucTe999",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products"
+              ]
+            },
+            "description": "**Test Case ID:** TC_API_PRD_025\n**Expected:** Status: 200 OK\nTrả về mảng rỗng []."
+          }
+        },
+        {
+          "name": "TC_API_PRD_026: Tìm kiếm với ký tự đặc biệt URL Encoded (?search=%25)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC_API_PRD_026 - Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "    pm.expect(pm.response.responseTime).to.be.below(500);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": null,
+            "url": {
+              "raw": "{{baseUrl}}/api/products?search=%25",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products"
+              ]
+            },
+            "description": "**Test Case ID:** TC_API_PRD_026\n**Expected:** Status: 200 OK\nServer xử lý an toàn không crash 500."
+          }
+        },
+        {
+          "name": "TC_API_PRD_027: Kiểm tra tính toàn vẹn Schema của danh sách Product trả về",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC_API_PRD_027 - Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "    pm.expect(pm.response.responseTime).to.be.below(500);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": null,
+            "url": {
+              "raw": "{{baseUrl}}/api/products",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products"
+              ]
+            },
+            "description": "**Test Case ID:** TC_API_PRD_027\n**Expected:** Status: 200 OK\nCấu trúc Schema đúng chuẩn, price là chuỗi/số hợp lệ, isAvailable kiểu boolean, stock kiểu integer."
+          }
+        }
+      ]
+    },
+    {
+      "name": "03. GET - Product Detail by ID",
+      "item": [
+        {
+          "name": "TC_API_PRD_028: Lấy chi tiết món ăn với ID hợp lệ (GET /api/products/{{createdProductId}})",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC_API_PRD_028 - Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "    pm.expect(pm.response.responseTime).to.be.below(500);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": null,
+            "url": {
+              "raw": "{{baseUrl}}/api/products/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                ":id"
+              ]
+            },
+            "description": "**Test Case ID:** TC_API_PRD_028\n**Expected:** Status: 200 OK\nTrả về đúng JSON object của món ăn có ID tương ứng."
+          }
+        },
+        {
+          "name": "TC_API_PRD_029: Lấy chi tiết món ăn với ID không tồn tại (GET /api/products/999999)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC_API_PRD_029 - Status code is 404\", function () {",
+                  "    pm.response.to.have.status(404);",
+                  "    pm.expect(pm.response.responseTime).to.be.below(500);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": null,
+            "url": {
+              "raw": "{{baseUrl}}/api/products/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                ":id"
+              ]
+            },
+            "description": "**Test Case ID:** TC_API_PRD_029\n**Expected:** Status: 404 Not Found\nResponse: {\"message\": \"Product not found\"}."
+          }
+        },
+        {
+          "name": "TC_API_PRD_030: Lấy chi tiết món ăn với ID là số nguyên âm (GET /api/products/-1)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC_API_PRD_030 - Status code is 404\", function () {",
+                  "    pm.response.to.have.status(404);",
+                  "    pm.expect(pm.response.responseTime).to.be.below(500);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": null,
+            "url": {
+              "raw": "{{baseUrl}}/api/products/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                ":id"
+              ]
+            },
+            "description": "**Test Case ID:** TC_API_PRD_030\n**Expected:** Status: 404 Not Found\nResponse: {\"message\": \"Product not found\"}."
+          }
+        },
+        {
+          "name": "TC_API_PRD_031: Lấy chi tiết món ăn với ID dạng chuỗi ký tự (GET /api/products/abc)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC_API_PRD_031 - Status code is 400\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "    pm.expect(pm.response.responseTime).to.be.below(500);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": null,
+            "url": {
+              "raw": "{{baseUrl}}/api/products/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                ":id"
+              ]
+            },
+            "description": "**Test Case ID:** TC_API_PRD_031\n**Expected:** Status: 404 Not Found / 400 Bad Request\nKhông crash 500."
+          }
+        },
+        {
+          "name": "TC_API_PRD_032: Lấy chi tiết món ăn với ID số siêu lớn vượt ngưỡng BIGINT (GET /api/products/9999999999999999999)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC_API_PRD_032 - Status code is 400\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "    pm.expect(pm.response.responseTime).to.be.below(500);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": null,
+            "url": {
+              "raw": "{{baseUrl}}/api/products/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                ":id"
+              ]
+            },
+            "description": "**Test Case ID:** TC_API_PRD_032\n**Expected:** Status: 404 Not Found / 400 Bad Request\nXử lý an toàn."
+          }
+        }
+      ]
+    },
+    {
+      "name": "04. PUT - Update Product",
+      "item": [
+        {
+          "name": "TC_API_PRD_033: Cập nhật đầy đủ tất cả thông tin món ăn thành công",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC_API_PRD_033 - Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "    pm.expect(pm.response.responseTime).to.be.below(500);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"Sashimi Cá Hồi Đặc Biệt (Cập Nhật)\", \"description\": \"Mô tả mới cập nhật tươi ngon\", \"price\": 210000, \"image\": \"https://example.com/new-salmon.jpg\", \"stock\": 80, \"isAvailable\": true, \"category_id\": 1}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/products/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                ":id"
+              ]
+            },
+            "description": "**Test Case ID:** TC_API_PRD_033\n**Expected:** Status: 200 OK\nResponse trả về object món ăn đã cập nhật với toàn bộ dữ liệu mới."
+          }
+        },
+        {
+          "name": "TC_API_PRD_034: Cập nhật chỉ riêng tên món ăn (name)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC_API_PRD_034 - Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "    pm.expect(pm.response.responseTime).to.be.below(500);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"Sashimi Cá Hồi VIP\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/products/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                ":id"
+              ]
+            },
+            "description": "**Test Case ID:** TC_API_PRD_034\n**Expected:** Status: 200 OK\nTên món đổi thành 'Sashimi Cá Hồi VIP', các thông tin khác không bị ảnh hưởng."
+          }
+        },
+        {
+          "name": "TC_API_PRD_035: Cập nhật chỉ riêng giá tiền (price)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC_API_PRD_035 - Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "    pm.expect(pm.response.responseTime).to.be.below(500);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"price\": 225000}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/products/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                ":id"
+              ]
+            },
+            "description": "**Test Case ID:** TC_API_PRD_035\n**Expected:** Status: 200 OK\nGiá tiền được cập nhật lên 225000."
+          }
+        },
+        {
+          "name": "TC_API_PRD_036: Cập nhật chuyển món ăn sang danh mục khác (category_id)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC_API_PRD_036 - Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "    pm.expect(pm.response.responseTime).to.be.below(500);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"category_id\": 2}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/products/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                ":id"
+              ]
+            },
+            "description": "**Test Case ID:** TC_API_PRD_036\n**Expected:** Status: 200 OK\ncategory_id chuyển sang 2 thành công."
+          }
+        },
+        {
+          "name": "TC_API_PRD_037: Cập nhật trạng thái tạm ngưng phục vụ (isAvailable: false)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC_API_PRD_037 - Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "    pm.expect(pm.response.responseTime).to.be.below(500);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"isAvailable\": false}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/products/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                ":id"
+              ]
+            },
+            "description": "**Test Case ID:** TC_API_PRD_037\n**Expected:** Status: 200 OK\nTrạng thái món chuyển thành isAvailable: false."
+          }
+        },
+        {
+          "name": "TC_API_PRD_038: Cập nhật gỡ bỏ hình ảnh món ăn (image: null)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC_API_PRD_038 - Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "    pm.expect(pm.response.responseTime).to.be.below(500);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"image\": null}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/products/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                ":id"
+              ]
+            },
+            "description": "**Test Case ID:** TC_API_PRD_038\n**Expected:** Status: 200 OK\nTrường image được gán về null thành công."
+          }
+        },
+        {
+          "name": "TC_API_PRD_039: Cập nhật số lượng tồn kho (stock: 120)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC_API_PRD_039 - Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "    pm.expect(pm.response.responseTime).to.be.below(500);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"stock\": 120}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/products/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                ":id"
+              ]
+            },
+            "description": "**Test Case ID:** TC_API_PRD_039\n**Expected:** Status: 200 OK\nSố lượng tồn kho cập nhật thành 120."
+          }
+        },
+        {
+          "name": "TC_API_PRD_040: Cập nhật món ăn thất bại khi tên là chuỗi rỗng ''",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC_API_PRD_040 - Status code is 400\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "    pm.expect(pm.response.responseTime).to.be.below(500);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/products/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                ":id"
+              ]
+            },
+            "description": "**Test Case ID:** TC_API_PRD_040\n**Expected:** Status: 400 Bad Request\nBáo lỗi tên không được để trống."
+          }
+        },
+        {
+          "name": "TC_API_PRD_041: Cập nhật món ăn thất bại khi giá là số âm (price: -30000)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC_API_PRD_041 - Status code is 400\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "    pm.expect(pm.response.responseTime).to.be.below(500);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"price\": -30000}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/products/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                ":id"
+              ]
+            },
+            "description": "**Test Case ID:** TC_API_PRD_041\n**Expected:** Status: 400 Bad Request\nBáo lỗi giá món ăn phải là số dương."
+          }
+        },
+        {
+          "name": "TC_API_PRD_042: Cập nhật món ăn thất bại khi category_id không tồn tại trong DB",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC_API_PRD_042 - Status code is 400\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "    pm.expect(pm.response.responseTime).to.be.below(500);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"category_id\": 999999}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/products/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                ":id"
+              ]
+            },
+            "description": "**Test Case ID:** TC_API_PRD_042\n**Expected:** Status: 400 Bad Request / 500\nBáo lỗi ràng buộc khóa ngoại."
+          }
+        },
+        {
+          "name": "TC_API_PRD_043: Cập nhật món ăn thất bại khi ID món không tồn tại (PUT /api/products/999999)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC_API_PRD_043 - Status code is 404\", function () {",
+                  "    pm.response.to.have.status(404);",
+                  "    pm.expect(pm.response.responseTime).to.be.below(500);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"Món Ảo\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/products/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                ":id"
+              ]
+            },
+            "description": "**Test Case ID:** TC_API_PRD_043\n**Expected:** Status: 404 Not Found\nResponse: {\"message\": \"Product not found\"}."
+          }
+        },
+        {
+          "name": "TC_API_PRD_044: Cập nhật món ăn thất bại khi không truyền Token (Guest)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC_API_PRD_044 - Status code is 401\", function () {",
+                  "    pm.response.to.have.status(401);",
+                  "    pm.expect(pm.response.responseTime).to.be.below(500);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"Guest Update\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/products/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                ":id"
+              ]
+            },
+            "description": "**Test Case ID:** TC_API_PRD_044\n**Expected:** Status: 401 Unauthorized\nResponse: {\"message\": \"No token\"}."
+          }
+        },
+        {
+          "name": "TC_API_PRD_045: Cập nhật món ăn thất bại khi người dùng có vai trò không phải ADMIN (CUSTOMER/STAFF/KITCHEN)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC_API_PRD_045 - Status code is 403\", function () {",
+                  "    pm.response.to.have.status(403);",
+                  "    pm.expect(pm.response.responseTime).to.be.below(500);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customer_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"Customer Update\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/products/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                ":id"
+              ]
+            },
+            "description": "**Test Case ID:** TC_API_PRD_045\n**Expected:** Status: 403 Forbidden\nResponse: {\"message\": \"Access denied. Admin only.\"}."
+          }
+        },
+        {
+          "name": "TC_API_PRD_046: Cập nhật món ăn thất bại khi name vượt quá 150 ký tự (151 chars)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC_API_PRD_046 - Status code is 400\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "    pm.expect(pm.response.responseTime).to.be.below(500);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/products/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                ":id"
+              ]
+            },
+            "description": "**Test Case ID:** TC_API_PRD_046\n**Expected:** Status: 400 Bad Request / 500\nBáo lỗi vượt quá giới hạn ký tự."
+          }
+        }
+      ]
+    },
+    {
+      "name": "05. DELETE - Delete Product",
+      "item": [
+        {
+          "name": "TC_API_PRD_047: Xóa món ăn hợp lệ không có ràng buộc đơn hàng hoặc giỏ hàng",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC_API_PRD_047 - Status code is 204\", function () {",
+                  "    pm.response.to.have.status(204);",
+                  "    pm.expect(pm.response.responseTime).to.be.below(500);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "body": null,
+            "url": {
+              "raw": "{{baseUrl}}/api/products/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                ":id"
+              ]
+            },
+            "description": "**Test Case ID:** TC_API_PRD_047\n**Expected:** Status: 204 No Content\nXóa thành công, response body rỗng."
+          }
+        },
+        {
+          "name": "TC_API_PRD_048: Ràng buộc khi xóa món ăn đang nằm trong đơn hàng (OrderItem) hoặc giỏ hàng (CartItem)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC_API_PRD_048 - Status code is 400\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "    pm.expect(pm.response.responseTime).to.be.below(500);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "body": null,
+            "url": {
+              "raw": "{{baseUrl}}/api/products/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                ":id"
+              ]
+            },
+            "description": "**Test Case ID:** TC_API_PRD_048\n**Expected:** Status: 400 Bad Request / 409 Conflict\nBáo lỗi nghiệp vụ: Món ăn đang có trong đơn hàng, không thể xóa."
+          }
+        },
+        {
+          "name": "TC_API_PRD_049: Xóa món ăn thất bại khi ID không tồn tại (DELETE /api/products/999999)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC_API_PRD_049 - Status code is 404\", function () {",
+                  "    pm.response.to.have.status(404);",
+                  "    pm.expect(pm.response.responseTime).to.be.below(500);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "body": null,
+            "url": {
+              "raw": "{{baseUrl}}/api/products/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                ":id"
+              ]
+            },
+            "description": "**Test Case ID:** TC_API_PRD_049\n**Expected:** Status: 404 Not Found\nResponse: {\"message\": \"Product not found\"}."
+          }
+        },
+        {
+          "name": "TC_API_PRD_050: Double Delete xóa lại món ăn đã bị xóa trước đó",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC_API_PRD_050 - Status code is 404\", function () {",
+                  "    pm.response.to.have.status(404);",
+                  "    pm.expect(pm.response.responseTime).to.be.below(500);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "body": null,
+            "url": {
+              "raw": "{{baseUrl}}/api/products/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                ":id"
+              ]
+            },
+            "description": "**Test Case ID:** TC_API_PRD_050\n**Expected:** Status: 404 Not Found\nResponse: {\"message\": \"Product not found\"}."
+          }
+        },
+        {
+          "name": "TC_API_PRD_051: Xóa món ăn thất bại khi không truyền Token (Guest)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC_API_PRD_051 - Status code is 401\", function () {",
+                  "    pm.response.to.have.status(401);",
+                  "    pm.expect(pm.response.responseTime).to.be.below(500);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": null,
+            "url": {
+              "raw": "{{baseUrl}}/api/products/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                ":id"
+              ]
+            },
+            "description": "**Test Case ID:** TC_API_PRD_051\n**Expected:** Status: 401 Unauthorized\nResponse: {\"message\": \"No token\"}."
+          }
+        },
+        {
+          "name": "TC_API_PRD_052: Xóa món ăn thất bại khi người dùng có vai trò CUSTOMER",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC_API_PRD_052 - Status code is 403\", function () {",
+                  "    pm.response.to.have.status(403);",
+                  "    pm.expect(pm.response.responseTime).to.be.below(500);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customer_token}}"
+              }
+            ],
+            "body": null,
+            "url": {
+              "raw": "{{baseUrl}}/api/products/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                ":id"
+              ]
+            },
+            "description": "**Test Case ID:** TC_API_PRD_052\n**Expected:** Status: 403 Forbidden\nResponse: {\"message\": \"Access denied. Admin only.\"}."
+          }
+        },
+        {
+          "name": "TC_API_PRD_053: Xóa món ăn thất bại khi người dùng có vai trò STAFF",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC_API_PRD_053 - Status code is 403\", function () {",
+                  "    pm.response.to.have.status(403);",
+                  "    pm.expect(pm.response.responseTime).to.be.below(500);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{staff_token}}"
+              }
+            ],
+            "body": null,
+            "url": {
+              "raw": "{{baseUrl}}/api/products/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                ":id"
+              ]
+            },
+            "description": "**Test Case ID:** TC_API_PRD_053\n**Expected:** Status: 403 Forbidden\nResponse: {\"message\": \"Access denied. Admin only.\"}."
+          }
+        },
+        {
+          "name": "TC_API_PRD_054: Xóa món ăn thất bại khi người dùng có vai trò KITCHEN",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC_API_PRD_054 - Status code is 403\", function () {",
+                  "    pm.response.to.have.status(403);",
+                  "    pm.expect(pm.response.responseTime).to.be.below(500);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{kitchen_token}}"
+              }
+            ],
+            "body": null,
+            "url": {
+              "raw": "{{baseUrl}}/api/products/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                ":id"
+              ]
+            },
+            "description": "**Test Case ID:** TC_API_PRD_054\n**Expected:** Status: 403 Forbidden\nResponse: {\"message\": \"Access denied. Admin only.\"}."
+          }
+        }
+      ]
+    },
+    {
+      "name": "06. POST - Upload Image",
+      "item": [
+        {
+          "name": "TC_API_UPL_001: Upload thành công file ảnh JPG/JPEG hợp lệ",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC_API_UPL_001 - Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "    pm.expect(pm.response.responseTime).to.be.below(500);",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('imageUrl');",
+                  "    pm.collectionVariables.set('uploadedImageUrl', jsonData.imageUrl);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "image",
+                  "type": "file",
+                  "src": "sushi_salmon.jpg"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/upload/image",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "upload",
+                "image"
+              ]
+            },
+            "description": "**Test Case ID:** TC_API_UPL_001\n**Expected:** Status: 200 OK\nResponse trả về JSON object {\"imageUrl\": \"/uploads/image-...jpg\"}. File được ghi nhận thành công trong thư mục uploads/."
+          }
+        },
+        {
+          "name": "TC_API_UPL_002: Upload thành công file ảnh PNG hợp lệ",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC_API_UPL_002 - Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "    pm.expect(pm.response.responseTime).to.be.below(500);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "image",
+                  "type": "file",
+                  "src": "sushi_maki.png"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/upload/image",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "upload",
+                "image"
+              ]
+            },
+            "description": "**Test Case ID:** TC_API_UPL_002\n**Expected:** Status: 200 OK\nResponse trả về imageUrl kết thúc bằng .png."
+          }
+        },
+        {
+          "name": "TC_API_UPL_003: Upload thành công file ảnh WEBP định dạng tối ưu web",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC_API_UPL_003 - Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "    pm.expect(pm.response.responseTime).to.be.below(500);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "image",
+                  "type": "file",
+                  "src": "sushi_banner.webp"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/upload/image",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "upload",
+                "image"
+              ]
+            },
+            "description": "**Test Case ID:** TC_API_UPL_003\n**Expected:** Status: 200 OK\nResponse trả về imageUrl kết thúc bằng .webp."
+          }
+        },
+        {
+          "name": "TC_API_UPL_004: Upload thất bại khi không đính kèm bất kỳ file nào trong Request form-data",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC_API_UPL_004 - Status code is 400\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "    pm.expect(pm.response.responseTime).to.be.below(500);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": []
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/upload/image",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "upload",
+                "image"
+              ]
+            },
+            "description": "**Test Case ID:** TC_API_UPL_004\n**Expected:** Status: 400 Bad Request\nResponse: {\"message\": \"No file uploaded\"}."
+          }
+        },
+        {
+          "name": "TC_API_UPL_005: Upload thất bại khi sai tên trường form-data (gửi 'photo' hoặc 'file' thay vì 'image')",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC_API_UPL_005 - Status code is 400\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "    pm.expect(pm.response.responseTime).to.be.below(500);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "photo",
+                  "type": "file",
+                  "src": "sushi.jpg"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/upload/image",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "upload",
+                "image"
+              ]
+            },
+            "description": "**Test Case ID:** TC_API_UPL_005\n**Expected:** Status: 400 Bad Request\nResponse: {\"message\": \"No file uploaded\"}."
+          }
+        },
+        {
+          "name": "TC_API_UPL_006: Upload thất bại khi gửi file không phải định dạng hình ảnh (file script .sh, .exe, .txt, .pdf)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC_API_UPL_006 - Status code is 400\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "    pm.expect(pm.response.responseTime).to.be.below(500);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "image",
+                  "type": "file",
+                  "src": "malicious_script.sh"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/upload/image",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "upload",
+                "image"
+              ]
+            },
+            "description": "**Test Case ID:** TC_API_UPL_006\n**Expected:** Status: 400 Bad Request\nBáo lỗi định dạng file không được hỗ trợ, chỉ chấp nhận file ảnh (JPG, PNG, WEBP, GIF)."
+          }
+        },
+        {
+          "name": "TC_API_UPL_007: Upload thất bại khi gửi file dung lượng vượt quá giới hạn cho phép (> 5MB)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC_API_UPL_007 - Status code is 400\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "    pm.expect(pm.response.responseTime).to.be.below(500);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "image",
+                  "type": "file",
+                  "src": "large_image_25mb.jpg"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/upload/image",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "upload",
+                "image"
+              ]
+            },
+            "description": "**Test Case ID:** TC_API_UPL_007\n**Expected:** Status: 400 Bad Request / 413 Payload Too Large\nBáo lỗi file vượt quá dung lượng tối đa cho phép."
+          }
+        },
+        {
+          "name": "TC_API_UPL_008: Upload ảnh thất bại khi không truyền Token (Khách vãng lai / Guest)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC_API_UPL_008 - Status code is 401\", function () {",
+                  "    pm.response.to.have.status(401);",
+                  "    pm.expect(pm.response.responseTime).to.be.below(500);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "image",
+                  "type": "file",
+                  "src": "sushi.jpg"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/upload/image",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "upload",
+                "image"
+              ]
+            },
+            "description": "**Test Case ID:** TC_API_UPL_008\n**Expected:** Status: 401 Unauthorized\nResponse: {\"message\": \"No token\"}."
+          }
+        },
+        {
+          "name": "TC_API_UPL_009: Upload ảnh thất bại khi Token hết hạn hoặc chữ ký giả mạo",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC_API_UPL_009 - Status code is 401\", function () {",
+                  "    pm.response.to.have.status(401);",
+                  "    pm.expect(pm.response.responseTime).to.be.below(500);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{invalid_token}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "image",
+                  "type": "file",
+                  "src": "sushi.jpg"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/upload/image",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "upload",
+                "image"
+              ]
+            },
+            "description": "**Test Case ID:** TC_API_UPL_009\n**Expected:** Status: 401 Unauthorized\nResponse: {\"message\": \"Invalid token\"}."
+          }
+        },
+        {
+          "name": "TC_API_UPL_010: Upload ảnh thất bại khi người dùng có vai trò CUSTOMER",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC_API_UPL_010 - Status code is 403\", function () {",
+                  "    pm.response.to.have.status(403);",
+                  "    pm.expect(pm.response.responseTime).to.be.below(500);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customer_token}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "image",
+                  "type": "file",
+                  "src": "sushi.jpg"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/upload/image",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "upload",
+                "image"
+              ]
+            },
+            "description": "**Test Case ID:** TC_API_UPL_010\n**Expected:** Status: 403 Forbidden\nResponse: {\"message\": \"Access denied. Admin only.\"}."
+          }
+        },
+        {
+          "name": "TC_API_UPL_011: Upload ảnh thất bại khi người dùng có vai trò STAFF",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC_API_UPL_011 - Status code is 403\", function () {",
+                  "    pm.response.to.have.status(403);",
+                  "    pm.expect(pm.response.responseTime).to.be.below(500);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{staff_token}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "image",
+                  "type": "file",
+                  "src": "sushi.jpg"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/upload/image",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "upload",
+                "image"
+              ]
+            },
+            "description": "**Test Case ID:** TC_API_UPL_011\n**Expected:** Status: 403 Forbidden\nResponse: {\"message\": \"Access denied. Admin only.\"}."
+          }
+        },
+        {
+          "name": "TC_API_UPL_012: Upload ảnh thất bại khi người dùng có vai trò KITCHEN",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC_API_UPL_012 - Status code is 403\", function () {",
+                  "    pm.response.to.have.status(403);",
+                  "    pm.expect(pm.response.responseTime).to.be.below(500);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{kitchen_token}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "image",
+                  "type": "file",
+                  "src": "sushi.jpg"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/upload/image",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "upload",
+                "image"
+              ]
+            },
+            "description": "**Test Case ID:** TC_API_UPL_012\n**Expected:** Status: 403 Forbidden\nResponse: {\"message\": \"Access denied. Admin only.\"}."
+          }
+        }
+      ]
+    }
+  ]
+}

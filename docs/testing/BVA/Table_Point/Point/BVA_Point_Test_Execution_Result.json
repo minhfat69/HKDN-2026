@@ -1,0 +1,80 @@
+{
+  "suite": "FutureSushi - BVA Point API Test Suite",
+  "run": {
+    "iterations": 1,
+    "duration_ms": 1564,
+    "total_assertions": 19,
+    "passed_assertions": 11,
+    "failed_assertions": 8,
+    "skipped": 0,
+    "errors": 0,
+    "average_response_time_ms": 4
+  },
+  "authentication": {
+    "id": "AUTH - Đăng nhập Admin",
+    "expected": "200 or 201",
+    "actual": 400,
+    "status": "FAIL"
+  },
+  "test_cases": [
+    {
+      "id": "TB_BVA_POINT_001 - phone: Thiếu trường",
+      "expected": 400,
+      "actual": 404,
+      "status": "FAIL"
+    },
+    {
+      "id": "TB_BVA_POINT_002 - phone: Chuỗi rỗng \"\"",
+      "expected": 400,
+      "actual": 404,
+      "status": "FAIL"
+    },
+    {
+      "id": "TB_BVA_POINT_003 - phone: Giá trị null",
+      "expected": 400,
+      "actual": 404,
+      "status": "FAIL"
+    },
+    {
+      "id": "TB_BVA_POINT_004 - orderId: Thiếu trường",
+      "expected": 400,
+      "actual": 404,
+      "status": "FAIL"
+    },
+    {
+      "id": "TB_BVA_POINT_005 - orderId: 0",
+      "expected": 400,
+      "actual": 404,
+      "status": "FAIL"
+    },
+    {
+      "id": "TB_BVA_POINT_006 - orderId: -1",
+      "expected": 404,
+      "actual": 404,
+      "status": "PASS"
+    },
+    {
+      "id": "TB_BVA_POINT_007 - orderId: null",
+      "expected": 400,
+      "actual": 404,
+      "status": "FAIL"
+    },
+    {
+      "id": "TB_BVA_POINT_008 - orderId: Sai kiểu (\"abc\")",
+      "expected": 404,
+      "actual": 404,
+      "status": "PASS"
+    },
+    {
+      "id": "TB_BVA_POINT_009 - Dữ liệu hợp lệ",
+      "expected": 200,
+      "actual": 404,
+      "status": "FAIL"
+    }
+  ],
+  "notes": [
+    "Kết quả ghi theo lượt chạy Postman người dùng cung cấp.",
+    "Không sửa source code để biến FAIL thành PASS.",
+    "Errors = 0: không có lỗi thực thi của Postman runner."
+  ]
+}

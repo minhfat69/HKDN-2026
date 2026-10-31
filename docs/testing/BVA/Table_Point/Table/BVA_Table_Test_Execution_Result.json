@@ -1,0 +1,542 @@
+{
+  "id": "bva-table-execution-2026-08-23",
+  "name": "FutureSushi - BVA Table API Test Suite",
+  "timestamp": "2026-08-23T04:33:04.700631Z",
+  "collection_id": "bva-table-suite-2026",
+  "environment": "FutureSushi - Local Environment",
+  "status": "finished",
+  "totalRequests": 18,
+  "totalPass": 31,
+  "totalFail": 5,
+  "summary": {
+    "requestsPassed": 13,
+    "requestsFailed": 5,
+    "assertionsPassed": 31,
+    "assertionsFailed": 5,
+    "note": "Tổng hợp từ lần chạy Postman đã thực hiện; các FAIL được giữ nguyên để ghi nhận defect."
+  },
+  "results": [
+    {
+      "id": "TB-RUN-001",
+      "name": "AUTH - Đăng nhập Admin",
+      "method": "POST",
+      "url": "http://localhost:3000/api/auth/login",
+      "time": 188,
+      "responseCode": {
+        "code": 200,
+        "name": "OK"
+      },
+      "tests": {
+        "Status code is 200": true,
+        "Response time < 1000ms": true
+      },
+      "testPassFailCounts": {
+        "Status code is 200": {
+          "pass": 1,
+          "fail": 0
+        },
+        "Response time < 1000ms": {
+          "pass": 1,
+          "fail": 0
+        }
+      },
+      "times": [
+        188
+      ],
+      "status": "PASS"
+    },
+    {
+      "id": "TB-RUN-002",
+      "name": "TB-001 - Create Table Success",
+      "method": "POST",
+      "url": "http://localhost:3000/api/tables",
+      "time": 5,
+      "responseCode": {
+        "code": 400,
+        "name": "Bad Request"
+      },
+      "tests": {
+        "Status code is 201": false,
+        "Response time < 1000ms": true
+      },
+      "testPassFailCounts": {
+        "Status code is 201": {
+          "pass": 0,
+          "fail": 1
+        },
+        "Response time < 1000ms": {
+          "pass": 1,
+          "fail": 0
+        }
+      },
+      "times": [
+        5
+      ],
+      "status": "FAIL"
+    },
+    {
+      "id": "TB-RUN-003",
+      "name": "TB-002 - Create Duplicate Table",
+      "method": "POST",
+      "url": "http://localhost:3000/api/tables",
+      "time": 4,
+      "responseCode": {
+        "code": 400,
+        "name": "Bad Request"
+      },
+      "tests": {
+        "Status code is 400": true,
+        "Response time < 1000ms": true
+      },
+      "testPassFailCounts": {
+        "Status code is 400": {
+          "pass": 1,
+          "fail": 0
+        },
+        "Response time < 1000ms": {
+          "pass": 1,
+          "fail": 0
+        }
+      },
+      "times": [
+        4
+      ],
+      "status": "PASS"
+    },
+    {
+      "id": "TB-RUN-004",
+      "name": "TB-BVA-001 - tableNumber = 0",
+      "method": "POST",
+      "url": "http://localhost:3000/api/tables",
+      "time": 4,
+      "responseCode": {
+        "code": 400,
+        "name": "Bad Request"
+      },
+      "tests": {
+        "Status code is 201": false,
+        "Response time < 1000ms": true
+      },
+      "testPassFailCounts": {
+        "Status code is 201": {
+          "pass": 0,
+          "fail": 1
+        },
+        "Response time < 1000ms": {
+          "pass": 1,
+          "fail": 0
+        }
+      },
+      "times": [
+        4
+      ],
+      "status": "FAIL"
+    },
+    {
+      "id": "TB-RUN-005",
+      "name": "TB-BVA-002 - capacity = 0",
+      "method": "POST",
+      "url": "http://localhost:3000/api/tables",
+      "time": 4,
+      "responseCode": {
+        "code": 400,
+        "name": "Bad Request"
+      },
+      "tests": {
+        "Status code is 201": false,
+        "Response time < 1000ms": true
+      },
+      "testPassFailCounts": {
+        "Status code is 201": {
+          "pass": 0,
+          "fail": 1
+        },
+        "Response time < 1000ms": {
+          "pass": 1,
+          "fail": 0
+        }
+      },
+      "times": [
+        4
+      ],
+      "status": "FAIL"
+    },
+    {
+      "id": "TB-RUN-006",
+      "name": "TB-WB-004 - Update Table Not Found",
+      "method": "PUT",
+      "url": "http://localhost:3000/api/tables/999999",
+      "time": 6,
+      "responseCode": {
+        "code": 404,
+        "name": "Not Found"
+      },
+      "tests": {
+        "Status code is 404": true,
+        "Response time < 1000ms": true
+      },
+      "testPassFailCounts": {
+        "Status code is 404": {
+          "pass": 1,
+          "fail": 0
+        },
+        "Response time < 1000ms": {
+          "pass": 1,
+          "fail": 0
+        }
+      },
+      "times": [
+        6
+      ],
+      "status": "PASS"
+    },
+    {
+      "id": "TB-RUN-007",
+      "name": "TB-WB-005 - Update Table Success",
+      "method": "PUT",
+      "url": "http://localhost:3000/api/tables/1",
+      "time": 16,
+      "responseCode": {
+        "code": 200,
+        "name": "OK"
+      },
+      "tests": {
+        "Status code is 200": true,
+        "Response time < 1000ms": true
+      },
+      "testPassFailCounts": {
+        "Status code is 200": {
+          "pass": 1,
+          "fail": 0
+        },
+        "Response time < 1000ms": {
+          "pass": 1,
+          "fail": 0
+        }
+      },
+      "times": [
+        16
+      ],
+      "status": "PASS"
+    },
+    {
+      "id": "TB-RUN-008",
+      "name": "TB-BVA-005 - Empty QR Code",
+      "method": "PUT",
+      "url": "http://localhost:3000/api/tables/1",
+      "time": 5,
+      "responseCode": {
+        "code": 200,
+        "name": "OK"
+      },
+      "tests": {
+        "Status code is 200": true,
+        "Response time < 1000ms": true
+      },
+      "testPassFailCounts": {
+        "Status code is 200": {
+          "pass": 1,
+          "fail": 0
+        },
+        "Response time < 1000ms": {
+          "pass": 1,
+          "fail": 0
+        }
+      },
+      "times": [
+        5
+      ],
+      "status": "PASS"
+    },
+    {
+      "id": "TB-RUN-009",
+      "name": "TB-WB-009 - Status Table Not Found",
+      "method": "PUT",
+      "url": "http://localhost:3000/api/tables/999999/status",
+      "time": 7,
+      "responseCode": {
+        "code": 404,
+        "name": "Not Found"
+      },
+      "tests": {
+        "Status code is 404": true,
+        "Response time < 1000ms": true
+      },
+      "testPassFailCounts": {
+        "Status code is 404": {
+          "pass": 1,
+          "fail": 0
+        },
+        "Response time < 1000ms": {
+          "pass": 1,
+          "fail": 0
+        }
+      },
+      "times": [
+        7
+      ],
+      "status": "PASS"
+    },
+    {
+      "id": "TB-RUN-010",
+      "name": "TB-WB-010 - Update OCCUPIED",
+      "method": "PUT",
+      "url": "http://localhost:3000/api/tables/status",
+      "time": 7,
+      "responseCode": {
+        "code": 404,
+        "name": "Not Found"
+      },
+      "tests": {
+        "Status code is 200": false,
+        "Response time < 1000ms": true
+      },
+      "testPassFailCounts": {
+        "Status code is 200": {
+          "pass": 0,
+          "fail": 1
+        },
+        "Response time < 1000ms": {
+          "pass": 1,
+          "fail": 0
+        }
+      },
+      "times": [
+        7
+      ],
+      "status": "FAIL"
+    },
+    {
+      "id": "TB-RUN-011",
+      "name": "TB-WB-013 - Delete Table Not Found",
+      "method": "DELETE",
+      "url": "http://localhost:3000/api/tables/999999",
+      "time": 6,
+      "responseCode": {
+        "code": 404,
+        "name": "Not Found"
+      },
+      "tests": {
+        "Status code is 404": true,
+        "Response time < 1000ms": true
+      },
+      "testPassFailCounts": {
+        "Status code is 404": {
+          "pass": 1,
+          "fail": 0
+        },
+        "Response time < 1000ms": {
+          "pass": 1,
+          "fail": 0
+        }
+      },
+      "times": [
+        6
+      ],
+      "status": "PASS"
+    },
+    {
+      "id": "TB-RUN-012",
+      "name": "TB-WB-015 - Delete Table Success",
+      "method": "DELETE",
+      "url": "http://localhost:3000/api/tables",
+      "time": 6,
+      "responseCode": {
+        "code": 404,
+        "name": "Not Found"
+      },
+      "tests": {
+        "Status code is 200": false,
+        "Response time < 1000ms": true
+      },
+      "testPassFailCounts": {
+        "Status code is 200": {
+          "pass": 0,
+          "fail": 1
+        },
+        "Response time < 1000ms": {
+          "pass": 1,
+          "fail": 0
+        }
+      },
+      "times": [
+        6
+      ],
+      "status": "FAIL"
+    },
+    {
+      "id": "TB-RUN-013",
+      "name": "TB-WB-017 - QR Not Found",
+      "method": "GET",
+      "url": "http://localhost:3000/api/tables/qr/QR-NOT-EXIST",
+      "time": 3,
+      "responseCode": {
+        "code": 404,
+        "name": "Not Found"
+      },
+      "tests": {
+        "Status code is 404": true,
+        "Response time < 1000ms": true
+      },
+      "testPassFailCounts": {
+        "Status code is 404": {
+          "pass": 1,
+          "fail": 0
+        },
+        "Response time < 1000ms": {
+          "pass": 1,
+          "fail": 0
+        }
+      },
+      "times": [
+        3
+      ],
+      "status": "PASS"
+    },
+    {
+      "id": "TB-RUN-014",
+      "name": "TB-WB-018 - Get Table By QR",
+      "method": "GET",
+      "url": "http://localhost:3000/api/tables/qr/QR-TB-901",
+      "time": 3,
+      "responseCode": {
+        "code": 200,
+        "name": "OK"
+      },
+      "tests": {
+        "Status code is 200": true,
+        "Response time < 1000ms": true
+      },
+      "testPassFailCounts": {
+        "Status code is 200": {
+          "pass": 1,
+          "fail": 0
+        },
+        "Response time < 1000ms": {
+          "pass": 1,
+          "fail": 0
+        }
+      },
+      "times": [
+        3
+      ],
+      "status": "PASS"
+    },
+    {
+      "id": "TB-RUN-015",
+      "name": "TB-WB-022 - Get All Tables",
+      "method": "GET",
+      "url": "http://localhost:3000/api/tables",
+      "time": 64,
+      "responseCode": {
+        "code": 200,
+        "name": "OK"
+      },
+      "tests": {
+        "Status code is 200": true,
+        "Response time < 1000ms": true
+      },
+      "testPassFailCounts": {
+        "Status code is 200": {
+          "pass": 1,
+          "fail": 0
+        },
+        "Response time < 1000ms": {
+          "pass": 1,
+          "fail": 0
+        }
+      },
+      "times": [
+        64
+      ],
+      "status": "PASS"
+    },
+    {
+      "id": "TB-RUN-016",
+      "name": "TB-BVA-007 - Active Order",
+      "method": "GET",
+      "url": "http://localhost:3000/api/tables",
+      "time": 46,
+      "responseCode": {
+        "code": 200,
+        "name": "OK"
+      },
+      "tests": {
+        "Status code is 200": true,
+        "Response time < 1000ms": true
+      },
+      "testPassFailCounts": {
+        "Status code is 200": {
+          "pass": 1,
+          "fail": 0
+        },
+        "Response time < 1000ms": {
+          "pass": 1,
+          "fail": 0
+        }
+      },
+      "times": [
+        46
+      ],
+      "status": "PASS"
+    },
+    {
+      "id": "TB-RUN-017",
+      "name": "TB-WB-019 - Body Not Array",
+      "method": "POST",
+      "url": "http://localhost:3000/api/tables/bulk",
+      "time": 3,
+      "responseCode": {
+        "code": 400,
+        "name": "Bad Request"
+      },
+      "tests": {
+        "Status code is 400": true,
+        "Response time < 1000ms": true
+      },
+      "testPassFailCounts": {
+        "Status code is 400": {
+          "pass": 1,
+          "fail": 0
+        },
+        "Response time < 1000ms": {
+          "pass": 1,
+          "fail": 0
+        }
+      },
+      "times": [
+        3
+      ],
+      "status": "PASS"
+    },
+    {
+      "id": "TB-RUN-018",
+      "name": "TB-WB-020 - Bulk Create Success",
+      "method": "POST",
+      "url": "http://localhost:3000/api/tables/bulk",
+      "time": 15,
+      "responseCode": {
+        "code": 201,
+        "name": "Created"
+      },
+      "tests": {
+        "Status code is 201": true,
+        "Response time < 1000ms": true
+      },
+      "testPassFailCounts": {
+        "Status code is 201": {
+          "pass": 1,
+          "fail": 0
+        },
+        "Response time < 1000ms": {
+          "pass": 1,
+          "fail": 0
+        }
+      },
+      "times": [
+        15
+      ],
+      "status": "PASS"
+    }
+  ]
+}

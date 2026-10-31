@@ -1,0 +1,10 @@
+Table order_items {
+  id bigint [primary key, increment]
+  order_id bigint [not null]
+  product_id bigint [not null]
+  quantity integer [default: 1]
+  unitPrice decimal(10,2) [not null]
+  totalPrice decimal(10,2) [not null]
+  note text
+  status enum('WAITING', 'COOKING', 'DONE', 'CANCELLED') [default: 'WAITING']
+}

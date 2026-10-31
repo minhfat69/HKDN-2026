@@ -1,0 +1,1496 @@
+{
+	"id": "db41f654-6340-4157-8418-cff3de25eb73",
+	"name": "FutureSushi - Order & Payment BVA Test Suite",
+	"timestamp": "2026-08-24T11:36:56.304Z",
+	"collection_id": "56967522-287f96c7-6a0e-4bcf-9e57-283e38b22c5e",
+	"folder_id": 0,
+	"environment_id": "0",
+	"totalPass": 79,
+	"delay": 0,
+	"persist": true,
+	"status": "finished",
+	"startedAt": "2026-08-24T11:36:52.673Z",
+	"totalFail": 0,
+	"results": [
+		{
+			"id": "91af1198-6402-4ee7-b54d-169a080f3812",
+			"name": "0.1 Setup - Admin Login (Get Admin Token)",
+			"url": "http://localhost:3000/api/auth/login",
+			"time": 107,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Admin Login successful": true
+			},
+			"testPassFailCounts": {
+				"Admin Login successful": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				107
+			],
+			"allTests": [
+				{
+					"Admin Login successful": true
+				}
+			]
+		},
+		{
+			"id": "8b57fe74-a260-470b-af8c-1d4e411f6120",
+			"name": "[TC_BVA_ORD_001] BVA-BASE: All variables at Nominal (quantity=5, used_points=50)",
+			"url": "http://localhost:3000/api/orders",
+			"time": 11,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"[TC_BVA_ORD_001] BVA-BASE: All variables at Nominal (quantity=5, used_points=50) - Response code status check": true,
+				"Response time is acceptable": true
+			},
+			"testPassFailCounts": {
+				"[TC_BVA_ORD_001] BVA-BASE: All variables at Nominal (quantity=5, used_points=50) - Response code status check": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response time is acceptable": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				11
+			],
+			"allTests": [
+				{
+					"[TC_BVA_ORD_001] BVA-BASE: All variables at Nominal (quantity=5, used_points=50) - Response code status check": true,
+					"Response time is acceptable": true
+				}
+			]
+		},
+		{
+			"id": "eec77808-a3de-418e-81e2-22328419e3bb",
+			"name": "[TC_BVA_ORD_002] BVA-Q-01: quantity = Min (1)",
+			"url": "http://localhost:3000/api/orders",
+			"time": 11,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"[TC_BVA_ORD_002] BVA-Q-01: quantity = Min (1) - Response code status check": true,
+				"Response time is acceptable": true
+			},
+			"testPassFailCounts": {
+				"[TC_BVA_ORD_002] BVA-Q-01: quantity = Min (1) - Response code status check": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response time is acceptable": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				11
+			],
+			"allTests": [
+				{
+					"[TC_BVA_ORD_002] BVA-Q-01: quantity = Min (1) - Response code status check": true,
+					"Response time is acceptable": true
+				}
+			]
+		},
+		{
+			"id": "ebbcc926-5f6c-481a-88c8-8bc9b6c9235e",
+			"name": "[TC_BVA_ORD_003] BVA-Q-02: quantity = Min+ (2)",
+			"url": "http://localhost:3000/api/orders",
+			"time": 12,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"[TC_BVA_ORD_003] BVA-Q-02: quantity = Min+ (2) - Response code status check": true,
+				"Response time is acceptable": true
+			},
+			"testPassFailCounts": {
+				"[TC_BVA_ORD_003] BVA-Q-02: quantity = Min+ (2) - Response code status check": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response time is acceptable": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				12
+			],
+			"allTests": [
+				{
+					"[TC_BVA_ORD_003] BVA-Q-02: quantity = Min+ (2) - Response code status check": true,
+					"Response time is acceptable": true
+				}
+			]
+		},
+		{
+			"id": "cf20216a-83da-4ce0-8608-ccad3e1efd9d",
+			"name": "[TC_BVA_ORD_004] BVA-Q-03: quantity = Max- (9) - Stock check",
+			"url": "http://localhost:3000/api/orders",
+			"time": 12,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"[TC_BVA_ORD_004] BVA-Q-03: quantity = Max- (9) - Stock check - Response code status check": true,
+				"Response time is acceptable": true
+			},
+			"testPassFailCounts": {
+				"[TC_BVA_ORD_004] BVA-Q-03: quantity = Max- (9) - Stock check - Response code status check": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response time is acceptable": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				12
+			],
+			"allTests": [
+				{
+					"[TC_BVA_ORD_004] BVA-Q-03: quantity = Max- (9) - Stock check - Response code status check": true,
+					"Response time is acceptable": true
+				}
+			]
+		},
+		{
+			"id": "4b38c45d-3b4b-41f1-9971-f0d72175d286",
+			"name": "[TC_BVA_ORD_005] BVA-Q-04: quantity = Max (10) - Stock check",
+			"url": "http://localhost:3000/api/orders",
+			"time": 8,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"[TC_BVA_ORD_005] BVA-Q-04: quantity = Max (10) - Stock check - Response code status check": true,
+				"Response time is acceptable": true
+			},
+			"testPassFailCounts": {
+				"[TC_BVA_ORD_005] BVA-Q-04: quantity = Max (10) - Stock check - Response code status check": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response time is acceptable": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				8
+			],
+			"allTests": [
+				{
+					"[TC_BVA_ORD_005] BVA-Q-04: quantity = Max (10) - Stock check - Response code status check": true,
+					"Response time is acceptable": true
+				}
+			]
+		},
+		{
+			"id": "94fe39e6-f87d-45df-8962-6076df894ce9",
+			"name": "[TC_BVA_ORD_006] BVA-P-01: used_points = Min (0)",
+			"url": "http://localhost:3000/api/orders",
+			"time": 10,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"[TC_BVA_ORD_006] BVA-P-01: used_points = Min (0) - Response code status check": true,
+				"Response time is acceptable": true
+			},
+			"testPassFailCounts": {
+				"[TC_BVA_ORD_006] BVA-P-01: used_points = Min (0) - Response code status check": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response time is acceptable": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				10
+			],
+			"allTests": [
+				{
+					"[TC_BVA_ORD_006] BVA-P-01: used_points = Min (0) - Response code status check": true,
+					"Response time is acceptable": true
+				}
+			]
+		},
+		{
+			"id": "39ee37e5-21c7-4278-875b-decfcfbe9eeb",
+			"name": "[TC_BVA_ORD_007] BVA-P-02: used_points = Min+ (1)",
+			"url": "http://localhost:3000/api/orders",
+			"time": 12,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"[TC_BVA_ORD_007] BVA-P-02: used_points = Min+ (1) - Response code status check": true,
+				"Response time is acceptable": true
+			},
+			"testPassFailCounts": {
+				"[TC_BVA_ORD_007] BVA-P-02: used_points = Min+ (1) - Response code status check": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response time is acceptable": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				12
+			],
+			"allTests": [
+				{
+					"[TC_BVA_ORD_007] BVA-P-02: used_points = Min+ (1) - Response code status check": true,
+					"Response time is acceptable": true
+				}
+			]
+		},
+		{
+			"id": "aa9b2997-863a-4f42-992f-39375ffff5cd",
+			"name": "[TC_BVA_ORD_008] BVA-P-03: used_points = Max- (99)",
+			"url": "http://localhost:3000/api/orders",
+			"time": 12,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"[TC_BVA_ORD_008] BVA-P-03: used_points = Max- (99) - Response code status check": true,
+				"Response time is acceptable": true
+			},
+			"testPassFailCounts": {
+				"[TC_BVA_ORD_008] BVA-P-03: used_points = Max- (99) - Response code status check": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response time is acceptable": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				12
+			],
+			"allTests": [
+				{
+					"[TC_BVA_ORD_008] BVA-P-03: used_points = Max- (99) - Response code status check": true,
+					"Response time is acceptable": true
+				}
+			]
+		},
+		{
+			"id": "e38f74a6-0bbd-44fd-a222-1ef947a14989",
+			"name": "[TC_BVA_ORD_009] BVA-P-04: used_points = Max (100)",
+			"url": "http://localhost:3000/api/orders",
+			"time": 9,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"[TC_BVA_ORD_009] BVA-P-04: used_points = Max (100) - Response code status check": true,
+				"Response time is acceptable": true
+			},
+			"testPassFailCounts": {
+				"[TC_BVA_ORD_009] BVA-P-04: used_points = Max (100) - Response code status check": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response time is acceptable": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				9
+			],
+			"allTests": [
+				{
+					"[TC_BVA_ORD_009] BVA-P-04: used_points = Max (100) - Response code status check": true,
+					"Response time is acceptable": true
+				}
+			]
+		},
+		{
+			"id": "8f88aee2-5628-4007-b6ca-0dd7b39bdb9f",
+			"name": "[TC_BVA_ORD_010] BVA-S-01: stock = Min (1) (Product out of stock / low stock)",
+			"url": "http://localhost:3000/api/orders",
+			"time": 10,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"[TC_BVA_ORD_010] BVA-S-01: stock = Min (1) (Product out of stock / low stock) - Response code status check": true,
+				"Response time is acceptable": true
+			},
+			"testPassFailCounts": {
+				"[TC_BVA_ORD_010] BVA-S-01: stock = Min (1) (Product out of stock / low stock) - Response code status check": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response time is acceptable": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				10
+			],
+			"allTests": [
+				{
+					"[TC_BVA_ORD_010] BVA-S-01: stock = Min (1) (Product out of stock / low stock) - Response code status check": true,
+					"Response time is acceptable": true
+				}
+			]
+		},
+		{
+			"id": "a5ebfd3a-0cc0-4ffb-875a-746633dbd550",
+			"name": "[TC_BVA_ORD_011] BVA-S-02: stock = Min+ (2)",
+			"url": "http://localhost:3000/api/orders",
+			"time": 10,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"[TC_BVA_ORD_011] BVA-S-02: stock = Min+ (2) - Response code status check": true,
+				"Response time is acceptable": true
+			},
+			"testPassFailCounts": {
+				"[TC_BVA_ORD_011] BVA-S-02: stock = Min+ (2) - Response code status check": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response time is acceptable": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				10
+			],
+			"allTests": [
+				{
+					"[TC_BVA_ORD_011] BVA-S-02: stock = Min+ (2) - Response code status check": true,
+					"Response time is acceptable": true
+				}
+			]
+		},
+		{
+			"id": "6b192705-8739-4b1d-ad4c-1290673f058f",
+			"name": "[TC_BVA_ORD_012] BVA-S-03: stock = Max- (9)",
+			"url": "http://localhost:3000/api/orders",
+			"time": 9,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"[TC_BVA_ORD_012] BVA-S-03: stock = Max- (9) - Response code status check": true,
+				"Response time is acceptable": true
+			},
+			"testPassFailCounts": {
+				"[TC_BVA_ORD_012] BVA-S-03: stock = Max- (9) - Response code status check": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response time is acceptable": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				9
+			],
+			"allTests": [
+				{
+					"[TC_BVA_ORD_012] BVA-S-03: stock = Max- (9) - Response code status check": true,
+					"Response time is acceptable": true
+				}
+			]
+		},
+		{
+			"id": "74d2f77c-aa9e-4a6e-9cd7-aec41b7749dc",
+			"name": "[TC_BVA_ORD_013] BVA-S-04: stock = Max (10)",
+			"url": "http://localhost:3000/api/orders",
+			"time": 13,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"[TC_BVA_ORD_013] BVA-S-04: stock = Max (10) - Response code status check": true,
+				"Response time is acceptable": true
+			},
+			"testPassFailCounts": {
+				"[TC_BVA_ORD_013] BVA-S-04: stock = Max (10) - Response code status check": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response time is acceptable": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				13
+			],
+			"allTests": [
+				{
+					"[TC_BVA_ORD_013] BVA-S-04: stock = Max (10) - Response code status check": true,
+					"Response time is acceptable": true
+				}
+			]
+		},
+		{
+			"id": "f1e6a5f1-778c-4481-a8fc-5baf0cba8021",
+			"name": "[TC_ROB_ORD_001] ROB-BASE: All Nominal",
+			"url": "http://localhost:3000/api/orders",
+			"time": 10,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"[TC_ROB_ORD_001] ROB-BASE: All Nominal - Response code status check": true,
+				"Response time is acceptable": true
+			},
+			"testPassFailCounts": {
+				"[TC_ROB_ORD_001] ROB-BASE: All Nominal - Response code status check": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response time is acceptable": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				10
+			],
+			"allTests": [
+				{
+					"[TC_ROB_ORD_001] ROB-BASE: All Nominal - Response code status check": true,
+					"Response time is acceptable": true
+				}
+			]
+		},
+		{
+			"id": "f4df145f-0623-424e-b460-bd958cd05fda",
+			"name": "[TC_ROB_ORD_002] ROB-Q-01: quantity = Min- (0) (Defect test)",
+			"url": "http://localhost:3000/api/orders",
+			"time": 10,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"[TC_ROB_ORD_002] ROB-Q-01: quantity = Min- (0) (Defect test) - Response code status check": true,
+				"Response time is acceptable": true
+			},
+			"testPassFailCounts": {
+				"[TC_ROB_ORD_002] ROB-Q-01: quantity = Min- (0) (Defect test) - Response code status check": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response time is acceptable": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				10
+			],
+			"allTests": [
+				{
+					"[TC_ROB_ORD_002] ROB-Q-01: quantity = Min- (0) (Defect test) - Response code status check": true,
+					"Response time is acceptable": true
+				}
+			]
+		},
+		{
+			"id": "6d0ab2e2-b641-4b62-ba6d-2c8973bef4e2",
+			"name": "[TC_ROB_ORD_003] ROB-Q-02: quantity = Min (1)",
+			"url": "http://localhost:3000/api/orders",
+			"time": 16,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"[TC_ROB_ORD_003] ROB-Q-02: quantity = Min (1) - Response code status check": true,
+				"Response time is acceptable": true
+			},
+			"testPassFailCounts": {
+				"[TC_ROB_ORD_003] ROB-Q-02: quantity = Min (1) - Response code status check": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response time is acceptable": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				16
+			],
+			"allTests": [
+				{
+					"[TC_ROB_ORD_003] ROB-Q-02: quantity = Min (1) - Response code status check": true,
+					"Response time is acceptable": true
+				}
+			]
+		},
+		{
+			"id": "3b4629bf-d237-4f43-bf15-299525c42132",
+			"name": "[TC_ROB_ORD_004] ROB-Q-03: quantity = Min+ (2)",
+			"url": "http://localhost:3000/api/orders",
+			"time": 10,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"[TC_ROB_ORD_004] ROB-Q-03: quantity = Min+ (2) - Response code status check": true,
+				"Response time is acceptable": true
+			},
+			"testPassFailCounts": {
+				"[TC_ROB_ORD_004] ROB-Q-03: quantity = Min+ (2) - Response code status check": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response time is acceptable": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				10
+			],
+			"allTests": [
+				{
+					"[TC_ROB_ORD_004] ROB-Q-03: quantity = Min+ (2) - Response code status check": true,
+					"Response time is acceptable": true
+				}
+			]
+		},
+		{
+			"id": "d6809055-cc3a-4254-8913-7e1007482ee5",
+			"name": "[TC_ROB_ORD_005] ROB-Q-04: quantity = Max- (9)",
+			"url": "http://localhost:3000/api/orders",
+			"time": 10,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"[TC_ROB_ORD_005] ROB-Q-04: quantity = Max- (9) - Response code status check": true,
+				"Response time is acceptable": true
+			},
+			"testPassFailCounts": {
+				"[TC_ROB_ORD_005] ROB-Q-04: quantity = Max- (9) - Response code status check": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response time is acceptable": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				10
+			],
+			"allTests": [
+				{
+					"[TC_ROB_ORD_005] ROB-Q-04: quantity = Max- (9) - Response code status check": true,
+					"Response time is acceptable": true
+				}
+			]
+		},
+		{
+			"id": "ce17f88b-14a9-4463-8cea-b3614a67343d",
+			"name": "[TC_ROB_ORD_006] ROB-Q-05: quantity = Max (10)",
+			"url": "http://localhost:3000/api/orders",
+			"time": 14,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"[TC_ROB_ORD_006] ROB-Q-05: quantity = Max (10) - Response code status check": true,
+				"Response time is acceptable": true
+			},
+			"testPassFailCounts": {
+				"[TC_ROB_ORD_006] ROB-Q-05: quantity = Max (10) - Response code status check": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response time is acceptable": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				14
+			],
+			"allTests": [
+				{
+					"[TC_ROB_ORD_006] ROB-Q-05: quantity = Max (10) - Response code status check": true,
+					"Response time is acceptable": true
+				}
+			]
+		},
+		{
+			"id": "6cc06411-a7fd-43b5-a89e-b2e24b5d893c",
+			"name": "[TC_ROB_ORD_007] ROB-Q-06: quantity = Max+ (11) (Over boundary)",
+			"url": "http://localhost:3000/api/orders",
+			"time": 13,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"[TC_ROB_ORD_007] ROB-Q-06: quantity = Max+ (11) (Over boundary) - Response code status check": true,
+				"Response time is acceptable": true
+			},
+			"testPassFailCounts": {
+				"[TC_ROB_ORD_007] ROB-Q-06: quantity = Max+ (11) (Over boundary) - Response code status check": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response time is acceptable": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				13
+			],
+			"allTests": [
+				{
+					"[TC_ROB_ORD_007] ROB-Q-06: quantity = Max+ (11) (Over boundary) - Response code status check": true,
+					"Response time is acceptable": true
+				}
+			]
+		},
+		{
+			"id": "533770de-3917-4686-9ad7-e32ea8ad8156",
+			"name": "[TC_ROB_ORD_008] ROB-P-01: used_points = Min- (-1)",
+			"url": "http://localhost:3000/api/orders",
+			"time": 10,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"[TC_ROB_ORD_008] ROB-P-01: used_points = Min- (-1) - Response code status check": true,
+				"Response time is acceptable": true
+			},
+			"testPassFailCounts": {
+				"[TC_ROB_ORD_008] ROB-P-01: used_points = Min- (-1) - Response code status check": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response time is acceptable": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				10
+			],
+			"allTests": [
+				{
+					"[TC_ROB_ORD_008] ROB-P-01: used_points = Min- (-1) - Response code status check": true,
+					"Response time is acceptable": true
+				}
+			]
+		},
+		{
+			"id": "87515e34-e78e-43aa-9894-2532a0b375a3",
+			"name": "[TC_ROB_ORD_009] ROB-P-02: used_points = Min (0)",
+			"url": "http://localhost:3000/api/orders",
+			"time": 13,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"[TC_ROB_ORD_009] ROB-P-02: used_points = Min (0) - Response code status check": true,
+				"Response time is acceptable": true
+			},
+			"testPassFailCounts": {
+				"[TC_ROB_ORD_009] ROB-P-02: used_points = Min (0) - Response code status check": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response time is acceptable": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				13
+			],
+			"allTests": [
+				{
+					"[TC_ROB_ORD_009] ROB-P-02: used_points = Min (0) - Response code status check": true,
+					"Response time is acceptable": true
+				}
+			]
+		},
+		{
+			"id": "c2a75d6c-4019-4737-8494-1cef2d1147c4",
+			"name": "[TC_ROB_ORD_010] ROB-P-03: used_points = Min+ (1)",
+			"url": "http://localhost:3000/api/orders",
+			"time": 11,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"[TC_ROB_ORD_010] ROB-P-03: used_points = Min+ (1) - Response code status check": true,
+				"Response time is acceptable": true
+			},
+			"testPassFailCounts": {
+				"[TC_ROB_ORD_010] ROB-P-03: used_points = Min+ (1) - Response code status check": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response time is acceptable": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				11
+			],
+			"allTests": [
+				{
+					"[TC_ROB_ORD_010] ROB-P-03: used_points = Min+ (1) - Response code status check": true,
+					"Response time is acceptable": true
+				}
+			]
+		},
+		{
+			"id": "19cc0b17-1764-4316-9362-f5d907412f33",
+			"name": "[TC_ROB_ORD_011] ROB-P-04: used_points = Max- (99)",
+			"url": "http://localhost:3000/api/orders",
+			"time": 12,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"[TC_ROB_ORD_011] ROB-P-04: used_points = Max- (99) - Response code status check": true,
+				"Response time is acceptable": true
+			},
+			"testPassFailCounts": {
+				"[TC_ROB_ORD_011] ROB-P-04: used_points = Max- (99) - Response code status check": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response time is acceptable": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				12
+			],
+			"allTests": [
+				{
+					"[TC_ROB_ORD_011] ROB-P-04: used_points = Max- (99) - Response code status check": true,
+					"Response time is acceptable": true
+				}
+			]
+		},
+		{
+			"id": "0ee37b4b-df42-404e-906d-9f9dbd874cf1",
+			"name": "[TC_ROB_ORD_012] ROB-P-05: used_points = Max (100)",
+			"url": "http://localhost:3000/api/orders",
+			"time": 7,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"[TC_ROB_ORD_012] ROB-P-05: used_points = Max (100) - Response code status check": true,
+				"Response time is acceptable": true
+			},
+			"testPassFailCounts": {
+				"[TC_ROB_ORD_012] ROB-P-05: used_points = Max (100) - Response code status check": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response time is acceptable": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				7
+			],
+			"allTests": [
+				{
+					"[TC_ROB_ORD_012] ROB-P-05: used_points = Max (100) - Response code status check": true,
+					"Response time is acceptable": true
+				}
+			]
+		},
+		{
+			"id": "e5d4eda5-8eb1-428f-a963-09b72943c7cd",
+			"name": "[TC_ROB_ORD_013] ROB-P-06: used_points = Max+ (101) (Over balance)",
+			"url": "http://localhost:3000/api/orders",
+			"time": 10,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"[TC_ROB_ORD_013] ROB-P-06: used_points = Max+ (101) (Over balance) - Response code status check": true,
+				"Response time is acceptable": true
+			},
+			"testPassFailCounts": {
+				"[TC_ROB_ORD_013] ROB-P-06: used_points = Max+ (101) (Over balance) - Response code status check": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response time is acceptable": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				10
+			],
+			"allTests": [
+				{
+					"[TC_ROB_ORD_013] ROB-P-06: used_points = Max+ (101) (Over balance) - Response code status check": true,
+					"Response time is acceptable": true
+				}
+			]
+		},
+		{
+			"id": "4c728bfb-857f-4fc6-9d76-7027166eec15",
+			"name": "[TC_ROB_ORD_014] ROB-S-01: stock = Min- (0) (Out of stock)",
+			"url": "http://localhost:3000/api/orders",
+			"time": 15,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"[TC_ROB_ORD_014] ROB-S-01: stock = Min- (0) (Out of stock) - Response code status check": true,
+				"Response time is acceptable": true
+			},
+			"testPassFailCounts": {
+				"[TC_ROB_ORD_014] ROB-S-01: stock = Min- (0) (Out of stock) - Response code status check": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response time is acceptable": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				15
+			],
+			"allTests": [
+				{
+					"[TC_ROB_ORD_014] ROB-S-01: stock = Min- (0) (Out of stock) - Response code status check": true,
+					"Response time is acceptable": true
+				}
+			]
+		},
+		{
+			"id": "7abe4bd0-280f-46c8-8a49-8b9aff9bcc88",
+			"name": "[TC_ROB_ORD_015] ROB-S-02: stock = Min (1)",
+			"url": "http://localhost:3000/api/orders",
+			"time": 8,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"[TC_ROB_ORD_015] ROB-S-02: stock = Min (1) - Response code status check": true,
+				"Response time is acceptable": true
+			},
+			"testPassFailCounts": {
+				"[TC_ROB_ORD_015] ROB-S-02: stock = Min (1) - Response code status check": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response time is acceptable": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				8
+			],
+			"allTests": [
+				{
+					"[TC_ROB_ORD_015] ROB-S-02: stock = Min (1) - Response code status check": true,
+					"Response time is acceptable": true
+				}
+			]
+		},
+		{
+			"id": "53fb0b50-c97e-4635-8398-6b5ee8ab5771",
+			"name": "[TC_ROB_ORD_016] ROB-S-03: stock = Min+ (2)",
+			"url": "http://localhost:3000/api/orders",
+			"time": 11,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"[TC_ROB_ORD_016] ROB-S-03: stock = Min+ (2) - Response code status check": true,
+				"Response time is acceptable": true
+			},
+			"testPassFailCounts": {
+				"[TC_ROB_ORD_016] ROB-S-03: stock = Min+ (2) - Response code status check": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response time is acceptable": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				11
+			],
+			"allTests": [
+				{
+					"[TC_ROB_ORD_016] ROB-S-03: stock = Min+ (2) - Response code status check": true,
+					"Response time is acceptable": true
+				}
+			]
+		},
+		{
+			"id": "e55c3c55-5f04-4508-8b06-80eb9ec28041",
+			"name": "[TC_ROB_ORD_017] ROB-S-04: stock = Max- (9)",
+			"url": "http://localhost:3000/api/orders",
+			"time": 12,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"[TC_ROB_ORD_017] ROB-S-04: stock = Max- (9) - Response code status check": true,
+				"Response time is acceptable": true
+			},
+			"testPassFailCounts": {
+				"[TC_ROB_ORD_017] ROB-S-04: stock = Max- (9) - Response code status check": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response time is acceptable": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				12
+			],
+			"allTests": [
+				{
+					"[TC_ROB_ORD_017] ROB-S-04: stock = Max- (9) - Response code status check": true,
+					"Response time is acceptable": true
+				}
+			]
+		},
+		{
+			"id": "3cd4a733-3e14-4be6-ba89-70edb055c670",
+			"name": "[TC_ROB_ORD_018] ROB-S-05: stock = Max (10)",
+			"url": "http://localhost:3000/api/orders",
+			"time": 13,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"[TC_ROB_ORD_018] ROB-S-05: stock = Max (10) - Response code status check": true,
+				"Response time is acceptable": true
+			},
+			"testPassFailCounts": {
+				"[TC_ROB_ORD_018] ROB-S-05: stock = Max (10) - Response code status check": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response time is acceptable": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				13
+			],
+			"allTests": [
+				{
+					"[TC_ROB_ORD_018] ROB-S-05: stock = Max (10) - Response code status check": true,
+					"Response time is acceptable": true
+				}
+			]
+		},
+		{
+			"id": "579ff029-647e-4a81-ab98-77cd51ca1767",
+			"name": "[TC_ROB_ORD_019] ROB-S-06: stock = Max+ (11) (Over boundary)",
+			"url": "http://localhost:3000/api/orders",
+			"time": 11,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"[TC_ROB_ORD_019] ROB-S-06: stock = Max+ (11) (Over boundary) - Response code status check": true,
+				"Response time is acceptable": true
+			},
+			"testPassFailCounts": {
+				"[TC_ROB_ORD_019] ROB-S-06: stock = Max+ (11) (Over boundary) - Response code status check": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response time is acceptable": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				11
+			],
+			"allTests": [
+				{
+					"[TC_ROB_ORD_019] ROB-S-06: stock = Max+ (11) (Over boundary) - Response code status check": true,
+					"Response time is acceptable": true
+				}
+			]
+		},
+		{
+			"id": "862a5ace-08bf-492d-9e90-fe531c4d3923",
+			"name": "4.1 GET /api/orders - Get All Orders",
+			"url": "http://localhost:3000/api/orders",
+			"time": 10,
+			"responseCode": {
+				"code": 500,
+				"name": "Internal Server Error"
+			},
+			"tests": {
+				"4.1 GET /api/orders - Get All Orders - Response code status check": true,
+				"Response time is acceptable": true
+			},
+			"testPassFailCounts": {
+				"4.1 GET /api/orders - Get All Orders - Response code status check": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response time is acceptable": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				10
+			],
+			"allTests": [
+				{
+					"4.1 GET /api/orders - Get All Orders - Response code status check": true,
+					"Response time is acceptable": true
+				}
+			]
+		},
+		{
+			"id": "0e011e51-f012-471e-ae4a-b7bc55468987",
+			"name": "4.2 PUT /api/orders/:id/pay - Pay Single Order",
+			"url": "http://localhost:3000/api/orders/1/pay",
+			"time": 16,
+			"responseCode": {
+				"code": 500,
+				"name": "Internal Server Error"
+			},
+			"tests": {
+				"4.2 PUT /api/orders/:id/pay - Pay Single Order - Response code status check": true,
+				"Response time is acceptable": true
+			},
+			"testPassFailCounts": {
+				"4.2 PUT /api/orders/:id/pay - Pay Single Order - Response code status check": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response time is acceptable": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				16
+			],
+			"allTests": [
+				{
+					"4.2 PUT /api/orders/:id/pay - Pay Single Order - Response code status check": true,
+					"Response time is acceptable": true
+				}
+			]
+		},
+		{
+			"id": "106d7496-2232-4c4f-bbdd-761637ecb8e2",
+			"name": "4.3 PUT /api/orders/table/:tableId/pay-all - Pay All Orders for Table",
+			"url": "http://localhost:3000/api/orders/table/1/pay-all",
+			"time": 8,
+			"responseCode": {
+				"code": 500,
+				"name": "Internal Server Error"
+			},
+			"tests": {
+				"4.3 PUT /api/orders/table/:tableId/pay-all - Pay All Orders for Table - Response code status check": true,
+				"Response time is acceptable": true
+			},
+			"testPassFailCounts": {
+				"4.3 PUT /api/orders/table/:tableId/pay-all - Pay All Orders for Table - Response code status check": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response time is acceptable": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				8
+			],
+			"allTests": [
+				{
+					"4.3 PUT /api/orders/table/:tableId/pay-all - Pay All Orders for Table - Response code status check": true,
+					"Response time is acceptable": true
+				}
+			]
+		},
+		{
+			"id": "6c9f886e-ffcc-46ca-9fc1-bed64cbacbb1",
+			"name": "4.4 GET /api/payments - Get Payment Transactions List",
+			"url": "http://localhost:3000/api/payments",
+			"time": 9,
+			"responseCode": {
+				"code": 500,
+				"name": "Internal Server Error"
+			},
+			"tests": {
+				"4.4 GET /api/payments - Get Payment Transactions List - Response code status check": true,
+				"Response time is acceptable": true
+			},
+			"testPassFailCounts": {
+				"4.4 GET /api/payments - Get Payment Transactions List - Response code status check": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response time is acceptable": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				9
+			],
+			"allTests": [
+				{
+					"4.4 GET /api/payments - Get Payment Transactions List - Response code status check": true,
+					"Response time is acceptable": true
+				}
+			]
+		},
+		{
+			"id": "0fae2516-0286-4596-83c3-bf8737345a40",
+			"name": "4.5 POST /api/payos/create-payment-link - Create PayOS Checkout Link",
+			"url": "http://localhost:3000/api/payos/create-payment-link",
+			"time": 5,
+			"responseCode": {
+				"code": 500,
+				"name": "Internal Server Error"
+			},
+			"tests": {
+				"4.5 POST /api/payos/create-payment-link - Create PayOS Checkout Link - Response code status check": true,
+				"Response time is acceptable": true
+			},
+			"testPassFailCounts": {
+				"4.5 POST /api/payos/create-payment-link - Create PayOS Checkout Link - Response code status check": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response time is acceptable": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				5
+			],
+			"allTests": [
+				{
+					"4.5 POST /api/payos/create-payment-link - Create PayOS Checkout Link - Response code status check": true,
+					"Response time is acceptable": true
+				}
+			]
+		},
+		{
+			"id": "33f0e474-acf6-4815-bfd0-2f30a8a1a074",
+			"name": "4.6 GET /api/payos/order-status/:orderId - Check PayOS Status",
+			"url": "http://localhost:3000/api/payos/order-status/1",
+			"time": 6,
+			"responseCode": {
+				"code": 500,
+				"name": "Internal Server Error"
+			},
+			"tests": {
+				"4.6 GET /api/payos/order-status/:orderId - Check PayOS Status - Response code status check": true,
+				"Response time is acceptable": true
+			},
+			"testPassFailCounts": {
+				"4.6 GET /api/payos/order-status/:orderId - Check PayOS Status - Response code status check": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response time is acceptable": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				6
+			],
+			"allTests": [
+				{
+					"4.6 GET /api/payos/order-status/:orderId - Check PayOS Status - Response code status check": true,
+					"Response time is acceptable": true
+				}
+			]
+		},
+		{
+			"id": "9aa6129f-5774-4cf8-9f9e-1ebe7edd2ff1",
+			"name": "4.7 POST /api/payos/webhook - PayOS Webhook Confirmation",
+			"url": "http://localhost:3000/api/payos/webhook",
+			"time": 7,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"4.7 POST /api/payos/webhook - PayOS Webhook Confirmation - Response code status check": true,
+				"Response time is acceptable": true
+			},
+			"testPassFailCounts": {
+				"4.7 POST /api/payos/webhook - PayOS Webhook Confirmation - Response code status check": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response time is acceptable": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				7
+			],
+			"allTests": [
+				{
+					"4.7 POST /api/payos/webhook - PayOS Webhook Confirmation - Response code status check": true,
+					"Response time is acceptable": true
+				}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 523,
+	"collection": {
+		"requests": [
+			{
+				"id": "91af1198-6402-4ee7-b54d-169a080f3812",
+				"method": "POST"
+			},
+			{
+				"id": "8b57fe74-a260-470b-af8c-1d4e411f6120",
+				"method": "POST"
+			},
+			{
+				"id": "eec77808-a3de-418e-81e2-22328419e3bb",
+				"method": "POST"
+			},
+			{
+				"id": "ebbcc926-5f6c-481a-88c8-8bc9b6c9235e",
+				"method": "POST"
+			},
+			{
+				"id": "cf20216a-83da-4ce0-8608-ccad3e1efd9d",
+				"method": "POST"
+			},
+			{
+				"id": "4b38c45d-3b4b-41f1-9971-f0d72175d286",
+				"method": "POST"
+			},
+			{
+				"id": "94fe39e6-f87d-45df-8962-6076df894ce9",
+				"method": "POST"
+			},
+			{
+				"id": "39ee37e5-21c7-4278-875b-decfcfbe9eeb",
+				"method": "POST"
+			},
+			{
+				"id": "aa9b2997-863a-4f42-992f-39375ffff5cd",
+				"method": "POST"
+			},
+			{
+				"id": "e38f74a6-0bbd-44fd-a222-1ef947a14989",
+				"method": "POST"
+			},
+			{
+				"id": "8f88aee2-5628-4007-b6ca-0dd7b39bdb9f",
+				"method": "POST"
+			},
+			{
+				"id": "a5ebfd3a-0cc0-4ffb-875a-746633dbd550",
+				"method": "POST"
+			},
+			{
+				"id": "6b192705-8739-4b1d-ad4c-1290673f058f",
+				"method": "POST"
+			},
+			{
+				"id": "74d2f77c-aa9e-4a6e-9cd7-aec41b7749dc",
+				"method": "POST"
+			},
+			{
+				"id": "f1e6a5f1-778c-4481-a8fc-5baf0cba8021",
+				"method": "POST"
+			},
+			{
+				"id": "f4df145f-0623-424e-b460-bd958cd05fda",
+				"method": "POST"
+			},
+			{
+				"id": "6d0ab2e2-b641-4b62-ba6d-2c8973bef4e2",
+				"method": "POST"
+			},
+			{
+				"id": "3b4629bf-d237-4f43-bf15-299525c42132",
+				"method": "POST"
+			},
+			{
+				"id": "d6809055-cc3a-4254-8913-7e1007482ee5",
+				"method": "POST"
+			},
+			{
+				"id": "ce17f88b-14a9-4463-8cea-b3614a67343d",
+				"method": "POST"
+			},
+			{
+				"id": "6cc06411-a7fd-43b5-a89e-b2e24b5d893c",
+				"method": "POST"
+			},
+			{
+				"id": "533770de-3917-4686-9ad7-e32ea8ad8156",
+				"method": "POST"
+			},
+			{
+				"id": "87515e34-e78e-43aa-9894-2532a0b375a3",
+				"method": "POST"
+			},
+			{
+				"id": "c2a75d6c-4019-4737-8494-1cef2d1147c4",
+				"method": "POST"
+			},
+			{
+				"id": "19cc0b17-1764-4316-9362-f5d907412f33",
+				"method": "POST"
+			},
+			{
+				"id": "0ee37b4b-df42-404e-906d-9f9dbd874cf1",
+				"method": "POST"
+			},
+			{
+				"id": "e5d4eda5-8eb1-428f-a963-09b72943c7cd",
+				"method": "POST"
+			},
+			{
+				"id": "4c728bfb-857f-4fc6-9d76-7027166eec15",
+				"method": "POST"
+			},
+			{
+				"id": "7abe4bd0-280f-46c8-8a49-8b9aff9bcc88",
+				"method": "POST"
+			},
+			{
+				"id": "53fb0b50-c97e-4635-8398-6b5ee8ab5771",
+				"method": "POST"
+			},
+			{
+				"id": "e55c3c55-5f04-4508-8b06-80eb9ec28041",
+				"method": "POST"
+			},
+			{
+				"id": "3cd4a733-3e14-4be6-ba89-70edb055c670",
+				"method": "POST"
+			},
+			{
+				"id": "579ff029-647e-4a81-ab98-77cd51ca1767",
+				"method": "POST"
+			},
+			{
+				"id": "862a5ace-08bf-492d-9e90-fe531c4d3923",
+				"method": "GET"
+			},
+			{
+				"id": "0e011e51-f012-471e-ae4a-b7bc55468987",
+				"method": "PUT"
+			},
+			{
+				"id": "106d7496-2232-4c4f-bbdd-761637ecb8e2",
+				"method": "PUT"
+			},
+			{
+				"id": "6c9f886e-ffcc-46ca-9fc1-bed64cbacbb1",
+				"method": "GET"
+			},
+			{
+				"id": "0fae2516-0286-4596-83c3-bf8737345a40",
+				"method": "POST"
+			},
+			{
+				"id": "33f0e474-acf6-4815-bfd0-2f30a8a1a074",
+				"method": "GET"
+			},
+			{
+				"id": "9aa6129f-5774-4cf8-9f9e-1ebe7edd2ff1",
+				"method": "POST"
+			}
+		]
+	}
+}

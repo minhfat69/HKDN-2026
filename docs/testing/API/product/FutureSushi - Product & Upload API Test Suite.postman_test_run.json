@@ -1,0 +1,2192 @@
+{
+	"id": "a05ce121-d8b3-4ba0-b83e-ce3078f405e1",
+	"name": "FutureSushi - Product & Upload API Test Suite",
+	"timestamp": "2026-08-16T02:52:35.168Z",
+	"collection_id": "38502440-2533ba24-f4b6-4951-b6c0-ccc74681e417",
+	"folder_id": 0,
+	"environment_id": "38502440-0a45a39d-e221-4828-959d-5da2db04b68d",
+	"totalPass": 45,
+	"delay": 0,
+	"persist": true,
+	"status": "finished",
+	"startedAt": "2026-08-16T02:52:28.330Z",
+	"totalFail": 25,
+	"results": [
+		{
+			"id": "c8c80936-8352-4778-b33d-7eef29644edd",
+			"name": "Auth - Login as Admin",
+			"url": "http://localhost:3000/api/auth/login",
+			"time": 95,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Login Admin successful (200 OK)": true
+			},
+			"testPassFailCounts": {
+				"Login Admin successful (200 OK)": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				95
+			],
+			"allTests": [
+				{
+					"Login Admin successful (200 OK)": true
+				}
+			]
+		},
+		{
+			"id": "3607d1ae-55d1-4bf6-a3e7-16a70bd696a9",
+			"name": "Auth - Login as Customer",
+			"url": "http://localhost:3000/api/auth/login",
+			"time": 96,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Login Customer successful (200 OK)": true
+			},
+			"testPassFailCounts": {
+				"Login Customer successful (200 OK)": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				96
+			],
+			"allTests": [
+				{
+					"Login Customer successful (200 OK)": true
+				}
+			]
+		},
+		{
+			"id": "1cf5ca4b-3815-47b9-b822-4f21a243db9c",
+			"name": "Auth - Login as Staff",
+			"url": "http://localhost:3000/api/auth/login",
+			"time": 94,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Login Staff successful (200 OK)": true
+			},
+			"testPassFailCounts": {
+				"Login Staff successful (200 OK)": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				94
+			],
+			"allTests": [
+				{
+					"Login Staff successful (200 OK)": true
+				}
+			]
+		},
+		{
+			"id": "07187883-92fb-410e-a420-c32a77e34c5b",
+			"name": "Auth - Login as Kitchen",
+			"url": "http://localhost:3000/api/auth/login",
+			"time": 91,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Login Kitchen successful (200 OK)": true
+			},
+			"testPassFailCounts": {
+				"Login Kitchen successful (200 OK)": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				91
+			],
+			"allTests": [
+				{
+					"Login Kitchen successful (200 OK)": true
+				}
+			]
+		},
+		{
+			"id": "381e8d4b-9baa-4ec0-9f08-ef097feb1600",
+			"name": "TC_API_PRD_001: Tạo món ăn mới thành công với đầy đủ các trường hợp lệ (name, description, price, image, stock, isAvailable, category_id)",
+			"url": "http://localhost:3000/api/products",
+			"time": 9,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"TC_API_PRD_001 - Status code is 201": false
+			},
+			"testPassFailCounts": {
+				"TC_API_PRD_001 - Status code is 201": {
+					"pass": 0,
+					"fail": 1
+				}
+			},
+			"times": [
+				9
+			],
+			"allTests": [
+				{
+					"TC_API_PRD_001 - Status code is 201": false
+				}
+			]
+		},
+		{
+			"id": "561e4c6b-c871-4f21-9a0b-a15a31bc6ec0",
+			"name": "TC_API_PRD_002: Tạo món ăn thành công chỉ với các trường bắt buộc (name, price, category_id)",
+			"url": "http://localhost:3000/api/products",
+			"time": 9,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"TC_API_PRD_002 - Status code is 201": false
+			},
+			"testPassFailCounts": {
+				"TC_API_PRD_002 - Status code is 201": {
+					"pass": 0,
+					"fail": 1
+				}
+			},
+			"times": [
+				9
+			],
+			"allTests": [
+				{
+					"TC_API_PRD_002 - Status code is 201": false
+				}
+			]
+		},
+		{
+			"id": "474d12b7-746b-499c-b3ae-5dce62c91de6",
+			"name": "TC_API_PRD_003: Tạo món ăn với tên đạt độ dài biên tối đa 150 ký tự (STRING(150) Boundary Max)",
+			"url": "http://localhost:3000/api/products",
+			"time": 4,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"TC_API_PRD_003 - Status code is 201": false
+			},
+			"testPassFailCounts": {
+				"TC_API_PRD_003 - Status code is 201": {
+					"pass": 0,
+					"fail": 1
+				}
+			},
+			"times": [
+				4
+			],
+			"allTests": [
+				{
+					"TC_API_PRD_003 - Status code is 201": false
+				}
+			]
+		},
+		{
+			"id": "818183a1-c015-42d4-8b59-a91fb0074612",
+			"name": "TC_API_PRD_004: Tạo món ăn với Tên chứa tiếng Việt có dấu, ký tự đặc biệt & Emoji",
+			"url": "http://localhost:3000/api/products",
+			"time": 8,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"TC_API_PRD_004 - Status code is 201": false
+			},
+			"testPassFailCounts": {
+				"TC_API_PRD_004 - Status code is 201": {
+					"pass": 0,
+					"fail": 1
+				}
+			},
+			"times": [
+				8
+			],
+			"allTests": [
+				{
+					"TC_API_PRD_004 - Status code is 201": false
+				}
+			]
+		},
+		{
+			"id": "e6703bd5-2939-42d4-b9c1-9311d7445695",
+			"name": "TC_API_PRD_005: Tạo món ăn với giá trị price số thập phân (DECIMAL(10,2))",
+			"url": "http://localhost:3000/api/products",
+			"time": 8,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"TC_API_PRD_005 - Status code is 201": false
+			},
+			"testPassFailCounts": {
+				"TC_API_PRD_005 - Status code is 201": {
+					"pass": 0,
+					"fail": 1
+				}
+			},
+			"times": [
+				8
+			],
+			"allTests": [
+				{
+					"TC_API_PRD_005 - Status code is 201": false
+				}
+			]
+		},
+		{
+			"id": "dd2da5a3-83e7-4930-828b-51d1fe8a7ab9",
+			"name": "TC_API_PRD_006: Tạo món ăn gán URL hình ảnh từ API Upload nội bộ (/uploads/image-...)",
+			"url": "http://localhost:3000/api/products",
+			"time": 9,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"TC_API_PRD_006 - Status code is 201": false
+			},
+			"testPassFailCounts": {
+				"TC_API_PRD_006 - Status code is 201": {
+					"pass": 0,
+					"fail": 1
+				}
+			},
+			"times": [
+				9
+			],
+			"allTests": [
+				{
+					"TC_API_PRD_006 - Status code is 201": false
+				}
+			]
+		},
+		{
+			"id": "5e04e84e-2249-4923-a989-b1235b64040b",
+			"name": "TC_API_PRD_007: Tạo món ăn thất bại khi thiếu hoàn toàn trường bắt buộc name trong Body",
+			"url": "http://localhost:3000/api/products",
+			"time": 3,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"TC_API_PRD_007 - Status code is 400": true
+			},
+			"testPassFailCounts": {
+				"TC_API_PRD_007 - Status code is 400": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				3
+			],
+			"allTests": [
+				{
+					"TC_API_PRD_007 - Status code is 400": true
+				}
+			]
+		},
+		{
+			"id": "da8411f5-cd9e-47f5-886c-1909c023fb3d",
+			"name": "TC_API_PRD_008: Tạo món ăn thất bại khi thiếu hoàn toàn trường bắt buộc price trong Body",
+			"url": "http://localhost:3000/api/products",
+			"time": 3,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"TC_API_PRD_008 - Status code is 400": true
+			},
+			"testPassFailCounts": {
+				"TC_API_PRD_008 - Status code is 400": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				3
+			],
+			"allTests": [
+				{
+					"TC_API_PRD_008 - Status code is 400": true
+				}
+			]
+		},
+		{
+			"id": "b0b4f4c0-4a9d-4818-8814-592868503881",
+			"name": "TC_API_PRD_009: Tạo món ăn thất bại khi thiếu hoàn toàn trường bắt buộc category_id trong Body",
+			"url": "http://localhost:3000/api/products",
+			"time": 3,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"TC_API_PRD_009 - Status code is 400": true
+			},
+			"testPassFailCounts": {
+				"TC_API_PRD_009 - Status code is 400": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				3
+			],
+			"allTests": [
+				{
+					"TC_API_PRD_009 - Status code is 400": true
+				}
+			]
+		},
+		{
+			"id": "edad07a1-e0d5-4153-a1f3-0773ed71d992",
+			"name": "TC_API_PRD_010: Tạo món ăn thất bại khi trường name là chuỗi rỗng ''",
+			"url": "http://localhost:3000/api/products",
+			"time": 8,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"TC_API_PRD_010 - Status code is 400": true
+			},
+			"testPassFailCounts": {
+				"TC_API_PRD_010 - Status code is 400": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				8
+			],
+			"allTests": [
+				{
+					"TC_API_PRD_010 - Status code is 400": true
+				}
+			]
+		},
+		{
+			"id": "b066b679-4e9a-49b4-87ac-6a25a2f05002",
+			"name": "TC_API_PRD_011: Tạo món ăn thất bại khi trường name vượt quá 150 ký tự (Boundary 151 chars)",
+			"url": "http://localhost:3000/api/products",
+			"time": 4,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"TC_API_PRD_011 - Status code is 400": true
+			},
+			"testPassFailCounts": {
+				"TC_API_PRD_011 - Status code is 400": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				4
+			],
+			"allTests": [
+				{
+					"TC_API_PRD_011 - Status code is 400": true
+				}
+			]
+		},
+		{
+			"id": "cfb3be4d-a893-46f5-8338-76656cbe8737",
+			"name": "TC_API_PRD_012: Tạo món ăn thất bại khi price là số âm (price < 0)",
+			"url": "http://localhost:3000/api/products",
+			"time": 8,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"TC_API_PRD_012 - Status code is 400": true
+			},
+			"testPassFailCounts": {
+				"TC_API_PRD_012 - Status code is 400": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				8
+			],
+			"allTests": [
+				{
+					"TC_API_PRD_012 - Status code is 400": true
+				}
+			]
+		},
+		{
+			"id": "a35b9234-2f61-409a-8230-5df20b7423a4",
+			"name": "TC_API_PRD_013: Tạo món ăn thất bại khi price là chuỗi không phải số",
+			"url": "http://localhost:3000/api/products",
+			"time": 5,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"TC_API_PRD_013 - Status code is 400": true
+			},
+			"testPassFailCounts": {
+				"TC_API_PRD_013 - Status code is 400": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				5
+			],
+			"allTests": [
+				{
+					"TC_API_PRD_013 - Status code is 400": true
+				}
+			]
+		},
+		{
+			"id": "00eede0a-b28e-4e1d-bb11-f7735cdec97a",
+			"name": "TC_API_PRD_014: Tạo món ăn thất bại khi category_id không tồn tại trong Database (Khóa ngoại)",
+			"url": "http://localhost:3000/api/products",
+			"time": 8,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"TC_API_PRD_014 - Status code is 400": true
+			},
+			"testPassFailCounts": {
+				"TC_API_PRD_014 - Status code is 400": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				8
+			],
+			"allTests": [
+				{
+					"TC_API_PRD_014 - Status code is 400": true
+				}
+			]
+		},
+		{
+			"id": "3d4bdd49-581b-4baf-bf04-697101a9b957",
+			"name": "TC_API_PRD_015: Tạo món ăn thất bại khi không truyền Token (Khách vãng lai / Guest)",
+			"url": "http://localhost:3000/api/products",
+			"time": 2,
+			"responseCode": {
+				"code": 401,
+				"name": "Unauthorized"
+			},
+			"tests": {
+				"TC_API_PRD_015 - Status code is 401": true
+			},
+			"testPassFailCounts": {
+				"TC_API_PRD_015 - Status code is 401": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				2
+			],
+			"allTests": [
+				{
+					"TC_API_PRD_015 - Status code is 401": true
+				}
+			]
+		},
+		{
+			"id": "09eb91d8-e99b-4aa8-b086-f9041853cfde",
+			"name": "TC_API_PRD_016: Tạo món ăn thất bại khi Token hết hạn hoặc sai chữ ký (Invalid Signature)",
+			"url": "http://localhost:3000/api/products",
+			"time": 2,
+			"responseCode": {
+				"code": 401,
+				"name": "Unauthorized"
+			},
+			"tests": {
+				"TC_API_PRD_016 - Status code is 401": true
+			},
+			"testPassFailCounts": {
+				"TC_API_PRD_016 - Status code is 401": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				2
+			],
+			"allTests": [
+				{
+					"TC_API_PRD_016 - Status code is 401": true
+				}
+			]
+		},
+		{
+			"id": "811acaf1-6c41-4d3d-8326-499e58789f8a",
+			"name": "TC_API_PRD_017: Tạo món ăn thất bại khi người dùng có vai trò không phải ADMIN (CUSTOMER / STAFF / KITCHEN)",
+			"url": "http://localhost:3000/api/products",
+			"time": 4,
+			"responseCode": {
+				"code": 403,
+				"name": "Forbidden"
+			},
+			"tests": {
+				"TC_API_PRD_017 - Status code is 403": true
+			},
+			"testPassFailCounts": {
+				"TC_API_PRD_017 - Status code is 403": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				4
+			],
+			"allTests": [
+				{
+					"TC_API_PRD_017 - Status code is 403": true
+				}
+			]
+		},
+		{
+			"id": "bd2409c2-fc09-4c58-9590-e0193ee751a9",
+			"name": "TC_API_PRD_018: Kiểm tra an toàn bảo mật SQL Injection & XSS Payload trong thông tin món ăn",
+			"url": "http://localhost:3000/api/products",
+			"time": 9,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"TC_API_PRD_018 - Status code is 201": false
+			},
+			"testPassFailCounts": {
+				"TC_API_PRD_018 - Status code is 201": {
+					"pass": 0,
+					"fail": 1
+				}
+			},
+			"times": [
+				9
+			],
+			"allTests": [
+				{
+					"TC_API_PRD_018 - Status code is 201": false
+				}
+			]
+		},
+		{
+			"id": "a606d90c-2bcc-4e31-907b-8e17d47ce908",
+			"name": "TC_API_PRD_019: Lấy toàn bộ danh sách món ăn (Public Access)",
+			"url": "http://localhost:3000/api/products",
+			"time": 3,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"TC_API_PRD_019 - Status code is 200": true
+			},
+			"testPassFailCounts": {
+				"TC_API_PRD_019 - Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				3
+			],
+			"allTests": [
+				{
+					"TC_API_PRD_019 - Status code is 200": true
+				}
+			]
+		},
+		{
+			"id": "7bb50493-82a9-4fce-924a-334d42225f7f",
+			"name": "TC_API_PRD_020: Lọc danh sách món ăn theo danh mục (?category_id=1)",
+			"url": "http://localhost:3000/api/products",
+			"time": 3,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"TC_API_PRD_020 - Status code is 200": true
+			},
+			"testPassFailCounts": {
+				"TC_API_PRD_020 - Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				3
+			],
+			"allTests": [
+				{
+					"TC_API_PRD_020 - Status code is 200": true
+				}
+			]
+		},
+		{
+			"id": "73b13e88-d70d-46c7-b96e-1f779bb4b5ad",
+			"name": "TC_API_PRD_021: Lọc theo category_id không tồn tại (?category_id=999999)",
+			"url": "http://localhost:3000/api/products",
+			"time": 3,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"TC_API_PRD_021 - Status code is 200": true
+			},
+			"testPassFailCounts": {
+				"TC_API_PRD_021 - Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				3
+			],
+			"allTests": [
+				{
+					"TC_API_PRD_021 - Status code is 200": true
+				}
+			]
+		},
+		{
+			"id": "127eed17-7dac-43f5-a00a-4bf9b8869dd1",
+			"name": "TC_API_PRD_022: Tìm kiếm món ăn theo từ khóa (?search=Sushi)",
+			"url": "http://localhost:3000/api/products",
+			"time": 3,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"TC_API_PRD_022 - Status code is 200": true
+			},
+			"testPassFailCounts": {
+				"TC_API_PRD_022 - Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				3
+			],
+			"allTests": [
+				{
+					"TC_API_PRD_022 - Status code is 200": true
+				}
+			]
+		},
+		{
+			"id": "c1f9d5dd-d297-4696-8a9a-7d5d362f499c",
+			"name": "TC_API_PRD_023: Tìm kiếm món ăn không phân biệt chữ hoa / chữ thường (?search=sushi)",
+			"url": "http://localhost:3000/api/products",
+			"time": 3,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"TC_API_PRD_023 - Status code is 200": true
+			},
+			"testPassFailCounts": {
+				"TC_API_PRD_023 - Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				3
+			],
+			"allTests": [
+				{
+					"TC_API_PRD_023 - Status code is 200": true
+				}
+			]
+		},
+		{
+			"id": "fb18cf24-29e1-4a05-b474-508613534d88",
+			"name": "TC_API_PRD_024: Kết hợp đồng thời bộ lọc danh mục và từ khóa tìm kiếm (?category_id=1&search=Sashimi)",
+			"url": "http://localhost:3000/api/products",
+			"time": 3,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"TC_API_PRD_024 - Status code is 200": true
+			},
+			"testPassFailCounts": {
+				"TC_API_PRD_024 - Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				3
+			],
+			"allTests": [
+				{
+					"TC_API_PRD_024 - Status code is 200": true
+				}
+			]
+		},
+		{
+			"id": "c80a316a-c29b-4cae-90a3-3711c053a699",
+			"name": "TC_API_PRD_025: Tìm kiếm với từ khóa không tồn tại (?search=MonAnKhongCoThucTe999)",
+			"url": "http://localhost:3000/api/products",
+			"time": 3,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"TC_API_PRD_025 - Status code is 200": true
+			},
+			"testPassFailCounts": {
+				"TC_API_PRD_025 - Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				3
+			],
+			"allTests": [
+				{
+					"TC_API_PRD_025 - Status code is 200": true
+				}
+			]
+		},
+		{
+			"id": "5ee4b5c1-40ba-4944-98ee-dcba88167b1b",
+			"name": "TC_API_PRD_026: Tìm kiếm với ký tự đặc biệt URL Encoded (?search=%25)",
+			"url": "http://localhost:3000/api/products",
+			"time": 3,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"TC_API_PRD_026 - Status code is 200": true
+			},
+			"testPassFailCounts": {
+				"TC_API_PRD_026 - Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				3
+			],
+			"allTests": [
+				{
+					"TC_API_PRD_026 - Status code is 200": true
+				}
+			]
+		},
+		{
+			"id": "3ea0c3d9-f1a6-4804-b47b-23aa4f4da74f",
+			"name": "TC_API_PRD_027: Kiểm tra tính toàn vẹn Schema của danh sách Product trả về",
+			"url": "http://localhost:3000/api/products",
+			"time": 3,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"TC_API_PRD_027 - Status code is 200": true
+			},
+			"testPassFailCounts": {
+				"TC_API_PRD_027 - Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				3
+			],
+			"allTests": [
+				{
+					"TC_API_PRD_027 - Status code is 200": true
+				}
+			]
+		},
+		{
+			"id": "f20c3287-50dd-47b2-84b9-a4b80693bab9",
+			"name": "TC_API_PRD_028: Lấy chi tiết món ăn với ID hợp lệ (GET /api/products/{{createdProductId}})",
+			"url": "http://localhost:3000/api/products/:id",
+			"time": 3,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"TC_API_PRD_028 - Status code is 200": false
+			},
+			"testPassFailCounts": {
+				"TC_API_PRD_028 - Status code is 200": {
+					"pass": 0,
+					"fail": 1
+				}
+			},
+			"times": [
+				3
+			],
+			"allTests": [
+				{
+					"TC_API_PRD_028 - Status code is 200": false
+				}
+			]
+		},
+		{
+			"id": "cacde083-b1f9-476b-a549-d27c979f51e4",
+			"name": "TC_API_PRD_029: Lấy chi tiết món ăn với ID không tồn tại (GET /api/products/999999)",
+			"url": "http://localhost:3000/api/products/:id",
+			"time": 4,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"TC_API_PRD_029 - Status code is 404": true
+			},
+			"testPassFailCounts": {
+				"TC_API_PRD_029 - Status code is 404": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				4
+			],
+			"allTests": [
+				{
+					"TC_API_PRD_029 - Status code is 404": true
+				}
+			]
+		},
+		{
+			"id": "5bf001e5-44cf-4725-a9d9-56119c4e6d87",
+			"name": "TC_API_PRD_030: Lấy chi tiết món ăn với ID là số nguyên âm (GET /api/products/-1)",
+			"url": "http://localhost:3000/api/products/:id",
+			"time": 3,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"TC_API_PRD_030 - Status code is 404": true
+			},
+			"testPassFailCounts": {
+				"TC_API_PRD_030 - Status code is 404": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				3
+			],
+			"allTests": [
+				{
+					"TC_API_PRD_030 - Status code is 404": true
+				}
+			]
+		},
+		{
+			"id": "22d1c13d-6ba8-4d93-9dfa-beb51d41b624",
+			"name": "TC_API_PRD_031: Lấy chi tiết món ăn với ID dạng chuỗi ký tự (GET /api/products/abc)",
+			"url": "http://localhost:3000/api/products/:id",
+			"time": 4,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"TC_API_PRD_031 - Status code is 400": false
+			},
+			"testPassFailCounts": {
+				"TC_API_PRD_031 - Status code is 400": {
+					"pass": 0,
+					"fail": 1
+				}
+			},
+			"times": [
+				4
+			],
+			"allTests": [
+				{
+					"TC_API_PRD_031 - Status code is 400": false
+				}
+			]
+		},
+		{
+			"id": "5080d72c-5d77-4a13-9038-9799b05b9b22",
+			"name": "TC_API_PRD_032: Lấy chi tiết món ăn với ID số siêu lớn vượt ngưỡng BIGINT (GET /api/products/9999999999999999999)",
+			"url": "http://localhost:3000/api/products/:id",
+			"time": 3,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"TC_API_PRD_032 - Status code is 400": false
+			},
+			"testPassFailCounts": {
+				"TC_API_PRD_032 - Status code is 400": {
+					"pass": 0,
+					"fail": 1
+				}
+			},
+			"times": [
+				3
+			],
+			"allTests": [
+				{
+					"TC_API_PRD_032 - Status code is 400": false
+				}
+			]
+		},
+		{
+			"id": "e90218f4-f614-42a7-8acf-2966f287cfc1",
+			"name": "TC_API_PRD_033: Cập nhật đầy đủ tất cả thông tin món ăn thành công",
+			"url": "http://localhost:3000/api/products/:id",
+			"time": 4,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"TC_API_PRD_033 - Status code is 200": false
+			},
+			"testPassFailCounts": {
+				"TC_API_PRD_033 - Status code is 200": {
+					"pass": 0,
+					"fail": 1
+				}
+			},
+			"times": [
+				4
+			],
+			"allTests": [
+				{
+					"TC_API_PRD_033 - Status code is 200": false
+				}
+			]
+		},
+		{
+			"id": "0fcca766-7658-4b42-b9a1-d4a1c46c882f",
+			"name": "TC_API_PRD_034: Cập nhật chỉ riêng tên món ăn (name)",
+			"url": "http://localhost:3000/api/products/:id",
+			"time": 4,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"TC_API_PRD_034 - Status code is 200": false
+			},
+			"testPassFailCounts": {
+				"TC_API_PRD_034 - Status code is 200": {
+					"pass": 0,
+					"fail": 1
+				}
+			},
+			"times": [
+				4
+			],
+			"allTests": [
+				{
+					"TC_API_PRD_034 - Status code is 200": false
+				}
+			]
+		},
+		{
+			"id": "b14b63f7-d560-4f82-be76-3e42ceb83629",
+			"name": "TC_API_PRD_035: Cập nhật chỉ riêng giá tiền (price)",
+			"url": "http://localhost:3000/api/products/:id",
+			"time": 4,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"TC_API_PRD_035 - Status code is 200": false
+			},
+			"testPassFailCounts": {
+				"TC_API_PRD_035 - Status code is 200": {
+					"pass": 0,
+					"fail": 1
+				}
+			},
+			"times": [
+				4
+			],
+			"allTests": [
+				{
+					"TC_API_PRD_035 - Status code is 200": false
+				}
+			]
+		},
+		{
+			"id": "9a677bdb-2a2d-4396-8512-7308a4811b18",
+			"name": "TC_API_PRD_036: Cập nhật chuyển món ăn sang danh mục khác (category_id)",
+			"url": "http://localhost:3000/api/products/:id",
+			"time": 5,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"TC_API_PRD_036 - Status code is 200": false
+			},
+			"testPassFailCounts": {
+				"TC_API_PRD_036 - Status code is 200": {
+					"pass": 0,
+					"fail": 1
+				}
+			},
+			"times": [
+				5
+			],
+			"allTests": [
+				{
+					"TC_API_PRD_036 - Status code is 200": false
+				}
+			]
+		},
+		{
+			"id": "a9ee9aa4-7591-4f00-831a-cd0239ceaaab",
+			"name": "TC_API_PRD_037: Cập nhật trạng thái tạm ngưng phục vụ (isAvailable: false)",
+			"url": "http://localhost:3000/api/products/:id",
+			"time": 5,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"TC_API_PRD_037 - Status code is 200": false
+			},
+			"testPassFailCounts": {
+				"TC_API_PRD_037 - Status code is 200": {
+					"pass": 0,
+					"fail": 1
+				}
+			},
+			"times": [
+				5
+			],
+			"allTests": [
+				{
+					"TC_API_PRD_037 - Status code is 200": false
+				}
+			]
+		},
+		{
+			"id": "7dfc4e33-9e92-4f67-9aa7-ce880d6067e6",
+			"name": "TC_API_PRD_038: Cập nhật gỡ bỏ hình ảnh món ăn (image: null)",
+			"url": "http://localhost:3000/api/products/:id",
+			"time": 4,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"TC_API_PRD_038 - Status code is 200": false
+			},
+			"testPassFailCounts": {
+				"TC_API_PRD_038 - Status code is 200": {
+					"pass": 0,
+					"fail": 1
+				}
+			},
+			"times": [
+				4
+			],
+			"allTests": [
+				{
+					"TC_API_PRD_038 - Status code is 200": false
+				}
+			]
+		},
+		{
+			"id": "40285e0e-1f75-49df-9567-204f649531c3",
+			"name": "TC_API_PRD_039: Cập nhật số lượng tồn kho (stock: 120)",
+			"url": "http://localhost:3000/api/products/:id",
+			"time": 4,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"TC_API_PRD_039 - Status code is 200": false
+			},
+			"testPassFailCounts": {
+				"TC_API_PRD_039 - Status code is 200": {
+					"pass": 0,
+					"fail": 1
+				}
+			},
+			"times": [
+				4
+			],
+			"allTests": [
+				{
+					"TC_API_PRD_039 - Status code is 200": false
+				}
+			]
+		},
+		{
+			"id": "2c428848-6f33-4f60-8bfd-5674e77fa405",
+			"name": "TC_API_PRD_040: Cập nhật món ăn thất bại khi tên là chuỗi rỗng ''",
+			"url": "http://localhost:3000/api/products/:id",
+			"time": 4,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"TC_API_PRD_040 - Status code is 400": true
+			},
+			"testPassFailCounts": {
+				"TC_API_PRD_040 - Status code is 400": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				4
+			],
+			"allTests": [
+				{
+					"TC_API_PRD_040 - Status code is 400": true
+				}
+			]
+		},
+		{
+			"id": "e02aa5ec-1823-437a-952d-d1c6a43481dc",
+			"name": "TC_API_PRD_041: Cập nhật món ăn thất bại khi giá là số âm (price: -30000)",
+			"url": "http://localhost:3000/api/products/:id",
+			"time": 4,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"TC_API_PRD_041 - Status code is 400": true
+			},
+			"testPassFailCounts": {
+				"TC_API_PRD_041 - Status code is 400": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				4
+			],
+			"allTests": [
+				{
+					"TC_API_PRD_041 - Status code is 400": true
+				}
+			]
+		},
+		{
+			"id": "b350a332-5f5c-455f-9a63-d72963234999",
+			"name": "TC_API_PRD_042: Cập nhật món ăn thất bại khi category_id không tồn tại trong DB",
+			"url": "http://localhost:3000/api/products/:id",
+			"time": 6,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"TC_API_PRD_042 - Status code is 400": true
+			},
+			"testPassFailCounts": {
+				"TC_API_PRD_042 - Status code is 400": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				6
+			],
+			"allTests": [
+				{
+					"TC_API_PRD_042 - Status code is 400": true
+				}
+			]
+		},
+		{
+			"id": "09833ab7-40ce-4839-ab7e-ab46e1b9a23e",
+			"name": "TC_API_PRD_043: Cập nhật món ăn thất bại khi ID món không tồn tại (PUT /api/products/999999)",
+			"url": "http://localhost:3000/api/products/:id",
+			"time": 5,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"TC_API_PRD_043 - Status code is 404": false
+			},
+			"testPassFailCounts": {
+				"TC_API_PRD_043 - Status code is 404": {
+					"pass": 0,
+					"fail": 1
+				}
+			},
+			"times": [
+				5
+			],
+			"allTests": [
+				{
+					"TC_API_PRD_043 - Status code is 404": false
+				}
+			]
+		},
+		{
+			"id": "b5e9faed-d119-40c8-ac2f-ca5e0924531a",
+			"name": "TC_API_PRD_044: Cập nhật món ăn thất bại khi không truyền Token (Guest)",
+			"url": "http://localhost:3000/api/products/:id",
+			"time": 2,
+			"responseCode": {
+				"code": 401,
+				"name": "Unauthorized"
+			},
+			"tests": {
+				"TC_API_PRD_044 - Status code is 401": true
+			},
+			"testPassFailCounts": {
+				"TC_API_PRD_044 - Status code is 401": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				2
+			],
+			"allTests": [
+				{
+					"TC_API_PRD_044 - Status code is 401": true
+				}
+			]
+		},
+		{
+			"id": "73199ce5-d361-445e-96ec-8eabc520d24d",
+			"name": "TC_API_PRD_045: Cập nhật món ăn thất bại khi người dùng có vai trò không phải ADMIN (CUSTOMER/STAFF/KITCHEN)",
+			"url": "http://localhost:3000/api/products/:id",
+			"time": 3,
+			"responseCode": {
+				"code": 403,
+				"name": "Forbidden"
+			},
+			"tests": {
+				"TC_API_PRD_045 - Status code is 403": true
+			},
+			"testPassFailCounts": {
+				"TC_API_PRD_045 - Status code is 403": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				3
+			],
+			"allTests": [
+				{
+					"TC_API_PRD_045 - Status code is 403": true
+				}
+			]
+		},
+		{
+			"id": "cdb55b3d-ee31-48f4-88a0-a0c05b6380fc",
+			"name": "TC_API_PRD_046: Cập nhật món ăn thất bại khi name vượt quá 150 ký tự (151 chars)",
+			"url": "http://localhost:3000/api/products/:id",
+			"time": 4,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"TC_API_PRD_046 - Status code is 400": true
+			},
+			"testPassFailCounts": {
+				"TC_API_PRD_046 - Status code is 400": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				4
+			],
+			"allTests": [
+				{
+					"TC_API_PRD_046 - Status code is 400": true
+				}
+			]
+		},
+		{
+			"id": "8d667ecd-b0f5-473e-9db1-e918f4e21ff0",
+			"name": "TC_API_PRD_047: Xóa món ăn hợp lệ không có ràng buộc đơn hàng hoặc giỏ hàng",
+			"url": "http://localhost:3000/api/products/:id",
+			"time": 4,
+			"responseCode": {
+				"code": 500,
+				"name": "Internal Server Error"
+			},
+			"tests": {
+				"TC_API_PRD_047 - Status code is 204": false
+			},
+			"testPassFailCounts": {
+				"TC_API_PRD_047 - Status code is 204": {
+					"pass": 0,
+					"fail": 1
+				}
+			},
+			"times": [
+				4
+			],
+			"allTests": [
+				{
+					"TC_API_PRD_047 - Status code is 204": false
+				}
+			]
+		},
+		{
+			"id": "c211b1cd-01fe-42f4-8164-61bcf26ae4c7",
+			"name": "TC_API_PRD_048: Ràng buộc khi xóa món ăn đang nằm trong đơn hàng (OrderItem) hoặc giỏ hàng (CartItem)",
+			"url": "http://localhost:3000/api/products/:id",
+			"time": 3,
+			"responseCode": {
+				"code": 500,
+				"name": "Internal Server Error"
+			},
+			"tests": {
+				"TC_API_PRD_048 - Status code is 400": false
+			},
+			"testPassFailCounts": {
+				"TC_API_PRD_048 - Status code is 400": {
+					"pass": 0,
+					"fail": 1
+				}
+			},
+			"times": [
+				3
+			],
+			"allTests": [
+				{
+					"TC_API_PRD_048 - Status code is 400": false
+				}
+			]
+		},
+		{
+			"id": "bf40cabd-52a4-439f-ae70-0eb97336c742",
+			"name": "TC_API_PRD_049: Xóa món ăn thất bại khi ID không tồn tại (DELETE /api/products/999999)",
+			"url": "http://localhost:3000/api/products/:id",
+			"time": 4,
+			"responseCode": {
+				"code": 500,
+				"name": "Internal Server Error"
+			},
+			"tests": {
+				"TC_API_PRD_049 - Status code is 404": false
+			},
+			"testPassFailCounts": {
+				"TC_API_PRD_049 - Status code is 404": {
+					"pass": 0,
+					"fail": 1
+				}
+			},
+			"times": [
+				4
+			],
+			"allTests": [
+				{
+					"TC_API_PRD_049 - Status code is 404": false
+				}
+			]
+		},
+		{
+			"id": "3baf945a-87b5-49b2-92ac-14df99a1b842",
+			"name": "TC_API_PRD_050: Double Delete xóa lại món ăn đã bị xóa trước đó",
+			"url": "http://localhost:3000/api/products/:id",
+			"time": 4,
+			"responseCode": {
+				"code": 500,
+				"name": "Internal Server Error"
+			},
+			"tests": {
+				"TC_API_PRD_050 - Status code is 404": false
+			},
+			"testPassFailCounts": {
+				"TC_API_PRD_050 - Status code is 404": {
+					"pass": 0,
+					"fail": 1
+				}
+			},
+			"times": [
+				4
+			],
+			"allTests": [
+				{
+					"TC_API_PRD_050 - Status code is 404": false
+				}
+			]
+		},
+		{
+			"id": "5ca1812a-5076-47cb-a247-e11edabea15b",
+			"name": "TC_API_PRD_051: Xóa món ăn thất bại khi không truyền Token (Guest)",
+			"url": "http://localhost:3000/api/products/:id",
+			"time": 2,
+			"responseCode": {
+				"code": 401,
+				"name": "Unauthorized"
+			},
+			"tests": {
+				"TC_API_PRD_051 - Status code is 401": true
+			},
+			"testPassFailCounts": {
+				"TC_API_PRD_051 - Status code is 401": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				2
+			],
+			"allTests": [
+				{
+					"TC_API_PRD_051 - Status code is 401": true
+				}
+			]
+		},
+		{
+			"id": "933140e3-9d40-4b2a-85af-4d1646df9f20",
+			"name": "TC_API_PRD_052: Xóa món ăn thất bại khi người dùng có vai trò CUSTOMER",
+			"url": "http://localhost:3000/api/products/:id",
+			"time": 3,
+			"responseCode": {
+				"code": 403,
+				"name": "Forbidden"
+			},
+			"tests": {
+				"TC_API_PRD_052 - Status code is 403": true
+			},
+			"testPassFailCounts": {
+				"TC_API_PRD_052 - Status code is 403": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				3
+			],
+			"allTests": [
+				{
+					"TC_API_PRD_052 - Status code is 403": true
+				}
+			]
+		},
+		{
+			"id": "51b3c0be-f1d5-495b-b806-c80665a21f83",
+			"name": "TC_API_PRD_053: Xóa món ăn thất bại khi người dùng có vai trò STAFF",
+			"url": "http://localhost:3000/api/products/:id",
+			"time": 3,
+			"responseCode": {
+				"code": 403,
+				"name": "Forbidden"
+			},
+			"tests": {
+				"TC_API_PRD_053 - Status code is 403": true
+			},
+			"testPassFailCounts": {
+				"TC_API_PRD_053 - Status code is 403": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				3
+			],
+			"allTests": [
+				{
+					"TC_API_PRD_053 - Status code is 403": true
+				}
+			]
+		},
+		{
+			"id": "26792e5f-04e4-4b41-aac2-22533dcace53",
+			"name": "TC_API_PRD_054: Xóa món ăn thất bại khi người dùng có vai trò KITCHEN",
+			"url": "http://localhost:3000/api/products/:id",
+			"time": 3,
+			"responseCode": {
+				"code": 403,
+				"name": "Forbidden"
+			},
+			"tests": {
+				"TC_API_PRD_054 - Status code is 403": true
+			},
+			"testPassFailCounts": {
+				"TC_API_PRD_054 - Status code is 403": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				3
+			],
+			"allTests": [
+				{
+					"TC_API_PRD_054 - Status code is 403": true
+				}
+			]
+		},
+		{
+			"id": "c2c1739d-3d84-4895-862d-55a5e1b7c1ba",
+			"name": "TC_API_UPL_001: Upload thành công file ảnh JPG/JPEG hợp lệ",
+			"url": "http://localhost:3000/api/upload/image",
+			"time": 3,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"TC_API_UPL_001 - Status code is 200": false
+			},
+			"testPassFailCounts": {
+				"TC_API_UPL_001 - Status code is 200": {
+					"pass": 0,
+					"fail": 1
+				}
+			},
+			"times": [
+				3
+			],
+			"allTests": [
+				{
+					"TC_API_UPL_001 - Status code is 200": false
+				}
+			]
+		},
+		{
+			"id": "9e257f6f-2e09-4ad8-9e48-98f97e93de9c",
+			"name": "TC_API_UPL_002: Upload thành công file ảnh PNG hợp lệ",
+			"url": "http://localhost:3000/api/upload/image",
+			"time": 3,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"TC_API_UPL_002 - Status code is 200": false
+			},
+			"testPassFailCounts": {
+				"TC_API_UPL_002 - Status code is 200": {
+					"pass": 0,
+					"fail": 1
+				}
+			},
+			"times": [
+				3
+			],
+			"allTests": [
+				{
+					"TC_API_UPL_002 - Status code is 200": false
+				}
+			]
+		},
+		{
+			"id": "d2f6a680-4acc-4145-8b8a-d39dd0263f9c",
+			"name": "TC_API_UPL_003: Upload thành công file ảnh WEBP định dạng tối ưu web",
+			"url": "http://localhost:3000/api/upload/image",
+			"time": 3,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"TC_API_UPL_003 - Status code is 200": false
+			},
+			"testPassFailCounts": {
+				"TC_API_UPL_003 - Status code is 200": {
+					"pass": 0,
+					"fail": 1
+				}
+			},
+			"times": [
+				3
+			],
+			"allTests": [
+				{
+					"TC_API_UPL_003 - Status code is 200": false
+				}
+			]
+		},
+		{
+			"id": "f4f64e86-83bf-40b5-9237-6864a1613ad0",
+			"name": "TC_API_UPL_004: Upload thất bại khi không đính kèm bất kỳ file nào trong Request form-data",
+			"url": "http://localhost:3000/api/upload/image",
+			"time": 3,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"TC_API_UPL_004 - Status code is 400": true
+			},
+			"testPassFailCounts": {
+				"TC_API_UPL_004 - Status code is 400": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				3
+			],
+			"allTests": [
+				{
+					"TC_API_UPL_004 - Status code is 400": true
+				}
+			]
+		},
+		{
+			"id": "7f3e224e-4054-4b1b-ac0b-08658f51a93a",
+			"name": "TC_API_UPL_005: Upload thất bại khi sai tên trường form-data (gửi 'photo' hoặc 'file' thay vì 'image')",
+			"url": "http://localhost:3000/api/upload/image",
+			"time": 3,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"TC_API_UPL_005 - Status code is 400": true
+			},
+			"testPassFailCounts": {
+				"TC_API_UPL_005 - Status code is 400": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				3
+			],
+			"allTests": [
+				{
+					"TC_API_UPL_005 - Status code is 400": true
+				}
+			]
+		},
+		{
+			"id": "8399d399-9dae-4635-a450-d890caf17188",
+			"name": "TC_API_UPL_006: Upload thất bại khi gửi file không phải định dạng hình ảnh (file script .sh, .exe, .txt, .pdf)",
+			"url": "http://localhost:3000/api/upload/image",
+			"time": 2,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"TC_API_UPL_006 - Status code is 400": true
+			},
+			"testPassFailCounts": {
+				"TC_API_UPL_006 - Status code is 400": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				2
+			],
+			"allTests": [
+				{
+					"TC_API_UPL_006 - Status code is 400": true
+				}
+			]
+		},
+		{
+			"id": "6cfda36e-753d-40d5-af1e-022e9b5abdb7",
+			"name": "TC_API_UPL_007: Upload thất bại khi gửi file dung lượng vượt quá giới hạn cho phép (> 5MB)",
+			"url": "http://localhost:3000/api/upload/image",
+			"time": 3,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"TC_API_UPL_007 - Status code is 400": true
+			},
+			"testPassFailCounts": {
+				"TC_API_UPL_007 - Status code is 400": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				3
+			],
+			"allTests": [
+				{
+					"TC_API_UPL_007 - Status code is 400": true
+				}
+			]
+		},
+		{
+			"id": "b06b903d-ee13-4538-87d7-762e4a201269",
+			"name": "TC_API_UPL_008: Upload ảnh thất bại khi không truyền Token (Khách vãng lai / Guest)",
+			"url": "http://localhost:3000/api/upload/image",
+			"time": 2,
+			"responseCode": {
+				"code": 401,
+				"name": "Unauthorized"
+			},
+			"tests": {
+				"TC_API_UPL_008 - Status code is 401": true
+			},
+			"testPassFailCounts": {
+				"TC_API_UPL_008 - Status code is 401": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				2
+			],
+			"allTests": [
+				{
+					"TC_API_UPL_008 - Status code is 401": true
+				}
+			]
+		},
+		{
+			"id": "345c850c-71cb-4477-8330-566e60d74f2e",
+			"name": "TC_API_UPL_009: Upload ảnh thất bại khi Token hết hạn hoặc chữ ký giả mạo",
+			"url": "http://localhost:3000/api/upload/image",
+			"time": 2,
+			"responseCode": {
+				"code": 401,
+				"name": "Unauthorized"
+			},
+			"tests": {
+				"TC_API_UPL_009 - Status code is 401": true
+			},
+			"testPassFailCounts": {
+				"TC_API_UPL_009 - Status code is 401": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				2
+			],
+			"allTests": [
+				{
+					"TC_API_UPL_009 - Status code is 401": true
+				}
+			]
+		},
+		{
+			"id": "4f5f78da-0d3b-4f8c-ad79-3c18c5c65995",
+			"name": "TC_API_UPL_010: Upload ảnh thất bại khi người dùng có vai trò CUSTOMER",
+			"url": "http://localhost:3000/api/upload/image",
+			"time": 3,
+			"responseCode": {
+				"code": 403,
+				"name": "Forbidden"
+			},
+			"tests": {
+				"TC_API_UPL_010 - Status code is 403": true
+			},
+			"testPassFailCounts": {
+				"TC_API_UPL_010 - Status code is 403": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				3
+			],
+			"allTests": [
+				{
+					"TC_API_UPL_010 - Status code is 403": true
+				}
+			]
+		},
+		{
+			"id": "74c3036e-3d03-45fe-bcd2-02908788e659",
+			"name": "TC_API_UPL_011: Upload ảnh thất bại khi người dùng có vai trò STAFF",
+			"url": "http://localhost:3000/api/upload/image",
+			"time": 2,
+			"responseCode": {
+				"code": 403,
+				"name": "Forbidden"
+			},
+			"tests": {
+				"TC_API_UPL_011 - Status code is 403": true
+			},
+			"testPassFailCounts": {
+				"TC_API_UPL_011 - Status code is 403": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				2
+			],
+			"allTests": [
+				{
+					"TC_API_UPL_011 - Status code is 403": true
+				}
+			]
+		},
+		{
+			"id": "36172667-d0d0-45fb-9834-ac7cfa50316b",
+			"name": "TC_API_UPL_012: Upload ảnh thất bại khi người dùng có vai trò KITCHEN",
+			"url": "http://localhost:3000/api/upload/image",
+			"time": 3,
+			"responseCode": {
+				"code": 403,
+				"name": "Forbidden"
+			},
+			"tests": {
+				"TC_API_UPL_012 - Status code is 403": true
+			},
+			"testPassFailCounts": {
+				"TC_API_UPL_012 - Status code is 403": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				3
+			],
+			"allTests": [
+				{
+					"TC_API_UPL_012 - Status code is 403": true
+				}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 642,
+	"collection": {
+		"requests": [
+			{
+				"id": "c8c80936-8352-4778-b33d-7eef29644edd",
+				"method": "POST"
+			},
+			{
+				"id": "3607d1ae-55d1-4bf6-a3e7-16a70bd696a9",
+				"method": "POST"
+			},
+			{
+				"id": "1cf5ca4b-3815-47b9-b822-4f21a243db9c",
+				"method": "POST"
+			},
+			{
+				"id": "07187883-92fb-410e-a420-c32a77e34c5b",
+				"method": "POST"
+			},
+			{
+				"id": "381e8d4b-9baa-4ec0-9f08-ef097feb1600",
+				"method": "POST"
+			},
+			{
+				"id": "561e4c6b-c871-4f21-9a0b-a15a31bc6ec0",
+				"method": "POST"
+			},
+			{
+				"id": "474d12b7-746b-499c-b3ae-5dce62c91de6",
+				"method": "POST"
+			},
+			{
+				"id": "818183a1-c015-42d4-8b59-a91fb0074612",
+				"method": "POST"
+			},
+			{
+				"id": "e6703bd5-2939-42d4-b9c1-9311d7445695",
+				"method": "POST"
+			},
+			{
+				"id": "dd2da5a3-83e7-4930-828b-51d1fe8a7ab9",
+				"method": "POST"
+			},
+			{
+				"id": "5e04e84e-2249-4923-a989-b1235b64040b",
+				"method": "POST"
+			},
+			{
+				"id": "da8411f5-cd9e-47f5-886c-1909c023fb3d",
+				"method": "POST"
+			},
+			{
+				"id": "b0b4f4c0-4a9d-4818-8814-592868503881",
+				"method": "POST"
+			},
+			{
+				"id": "edad07a1-e0d5-4153-a1f3-0773ed71d992",
+				"method": "POST"
+			},
+			{
+				"id": "b066b679-4e9a-49b4-87ac-6a25a2f05002",
+				"method": "POST"
+			},
+			{
+				"id": "cfb3be4d-a893-46f5-8338-76656cbe8737",
+				"method": "POST"
+			},
+			{
+				"id": "a35b9234-2f61-409a-8230-5df20b7423a4",
+				"method": "POST"
+			},
+			{
+				"id": "00eede0a-b28e-4e1d-bb11-f7735cdec97a",
+				"method": "POST"
+			},
+			{
+				"id": "3d4bdd49-581b-4baf-bf04-697101a9b957",
+				"method": "POST"
+			},
+			{
+				"id": "09eb91d8-e99b-4aa8-b086-f9041853cfde",
+				"method": "POST"
+			},
+			{
+				"id": "811acaf1-6c41-4d3d-8326-499e58789f8a",
+				"method": "POST"
+			},
+			{
+				"id": "bd2409c2-fc09-4c58-9590-e0193ee751a9",
+				"method": "POST"
+			},
+			{
+				"id": "a606d90c-2bcc-4e31-907b-8e17d47ce908",
+				"method": "GET"
+			},
+			{
+				"id": "7bb50493-82a9-4fce-924a-334d42225f7f",
+				"method": "GET"
+			},
+			{
+				"id": "73b13e88-d70d-46c7-b96e-1f779bb4b5ad",
+				"method": "GET"
+			},
+			{
+				"id": "127eed17-7dac-43f5-a00a-4bf9b8869dd1",
+				"method": "GET"
+			},
+			{
+				"id": "c1f9d5dd-d297-4696-8a9a-7d5d362f499c",
+				"method": "GET"
+			},
+			{
+				"id": "fb18cf24-29e1-4a05-b474-508613534d88",
+				"method": "GET"
+			},
+			{
+				"id": "c80a316a-c29b-4cae-90a3-3711c053a699",
+				"method": "GET"
+			},
+			{
+				"id": "5ee4b5c1-40ba-4944-98ee-dcba88167b1b",
+				"method": "GET"
+			},
+			{
+				"id": "3ea0c3d9-f1a6-4804-b47b-23aa4f4da74f",
+				"method": "GET"
+			},
+			{
+				"id": "f20c3287-50dd-47b2-84b9-a4b80693bab9",
+				"method": "GET"
+			},
+			{
+				"id": "cacde083-b1f9-476b-a549-d27c979f51e4",
+				"method": "GET"
+			},
+			{
+				"id": "5bf001e5-44cf-4725-a9d9-56119c4e6d87",
+				"method": "GET"
+			},
+			{
+				"id": "22d1c13d-6ba8-4d93-9dfa-beb51d41b624",
+				"method": "GET"
+			},
+			{
+				"id": "5080d72c-5d77-4a13-9038-9799b05b9b22",
+				"method": "GET"
+			},
+			{
+				"id": "e90218f4-f614-42a7-8acf-2966f287cfc1",
+				"method": "PUT"
+			},
+			{
+				"id": "0fcca766-7658-4b42-b9a1-d4a1c46c882f",
+				"method": "PUT"
+			},
+			{
+				"id": "b14b63f7-d560-4f82-be76-3e42ceb83629",
+				"method": "PUT"
+			},
+			{
+				"id": "9a677bdb-2a2d-4396-8512-7308a4811b18",
+				"method": "PUT"
+			},
+			{
+				"id": "a9ee9aa4-7591-4f00-831a-cd0239ceaaab",
+				"method": "PUT"
+			},
+			{
+				"id": "7dfc4e33-9e92-4f67-9aa7-ce880d6067e6",
+				"method": "PUT"
+			},
+			{
+				"id": "40285e0e-1f75-49df-9567-204f649531c3",
+				"method": "PUT"
+			},
+			{
+				"id": "2c428848-6f33-4f60-8bfd-5674e77fa405",
+				"method": "PUT"
+			},
+			{
+				"id": "e02aa5ec-1823-437a-952d-d1c6a43481dc",
+				"method": "PUT"
+			},
+			{
+				"id": "b350a332-5f5c-455f-9a63-d72963234999",
+				"method": "PUT"
+			},
+			{
+				"id": "09833ab7-40ce-4839-ab7e-ab46e1b9a23e",
+				"method": "PUT"
+			},
+			{
+				"id": "b5e9faed-d119-40c8-ac2f-ca5e0924531a",
+				"method": "PUT"
+			},
+			{
+				"id": "73199ce5-d361-445e-96ec-8eabc520d24d",
+				"method": "PUT"
+			},
+			{
+				"id": "cdb55b3d-ee31-48f4-88a0-a0c05b6380fc",
+				"method": "PUT"
+			},
+			{
+				"id": "8d667ecd-b0f5-473e-9db1-e918f4e21ff0",
+				"method": "DELETE"
+			},
+			{
+				"id": "c211b1cd-01fe-42f4-8164-61bcf26ae4c7",
+				"method": "DELETE"
+			},
+			{
+				"id": "bf40cabd-52a4-439f-ae70-0eb97336c742",
+				"method": "DELETE"
+			},
+			{
+				"id": "3baf945a-87b5-49b2-92ac-14df99a1b842",
+				"method": "DELETE"
+			},
+			{
+				"id": "5ca1812a-5076-47cb-a247-e11edabea15b",
+				"method": "DELETE"
+			},
+			{
+				"id": "933140e3-9d40-4b2a-85af-4d1646df9f20",
+				"method": "DELETE"
+			},
+			{
+				"id": "51b3c0be-f1d5-495b-b806-c80665a21f83",
+				"method": "DELETE"
+			},
+			{
+				"id": "26792e5f-04e4-4b41-aac2-22533dcace53",
+				"method": "DELETE"
+			},
+			{
+				"id": "c2c1739d-3d84-4895-862d-55a5e1b7c1ba",
+				"method": "POST"
+			},
+			{
+				"id": "9e257f6f-2e09-4ad8-9e48-98f97e93de9c",
+				"method": "POST"
+			},
+			{
+				"id": "d2f6a680-4acc-4145-8b8a-d39dd0263f9c",
+				"method": "POST"
+			},
+			{
+				"id": "f4f64e86-83bf-40b5-9237-6864a1613ad0",
+				"method": "POST"
+			},
+			{
+				"id": "7f3e224e-4054-4b1b-ac0b-08658f51a93a",
+				"method": "POST"
+			},
+			{
+				"id": "8399d399-9dae-4635-a450-d890caf17188",
+				"method": "POST"
+			},
+			{
+				"id": "6cfda36e-753d-40d5-af1e-022e9b5abdb7",
+				"method": "POST"
+			},
+			{
+				"id": "b06b903d-ee13-4538-87d7-762e4a201269",
+				"method": "POST"
+			},
+			{
+				"id": "345c850c-71cb-4477-8330-566e60d74f2e",
+				"method": "POST"
+			},
+			{
+				"id": "4f5f78da-0d3b-4f8c-ad79-3c18c5c65995",
+				"method": "POST"
+			},
+			{
+				"id": "74c3036e-3d03-45fe-bcd2-02908788e659",
+				"method": "POST"
+			},
+			{
+				"id": "36172667-d0d0-45fb-9834-ac7cfa50316b",
+				"method": "POST"
+			}
+		]
+	}
+}

@@ -1,0 +1,7 @@
+Table carts {
+  id bigint [primary key, increment]
+  user_id bigint [not null]
+  totalPrice decimal(10,2) [default: 0]
+  created_at timestamp
+  updated_at timestamp
+}

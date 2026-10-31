@@ -1,0 +1,8 @@
+Table restaurant_tables {
+  id bigint [primary key, increment]
+  tableNumber integer [unique, not null]
+  qrCode text [not null]
+  capacity integer [default: 4]
+  status enum('AVAILABLE', 'BOOKED', 'OCCUPIED', 'CLEANING') [default: 'AVAILABLE']
+  created_at timestamp
+}

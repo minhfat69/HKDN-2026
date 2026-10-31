@@ -1,0 +1,10 @@
+Table payments {
+  id bigint [primary key, increment]
+  order_id bigint [not null]
+  amount decimal(10,2) [not null]
+  paymentMethod enum('CASH', 'VNPAY', 'MOMO', 'BANKING') [not null]
+  transactionCode varchar(255)
+  status enum('PENDING', 'SUCCESS', 'FAILED') [default: 'PENDING']
+  paidAt timestamp
+  created_at timestamp
+}

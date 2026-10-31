@@ -1,0 +1,2139 @@
+{
+	"id": "8dadb6eb-6920-45e3-8c92-6b18276022d9",
+	"name": "FutureSushi - BVA Category & Product API Test Suite",
+	"timestamp": "2026-08-21T05:36:27.715Z",
+	"collection_id": "38502440-b03c5b67-0776-48a6-8608-ea6da52de909",
+	"folder_id": 0,
+	"environment_id": "0",
+	"totalPass": 157,
+	"delay": 0,
+	"persist": true,
+	"status": "finished",
+	"startedAt": "2026-08-21T05:36:22.985Z",
+	"totalFail": 0,
+	"results": [
+		{
+			"id": "195d17c2-2012-4c08-8c0a-95a67a385e07",
+			"name": "AUTH - Đăng nhập lấy Token Admin",
+			"url": "http://localhost:3000/api/auth/login",
+			"time": 96,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+				"[Header] Content-Type is application/json (if response has body)": true,
+				"Status code is 200 OK": true,
+				"Login returns valid token & admin role": true
+			},
+			"testPassFailCounts": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"[Header] Content-Type is application/json (if response has body)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Status code is 200 OK": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Login returns valid token & admin role": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				96
+			],
+			"allTests": [
+				{
+					"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+					"[Header] Content-Type is application/json (if response has body)": true,
+					"Status code is 200 OK": true,
+					"Login returns valid token & admin role": true
+				}
+			]
+		},
+		{
+			"id": "fbfb56c2-b929-49bf-80c5-20404cb7dd65",
+			"name": "TC_BVA_CAT_001 - Name: Min (1 ký tự)",
+			"url": "http://localhost:3000/api/categories",
+			"time": 11,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+				"[Header] Content-Type is application/json (if response has body)": true,
+				"TC_BVA_CAT_001: Status code is 201 Created": true,
+				"TC_BVA_CAT_001: Name exactly 1 char": true
+			},
+			"testPassFailCounts": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"[Header] Content-Type is application/json (if response has body)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"TC_BVA_CAT_001: Status code is 201 Created": {
+					"pass": 1,
+					"fail": 0
+				},
+				"TC_BVA_CAT_001: Name exactly 1 char": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				11
+			],
+			"allTests": [
+				{
+					"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+					"[Header] Content-Type is application/json (if response has body)": true,
+					"TC_BVA_CAT_001: Status code is 201 Created": true,
+					"TC_BVA_CAT_001: Name exactly 1 char": true
+				}
+			]
+		},
+		{
+			"id": "6f453c68-b518-4d9a-9200-f2de72cf4f45",
+			"name": "TC_BVA_CAT_002 - Name: Min + 1 (2 ký tự)",
+			"url": "http://localhost:3000/api/categories",
+			"time": 10,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+				"[Header] Content-Type is application/json (if response has body)": true,
+				"TC_BVA_CAT_002: Status code is 201 Created": true,
+				"TC_BVA_CAT_002: Name is 2 chars": true
+			},
+			"testPassFailCounts": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"[Header] Content-Type is application/json (if response has body)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"TC_BVA_CAT_002: Status code is 201 Created": {
+					"pass": 1,
+					"fail": 0
+				},
+				"TC_BVA_CAT_002: Name is 2 chars": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				10
+			],
+			"allTests": [
+				{
+					"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+					"[Header] Content-Type is application/json (if response has body)": true,
+					"TC_BVA_CAT_002: Status code is 201 Created": true,
+					"TC_BVA_CAT_002: Name is 2 chars": true
+				}
+			]
+		},
+		{
+			"id": "839a5deb-a66c-4a23-941f-b1e9b2631760",
+			"name": "TC_BVA_CAT_003 - Name: Max - 1 (99 ký tự)",
+			"url": "http://localhost:3000/api/categories",
+			"time": 10,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+				"[Header] Content-Type is application/json (if response has body)": true,
+				"TC_BVA_CAT_003: Status code is 201 Created": true,
+				"TC_BVA_CAT_003: Name length is 99 chars": true
+			},
+			"testPassFailCounts": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"[Header] Content-Type is application/json (if response has body)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"TC_BVA_CAT_003: Status code is 201 Created": {
+					"pass": 1,
+					"fail": 0
+				},
+				"TC_BVA_CAT_003: Name length is 99 chars": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				10
+			],
+			"allTests": [
+				{
+					"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+					"[Header] Content-Type is application/json (if response has body)": true,
+					"TC_BVA_CAT_003: Status code is 201 Created": true,
+					"TC_BVA_CAT_003: Name length is 99 chars": true
+				}
+			]
+		},
+		{
+			"id": "459a835a-594d-494c-9140-7352462f2672",
+			"name": "TC_BVA_CAT_004 - Name: Max (100 ký tự)",
+			"url": "http://localhost:3000/api/categories",
+			"time": 10,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+				"[Header] Content-Type is application/json (if response has body)": true,
+				"TC_BVA_CAT_004: Status code is 201 Created": true,
+				"TC_BVA_CAT_004: Name length is 100 chars": true
+			},
+			"testPassFailCounts": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"[Header] Content-Type is application/json (if response has body)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"TC_BVA_CAT_004: Status code is 201 Created": {
+					"pass": 1,
+					"fail": 0
+				},
+				"TC_BVA_CAT_004: Name length is 100 chars": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				10
+			],
+			"allTests": [
+				{
+					"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+					"[Header] Content-Type is application/json (if response has body)": true,
+					"TC_BVA_CAT_004: Status code is 201 Created": true,
+					"TC_BVA_CAT_004: Name length is 100 chars": true
+				}
+			]
+		},
+		{
+			"id": "fde0d76b-bc52-424c-95f1-440d98256f58",
+			"name": "TC_BVA_CAT_005 - Name: Max + 1 (101 ký tự - Vượt biên)",
+			"url": "http://localhost:3000/api/categories",
+			"time": 6,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+				"[Header] Content-Type is application/json (if response has body)": true,
+				"TC_BVA_CAT_005: Status code is 400 Bad Request / 422": true
+			},
+			"testPassFailCounts": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"[Header] Content-Type is application/json (if response has body)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"TC_BVA_CAT_005: Status code is 400 Bad Request / 422": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				6
+			],
+			"allTests": [
+				{
+					"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+					"[Header] Content-Type is application/json (if response has body)": true,
+					"TC_BVA_CAT_005: Status code is 400 Bad Request / 422": true
+				}
+			]
+		},
+		{
+			"id": "a2340b9b-e36d-4c9f-ade2-151aa02f5c4b",
+			"name": "TC_BVA_CAT_006 - Name: Min - 1 (Chuỗi rỗng '')",
+			"url": "http://localhost:3000/api/categories",
+			"time": 10,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+				"[Header] Content-Type is application/json (if response has body)": true,
+				"TC_BVA_CAT_006: Expected 400 / Recorded Defect 201": true
+			},
+			"testPassFailCounts": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"[Header] Content-Type is application/json (if response has body)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"TC_BVA_CAT_006: Expected 400 / Recorded Defect 201": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				10
+			],
+			"allTests": [
+				{
+					"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+					"[Header] Content-Type is application/json (if response has body)": true,
+					"TC_BVA_CAT_006: Expected 400 / Recorded Defect 201": true
+				}
+			]
+		},
+		{
+			"id": "497a5046-9fd0-4320-ac31-d66796f915b2",
+			"name": "TC_BVA_CAT_007 - Name: Giá trị null",
+			"url": "http://localhost:3000/api/categories",
+			"time": 3,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+				"[Header] Content-Type is application/json (if response has body)": true,
+				"TC_BVA_CAT_007: Status code is 400 Bad Request": true
+			},
+			"testPassFailCounts": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"[Header] Content-Type is application/json (if response has body)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"TC_BVA_CAT_007: Status code is 400 Bad Request": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				3
+			],
+			"allTests": [
+				{
+					"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+					"[Header] Content-Type is application/json (if response has body)": true,
+					"TC_BVA_CAT_007: Status code is 400 Bad Request": true
+				}
+			]
+		},
+		{
+			"id": "b8371293-8fd0-4e9c-88fd-840c739586b3",
+			"name": "TC_BVA_CAT_008 - Name: Thiếu trường bắt buộc",
+			"url": "http://localhost:3000/api/categories",
+			"time": 3,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+				"[Header] Content-Type is application/json (if response has body)": true,
+				"TC_BVA_CAT_008: Status code is 400 Bad Request": true
+			},
+			"testPassFailCounts": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"[Header] Content-Type is application/json (if response has body)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"TC_BVA_CAT_008: Status code is 400 Bad Request": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				3
+			],
+			"allTests": [
+				{
+					"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+					"[Header] Content-Type is application/json (if response has body)": true,
+					"TC_BVA_CAT_008: Status code is 400 Bad Request": true
+				}
+			]
+		},
+		{
+			"id": "be281b86-d036-4986-ae22-da3859926c4d",
+			"name": "TC_BVA_CAT_009 - Description: Chuỗi rỗng '' (Min)",
+			"url": "http://localhost:3000/api/categories",
+			"time": 10,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+				"[Header] Content-Type is application/json (if response has body)": true,
+				"TC_BVA_CAT_009: Status code is 201 Created": true
+			},
+			"testPassFailCounts": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"[Header] Content-Type is application/json (if response has body)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"TC_BVA_CAT_009: Status code is 201 Created": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				10
+			],
+			"allTests": [
+				{
+					"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+					"[Header] Content-Type is application/json (if response has body)": true,
+					"TC_BVA_CAT_009: Status code is 201 Created": true
+				}
+			]
+		},
+		{
+			"id": "dbfdb8ec-9141-45b2-9adb-60a11a8214dc",
+			"name": "TC_BVA_CAT_010 - Image: Giá trị null",
+			"url": "http://localhost:3000/api/categories",
+			"time": 10,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+				"[Header] Content-Type is application/json (if response has body)": true,
+				"TC_BVA_CAT_010: Status code is 201 Created": true,
+				"TC_BVA_CAT_010: Image is null": true
+			},
+			"testPassFailCounts": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"[Header] Content-Type is application/json (if response has body)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"TC_BVA_CAT_010: Status code is 201 Created": {
+					"pass": 1,
+					"fail": 0
+				},
+				"TC_BVA_CAT_010: Image is null": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				10
+			],
+			"allTests": [
+				{
+					"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+					"[Header] Content-Type is application/json (if response has body)": true,
+					"TC_BVA_CAT_010: Status code is 201 Created": true,
+					"TC_BVA_CAT_010: Image is null": true
+				}
+			]
+		},
+		{
+			"id": "c6354d0a-6c7f-4629-9e17-465ac7ed1c25",
+			"name": "TC_BVA_CAT_011 - ID: Min (1)",
+			"url": "http://localhost:3000/api/categories/1",
+			"time": 3,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+				"[Header] Content-Type is application/json (if response has body)": true,
+				"TC_BVA_CAT_011: Status code is 200 or 404": true
+			},
+			"testPassFailCounts": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"[Header] Content-Type is application/json (if response has body)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"TC_BVA_CAT_011: Status code is 200 or 404": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				3
+			],
+			"allTests": [
+				{
+					"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+					"[Header] Content-Type is application/json (if response has body)": true,
+					"TC_BVA_CAT_011: Status code is 200 or 404": true
+				}
+			]
+		},
+		{
+			"id": "cf0ed68e-488f-4b0d-96c2-49420568bb76",
+			"name": "TC_BVA_CAT_012 - ID: Min - 1 (0)",
+			"url": "http://localhost:3000/api/categories/0",
+			"time": 3,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+				"[Header] Content-Type is application/json (if response has body)": true,
+				"TC_BVA_CAT_012: Status code is 404 Not Found": true
+			},
+			"testPassFailCounts": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"[Header] Content-Type is application/json (if response has body)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"TC_BVA_CAT_012: Status code is 404 Not Found": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				3
+			],
+			"allTests": [
+				{
+					"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+					"[Header] Content-Type is application/json (if response has body)": true,
+					"TC_BVA_CAT_012: Status code is 404 Not Found": true
+				}
+			]
+		},
+		{
+			"id": "7764783b-a6b7-4cac-88fb-a905058cb896",
+			"name": "TC_BVA_CAT_013 - ID: Số âm (-1)",
+			"url": "http://localhost:3000/api/categories/-1",
+			"time": 3,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+				"[Header] Content-Type is application/json (if response has body)": true,
+				"TC_BVA_CAT_013: Status code is 404 Not Found": true
+			},
+			"testPassFailCounts": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"[Header] Content-Type is application/json (if response has body)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"TC_BVA_CAT_013: Status code is 404 Not Found": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				3
+			],
+			"allTests": [
+				{
+					"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+					"[Header] Content-Type is application/json (if response has body)": true,
+					"TC_BVA_CAT_013: Status code is 404 Not Found": true
+				}
+			]
+		},
+		{
+			"id": "47e0bb71-5ae3-4e52-9a3b-332e1e2d8ee0",
+			"name": "TC_BVA_CAT_014 - ID: Sai kiểu ('abc')",
+			"url": "http://localhost:3000/api/categories/abc",
+			"time": 3,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+				"[Header] Content-Type is application/json (if response has body)": true,
+				"TC_BVA_CAT_014: Status code is 400 or 404": true
+			},
+			"testPassFailCounts": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"[Header] Content-Type is application/json (if response has body)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"TC_BVA_CAT_014: Status code is 400 or 404": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				3
+			],
+			"allTests": [
+				{
+					"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+					"[Header] Content-Type is application/json (if response has body)": true,
+					"TC_BVA_CAT_014: Status code is 400 or 404": true
+				}
+			]
+		},
+		{
+			"id": "7ceb29bf-93d4-4e74-b7a2-0fcd8fd49bc7",
+			"name": "TC_BVA_CAT_015 - Update Name: Max (100 ký tự)",
+			"url": "http://localhost:3000/api/categories/20",
+			"time": 13,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+				"[Header] Content-Type is application/json (if response has body)": true,
+				"TC_BVA_CAT_015: Status code is 200 OK": true
+			},
+			"testPassFailCounts": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"[Header] Content-Type is application/json (if response has body)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"TC_BVA_CAT_015: Status code is 200 OK": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				13
+			],
+			"allTests": [
+				{
+					"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+					"[Header] Content-Type is application/json (if response has body)": true,
+					"TC_BVA_CAT_015: Status code is 200 OK": true
+				}
+			]
+		},
+		{
+			"id": "bc8da5bc-3b75-474f-81cc-0a3ed9ea9549",
+			"name": "TC_BVA_CAT_016 - Update Name: Max + 1 (101 ký tự)",
+			"url": "http://localhost:3000/api/categories/20",
+			"time": 4,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+				"[Header] Content-Type is application/json (if response has body)": true,
+				"TC_BVA_CAT_016: Status code is 400 Bad Request": true
+			},
+			"testPassFailCounts": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"[Header] Content-Type is application/json (if response has body)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"TC_BVA_CAT_016: Status code is 400 Bad Request": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				4
+			],
+			"allTests": [
+				{
+					"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+					"[Header] Content-Type is application/json (if response has body)": true,
+					"TC_BVA_CAT_016: Status code is 400 Bad Request": true
+				}
+			]
+		},
+		{
+			"id": "54f2a6f2-8a86-4dcb-bffd-55d9d9239dc4",
+			"name": "TC_BVA_CAT_017 - Update Name: Chuỗi rỗng '' (Min-1)",
+			"url": "http://localhost:3000/api/categories/20",
+			"time": 12,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+				"[Header] Content-Type is application/json (if response has body)": true,
+				"TC_BVA_CAT_017: Expected 400 / Recorded Defect 200": true
+			},
+			"testPassFailCounts": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"[Header] Content-Type is application/json (if response has body)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"TC_BVA_CAT_017: Expected 400 / Recorded Defect 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				12
+			],
+			"allTests": [
+				{
+					"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+					"[Header] Content-Type is application/json (if response has body)": true,
+					"TC_BVA_CAT_017: Expected 400 / Recorded Defect 200": true
+				}
+			]
+		},
+		{
+			"id": "aa9d99d0-02a5-42d7-b51f-077c01ad0078",
+			"name": "TC_BVA_CAT_018 - Search: Chuỗi rỗng 0 char (Min)",
+			"url": "http://localhost:3000/api/categories?search=",
+			"time": 6,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+				"[Header] Content-Type is application/json (if response has body)": true,
+				"TC_BVA_CAT_018: Status code is 200 OK": true,
+				"TC_BVA_CAT_018: Result is array": true
+			},
+			"testPassFailCounts": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"[Header] Content-Type is application/json (if response has body)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"TC_BVA_CAT_018: Status code is 200 OK": {
+					"pass": 1,
+					"fail": 0
+				},
+				"TC_BVA_CAT_018: Result is array": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				6
+			],
+			"allTests": [
+				{
+					"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+					"[Header] Content-Type is application/json (if response has body)": true,
+					"TC_BVA_CAT_018: Status code is 200 OK": true,
+					"TC_BVA_CAT_018: Result is array": true
+				}
+			]
+		},
+		{
+			"id": "3caeb112-4e91-4a11-b1e6-6647d6d82487",
+			"name": "TC_BVA_PRD_001 - Name: Min (1 ký tự)",
+			"url": "http://localhost:3000/api/products",
+			"time": 11,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+				"[Header] Content-Type is application/json (if response has body)": true,
+				"TC_BVA_PRD_001: Status code is 201 Created": true
+			},
+			"testPassFailCounts": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"[Header] Content-Type is application/json (if response has body)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"TC_BVA_PRD_001: Status code is 201 Created": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				11
+			],
+			"allTests": [
+				{
+					"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+					"[Header] Content-Type is application/json (if response has body)": true,
+					"TC_BVA_PRD_001: Status code is 201 Created": true
+				}
+			]
+		},
+		{
+			"id": "cef9fb83-18d0-4285-84ea-f6a8ccf511e7",
+			"name": "TC_BVA_PRD_002 - Name: Min + 1 (2 ký tự)",
+			"url": "http://localhost:3000/api/products",
+			"time": 10,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+				"[Header] Content-Type is application/json (if response has body)": true,
+				"TC_BVA_PRD_002: Status code is 201 Created": true,
+				"TC_BVA_PRD_002: Name is 2 chars": true
+			},
+			"testPassFailCounts": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"[Header] Content-Type is application/json (if response has body)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"TC_BVA_PRD_002: Status code is 201 Created": {
+					"pass": 1,
+					"fail": 0
+				},
+				"TC_BVA_PRD_002: Name is 2 chars": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				10
+			],
+			"allTests": [
+				{
+					"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+					"[Header] Content-Type is application/json (if response has body)": true,
+					"TC_BVA_PRD_002: Status code is 201 Created": true,
+					"TC_BVA_PRD_002: Name is 2 chars": true
+				}
+			]
+		},
+		{
+			"id": "118c87cb-5194-4f97-8cd9-94ff6c73112a",
+			"name": "TC_BVA_PRD_003 - Name: Max - 1 (149 ký tự)",
+			"url": "http://localhost:3000/api/products",
+			"time": 11,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+				"[Header] Content-Type is application/json (if response has body)": true,
+				"TC_BVA_PRD_003: Status code is 201 Created": true,
+				"TC_BVA_PRD_003: Name is 149 chars": true
+			},
+			"testPassFailCounts": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"[Header] Content-Type is application/json (if response has body)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"TC_BVA_PRD_003: Status code is 201 Created": {
+					"pass": 1,
+					"fail": 0
+				},
+				"TC_BVA_PRD_003: Name is 149 chars": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				11
+			],
+			"allTests": [
+				{
+					"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+					"[Header] Content-Type is application/json (if response has body)": true,
+					"TC_BVA_PRD_003: Status code is 201 Created": true,
+					"TC_BVA_PRD_003: Name is 149 chars": true
+				}
+			]
+		},
+		{
+			"id": "49d78e7c-e137-4b3b-8fc7-3396639e4ae8",
+			"name": "TC_BVA_PRD_004 - Name: Max (150 ký tự)",
+			"url": "http://localhost:3000/api/products",
+			"time": 10,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+				"[Header] Content-Type is application/json (if response has body)": true,
+				"TC_BVA_PRD_004: Status code is 201 Created": true,
+				"TC_BVA_PRD_004: Name is 150 chars": true
+			},
+			"testPassFailCounts": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"[Header] Content-Type is application/json (if response has body)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"TC_BVA_PRD_004: Status code is 201 Created": {
+					"pass": 1,
+					"fail": 0
+				},
+				"TC_BVA_PRD_004: Name is 150 chars": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				10
+			],
+			"allTests": [
+				{
+					"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+					"[Header] Content-Type is application/json (if response has body)": true,
+					"TC_BVA_PRD_004: Status code is 201 Created": true,
+					"TC_BVA_PRD_004: Name is 150 chars": true
+				}
+			]
+		},
+		{
+			"id": "bbdaf8fa-287b-4c8c-b08e-00bc6b2a2ca0",
+			"name": "TC_BVA_PRD_005 - Name: Max + 1 (151 ký tự - Vượt biên)",
+			"url": "http://localhost:3000/api/products",
+			"time": 5,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+				"[Header] Content-Type is application/json (if response has body)": true,
+				"TC_BVA_PRD_005: Status code is 400 / 422": true
+			},
+			"testPassFailCounts": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"[Header] Content-Type is application/json (if response has body)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"TC_BVA_PRD_005: Status code is 400 / 422": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				5
+			],
+			"allTests": [
+				{
+					"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+					"[Header] Content-Type is application/json (if response has body)": true,
+					"TC_BVA_PRD_005: Status code is 400 / 422": true
+				}
+			]
+		},
+		{
+			"id": "735ffc0c-7c23-45b5-a279-3d3cd147fa13",
+			"name": "TC_BVA_PRD_006 - Name: Min - 1 (Chuỗi rỗng '')",
+			"url": "http://localhost:3000/api/products",
+			"time": 10,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+				"[Header] Content-Type is application/json (if response has body)": true,
+				"TC_BVA_PRD_006: Expected 400 / Recorded Defect 201": true
+			},
+			"testPassFailCounts": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"[Header] Content-Type is application/json (if response has body)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"TC_BVA_PRD_006: Expected 400 / Recorded Defect 201": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				10
+			],
+			"allTests": [
+				{
+					"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+					"[Header] Content-Type is application/json (if response has body)": true,
+					"TC_BVA_PRD_006: Expected 400 / Recorded Defect 201": true
+				}
+			]
+		},
+		{
+			"id": "0120a56b-5e23-4a91-9c4f-bc7a791fd0e8",
+			"name": "TC_BVA_PRD_007 - Price: Min (0.01 VNĐ)",
+			"url": "http://localhost:3000/api/products",
+			"time": 9,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+				"[Header] Content-Type is application/json (if response has body)": true,
+				"TC_BVA_PRD_007: Status code is 201 Created": true,
+				"TC_BVA_PRD_007: Price is 0.01": true
+			},
+			"testPassFailCounts": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"[Header] Content-Type is application/json (if response has body)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"TC_BVA_PRD_007: Status code is 201 Created": {
+					"pass": 1,
+					"fail": 0
+				},
+				"TC_BVA_PRD_007: Price is 0.01": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				9
+			],
+			"allTests": [
+				{
+					"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+					"[Header] Content-Type is application/json (if response has body)": true,
+					"TC_BVA_PRD_007: Status code is 201 Created": true,
+					"TC_BVA_PRD_007: Price is 0.01": true
+				}
+			]
+		},
+		{
+			"id": "16dae6a4-0675-423e-9f29-eb83fbbd8825",
+			"name": "TC_BVA_PRD_008 - Price: Min + 1 (0.02 VNĐ)",
+			"url": "http://localhost:3000/api/products",
+			"time": 9,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+				"[Header] Content-Type is application/json (if response has body)": true,
+				"TC_BVA_PRD_008: Status code is 201 Created": true,
+				"TC_BVA_PRD_008: Price is 0.02": true
+			},
+			"testPassFailCounts": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"[Header] Content-Type is application/json (if response has body)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"TC_BVA_PRD_008: Status code is 201 Created": {
+					"pass": 1,
+					"fail": 0
+				},
+				"TC_BVA_PRD_008: Price is 0.02": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				9
+			],
+			"allTests": [
+				{
+					"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+					"[Header] Content-Type is application/json (if response has body)": true,
+					"TC_BVA_PRD_008: Status code is 201 Created": true,
+					"TC_BVA_PRD_008: Price is 0.02": true
+				}
+			]
+		},
+		{
+			"id": "5e9ef8b6-e1cc-4f94-857a-cb032438ea62",
+			"name": "TC_BVA_PRD_009 - Price: Min - 1 (Số âm -0.01)",
+			"url": "http://localhost:3000/api/products",
+			"time": 10,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+				"[Header] Content-Type is application/json (if response has body)": true,
+				"TC_BVA_PRD_009: Expected 400 / Recorded Defect 201": true
+			},
+			"testPassFailCounts": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"[Header] Content-Type is application/json (if response has body)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"TC_BVA_PRD_009: Expected 400 / Recorded Defect 201": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				10
+			],
+			"allTests": [
+				{
+					"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+					"[Header] Content-Type is application/json (if response has body)": true,
+					"TC_BVA_PRD_009: Expected 400 / Recorded Defect 201": true
+				}
+			]
+		},
+		{
+			"id": "fb894a9f-8583-4b57-98c9-59911643d273",
+			"name": "TC_BVA_PRD_010 - Price: Max DECIMAL(10,2) (99,999,999.99)",
+			"url": "http://localhost:3000/api/products",
+			"time": 10,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+				"[Header] Content-Type is application/json (if response has body)": true,
+				"TC_BVA_PRD_010: Status code is 201 Created": true
+			},
+			"testPassFailCounts": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"[Header] Content-Type is application/json (if response has body)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"TC_BVA_PRD_010: Status code is 201 Created": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				10
+			],
+			"allTests": [
+				{
+					"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+					"[Header] Content-Type is application/json (if response has body)": true,
+					"TC_BVA_PRD_010: Status code is 201 Created": true
+				}
+			]
+		},
+		{
+			"id": "9ecd3668-2aa2-4f65-8545-02dd744313ed",
+			"name": "TC_BVA_PRD_011 - Price: Max + 1 (100,000,000.00 - Tràn số)",
+			"url": "http://localhost:3000/api/products",
+			"time": 5,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+				"[Header] Content-Type is application/json (if response has body)": true,
+				"TC_BVA_PRD_011: Status code is 400 Bad Request": true
+			},
+			"testPassFailCounts": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"[Header] Content-Type is application/json (if response has body)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"TC_BVA_PRD_011: Status code is 400 Bad Request": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				5
+			],
+			"allTests": [
+				{
+					"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+					"[Header] Content-Type is application/json (if response has body)": true,
+					"TC_BVA_PRD_011: Status code is 400 Bad Request": true
+				}
+			]
+		},
+		{
+			"id": "e5465cf1-dfcd-465c-a00a-d6bd629644aa",
+			"name": "TC_BVA_PRD_012 - Price: Sai kiểu ('mot-tram-k')",
+			"url": "http://localhost:3000/api/products",
+			"time": 4,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+				"[Header] Content-Type is application/json (if response has body)": true,
+				"TC_BVA_PRD_012: Status code is 400 Bad Request": true
+			},
+			"testPassFailCounts": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"[Header] Content-Type is application/json (if response has body)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"TC_BVA_PRD_012: Status code is 400 Bad Request": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				4
+			],
+			"allTests": [
+				{
+					"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+					"[Header] Content-Type is application/json (if response has body)": true,
+					"TC_BVA_PRD_012: Status code is 400 Bad Request": true
+				}
+			]
+		},
+		{
+			"id": "3f27f178-49e6-4f05-beb0-9064bd5a5756",
+			"name": "TC_BVA_PRD_013 - Stock: Min (0 - Hết hàng)",
+			"url": "http://localhost:3000/api/products",
+			"time": 11,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+				"[Header] Content-Type is application/json (if response has body)": true,
+				"TC_BVA_PRD_013: Status code is 201 Created": true,
+				"TC_BVA_PRD_013: Stock is 0": true
+			},
+			"testPassFailCounts": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"[Header] Content-Type is application/json (if response has body)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"TC_BVA_PRD_013: Status code is 201 Created": {
+					"pass": 1,
+					"fail": 0
+				},
+				"TC_BVA_PRD_013: Stock is 0": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				11
+			],
+			"allTests": [
+				{
+					"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+					"[Header] Content-Type is application/json (if response has body)": true,
+					"TC_BVA_PRD_013: Status code is 201 Created": true,
+					"TC_BVA_PRD_013: Stock is 0": true
+				}
+			]
+		},
+		{
+			"id": "84112b86-c06c-42e5-8ee0-5b8a9440b529",
+			"name": "TC_BVA_PRD_014 - Stock: Min + 1 (1 sản phẩm)",
+			"url": "http://localhost:3000/api/products",
+			"time": 10,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+				"[Header] Content-Type is application/json (if response has body)": true,
+				"TC_BVA_PRD_014: Status code is 201 Created": true,
+				"TC_BVA_PRD_014: Stock is 1": true
+			},
+			"testPassFailCounts": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"[Header] Content-Type is application/json (if response has body)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"TC_BVA_PRD_014: Status code is 201 Created": {
+					"pass": 1,
+					"fail": 0
+				},
+				"TC_BVA_PRD_014: Stock is 1": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				10
+			],
+			"allTests": [
+				{
+					"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+					"[Header] Content-Type is application/json (if response has body)": true,
+					"TC_BVA_PRD_014: Status code is 201 Created": true,
+					"TC_BVA_PRD_014: Stock is 1": true
+				}
+			]
+		},
+		{
+			"id": "f0753128-644f-462e-a05b-368551b55742",
+			"name": "TC_BVA_PRD_015 - Stock: Min - 1 (Số âm -1)",
+			"url": "http://localhost:3000/api/products",
+			"time": 11,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+				"[Header] Content-Type is application/json (if response has body)": true,
+				"TC_BVA_PRD_015: Expected 400 / Actual DB behavior 201": true
+			},
+			"testPassFailCounts": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"[Header] Content-Type is application/json (if response has body)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"TC_BVA_PRD_015: Expected 400 / Actual DB behavior 201": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				11
+			],
+			"allTests": [
+				{
+					"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+					"[Header] Content-Type is application/json (if response has body)": true,
+					"TC_BVA_PRD_015: Expected 400 / Actual DB behavior 201": true
+				}
+			]
+		},
+		{
+			"id": "e8d8fc10-5494-4c13-bf1e-b9bdf35d55f0",
+			"name": "TC_BVA_PRD_016 - Stock: Max Integer (2,147,483,647)",
+			"url": "http://localhost:3000/api/products",
+			"time": 10,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+				"[Header] Content-Type is application/json (if response has body)": true,
+				"TC_BVA_PRD_016: Status code is 201 Created": true
+			},
+			"testPassFailCounts": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"[Header] Content-Type is application/json (if response has body)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"TC_BVA_PRD_016: Status code is 201 Created": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				10
+			],
+			"allTests": [
+				{
+					"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+					"[Header] Content-Type is application/json (if response has body)": true,
+					"TC_BVA_PRD_016: Status code is 201 Created": true
+				}
+			]
+		},
+		{
+			"id": "8d4dc099-a0a9-4529-b553-43c94662d55c",
+			"name": "TC_BVA_PRD_017 - Stock: Max + 1 (2,147,483,648 - Tràn INT)",
+			"url": "http://localhost:3000/api/products",
+			"time": 4,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+				"[Header] Content-Type is application/json (if response has body)": true,
+				"TC_BVA_PRD_017: Status code is 400 Bad Request": true
+			},
+			"testPassFailCounts": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"[Header] Content-Type is application/json (if response has body)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"TC_BVA_PRD_017: Status code is 400 Bad Request": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				4
+			],
+			"allTests": [
+				{
+					"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+					"[Header] Content-Type is application/json (if response has body)": true,
+					"TC_BVA_PRD_017: Status code is 400 Bad Request": true
+				}
+			]
+		},
+		{
+			"id": "34a32efa-3f05-4773-8ae1-dd5f6e782401",
+			"name": "TC_BVA_PRD_018 - Stock: Số thực không nguyên (10.5)",
+			"url": "http://localhost:3000/api/products",
+			"time": 11,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+				"[Header] Content-Type is application/json (if response has body)": true,
+				"TC_BVA_PRD_018: Handled properly": true
+			},
+			"testPassFailCounts": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"[Header] Content-Type is application/json (if response has body)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"TC_BVA_PRD_018: Handled properly": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				11
+			],
+			"allTests": [
+				{
+					"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+					"[Header] Content-Type is application/json (if response has body)": true,
+					"TC_BVA_PRD_018: Handled properly": true
+				}
+			]
+		},
+		{
+			"id": "fe55bfa5-dc40-47de-9e0c-ad6c122e4ab6",
+			"name": "TC_BVA_PRD_019 - isAvailable: Boolean false",
+			"url": "http://localhost:3000/api/products",
+			"time": 9,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+				"[Header] Content-Type is application/json (if response has body)": true,
+				"TC_BVA_PRD_019: Status code is 201 Created": true,
+				"TC_BVA_PRD_019: isAvailable is false": true
+			},
+			"testPassFailCounts": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"[Header] Content-Type is application/json (if response has body)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"TC_BVA_PRD_019: Status code is 201 Created": {
+					"pass": 1,
+					"fail": 0
+				},
+				"TC_BVA_PRD_019: isAvailable is false": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				9
+			],
+			"allTests": [
+				{
+					"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+					"[Header] Content-Type is application/json (if response has body)": true,
+					"TC_BVA_PRD_019: Status code is 201 Created": true,
+					"TC_BVA_PRD_019: isAvailable is false": true
+				}
+			]
+		},
+		{
+			"id": "dbbb90fb-7ad3-4a83-b134-b3a3e8175651",
+			"name": "TC_BVA_PRD_020 - isAvailable: Boolean true",
+			"url": "http://localhost:3000/api/products",
+			"time": 10,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+				"[Header] Content-Type is application/json (if response has body)": true,
+				"TC_BVA_PRD_020: Status code is 201 Created": true,
+				"TC_BVA_PRD_020: isAvailable is true": true
+			},
+			"testPassFailCounts": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"[Header] Content-Type is application/json (if response has body)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"TC_BVA_PRD_020: Status code is 201 Created": {
+					"pass": 1,
+					"fail": 0
+				},
+				"TC_BVA_PRD_020: isAvailable is true": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				10
+			],
+			"allTests": [
+				{
+					"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+					"[Header] Content-Type is application/json (if response has body)": true,
+					"TC_BVA_PRD_020: Status code is 201 Created": true,
+					"TC_BVA_PRD_020: isAvailable is true": true
+				}
+			]
+		},
+		{
+			"id": "a79202e6-a231-4d81-8718-0cacbdbdb55d",
+			"name": "TC_BVA_PRD_021 - Category ID: Min - 1 (ID 0)",
+			"url": "http://localhost:3000/api/products",
+			"time": 7,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+				"[Header] Content-Type is application/json (if response has body)": true,
+				"TC_BVA_PRD_021: Status code is 400 Bad Request / 500": true
+			},
+			"testPassFailCounts": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"[Header] Content-Type is application/json (if response has body)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"TC_BVA_PRD_021: Status code is 400 Bad Request / 500": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				7
+			],
+			"allTests": [
+				{
+					"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+					"[Header] Content-Type is application/json (if response has body)": true,
+					"TC_BVA_PRD_021: Status code is 400 Bad Request / 500": true
+				}
+			]
+		},
+		{
+			"id": "6d25a7c9-bca8-4dd3-a062-9098df31d9c4",
+			"name": "TC_BVA_PRD_022 - Category ID: Số âm (-1)",
+			"url": "http://localhost:3000/api/products",
+			"time": 7,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+				"[Header] Content-Type is application/json (if response has body)": true,
+				"TC_BVA_PRD_022: Status code is 400 Bad Request / 500": true
+			},
+			"testPassFailCounts": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"[Header] Content-Type is application/json (if response has body)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"TC_BVA_PRD_022: Status code is 400 Bad Request / 500": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				7
+			],
+			"allTests": [
+				{
+					"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+					"[Header] Content-Type is application/json (if response has body)": true,
+					"TC_BVA_PRD_022: Status code is 400 Bad Request / 500": true
+				}
+			]
+		},
+		{
+			"id": "16855403-1883-49dd-b012-e7fd15fa0eaf",
+			"name": "TC_BVA_PRD_023 - Category ID: Không tồn tại (999999)",
+			"url": "http://localhost:3000/api/products",
+			"time": 10,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+				"[Header] Content-Type is application/json (if response has body)": true,
+				"TC_BVA_PRD_023: Status code is 400 / 404 / 422 / 500": true
+			},
+			"testPassFailCounts": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"[Header] Content-Type is application/json (if response has body)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"TC_BVA_PRD_023: Status code is 400 / 404 / 422 / 500": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				10
+			],
+			"allTests": [
+				{
+					"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+					"[Header] Content-Type is application/json (if response has body)": true,
+					"TC_BVA_PRD_023: Status code is 400 / 404 / 422 / 500": true
+				}
+			]
+		},
+		{
+			"id": "3131bc95-6f96-4536-b9fd-87a37750858e",
+			"name": "TC_BVA_PRD_024 - Category ID: Giá trị null",
+			"url": "http://localhost:3000/api/products",
+			"time": 3,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+				"[Header] Content-Type is application/json (if response has body)": true,
+				"TC_BVA_PRD_024: Status code is 400 Bad Request": true
+			},
+			"testPassFailCounts": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"[Header] Content-Type is application/json (if response has body)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"TC_BVA_PRD_024: Status code is 400 Bad Request": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				3
+			],
+			"allTests": [
+				{
+					"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+					"[Header] Content-Type is application/json (if response has body)": true,
+					"TC_BVA_PRD_024: Status code is 400 Bad Request": true
+				}
+			]
+		},
+		{
+			"id": "e74ffd53-5b06-46e2-a0a0-ac84031950a1",
+			"name": "TC_BVA_PRD_025 - Update Price: Số âm (-10000)",
+			"url": "http://localhost:3000/api/products/58",
+			"time": 12,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+				"[Header] Content-Type is application/json (if response has body)": true,
+				"TC_BVA_PRD_025: Expected 400 / Recorded Defect 200": true
+			},
+			"testPassFailCounts": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"[Header] Content-Type is application/json (if response has body)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"TC_BVA_PRD_025: Expected 400 / Recorded Defect 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				12
+			],
+			"allTests": [
+				{
+					"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+					"[Header] Content-Type is application/json (if response has body)": true,
+					"TC_BVA_PRD_025: Expected 400 / Recorded Defect 200": true
+				}
+			]
+		},
+		{
+			"id": "11f5462e-9daa-40ff-87bf-c241d1a655e2",
+			"name": "TC_BVA_PRD_026 - Update Name: Chuỗi rỗng ''",
+			"url": "http://localhost:3000/api/products/58",
+			"time": 11,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+				"[Header] Content-Type is application/json (if response has body)": true,
+				"TC_BVA_PRD_026: Expected 400 / Recorded Defect 200": true
+			},
+			"testPassFailCounts": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"[Header] Content-Type is application/json (if response has body)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"TC_BVA_PRD_026: Expected 400 / Recorded Defect 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				11
+			],
+			"allTests": [
+				{
+					"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+					"[Header] Content-Type is application/json (if response has body)": true,
+					"TC_BVA_PRD_026: Expected 400 / Recorded Defect 200": true
+				}
+			]
+		},
+		{
+			"id": "d62afd2d-11eb-422d-bd3f-5a49fe8203aa",
+			"name": "TC_BVA_PRD_027 - Update Name: Max (150 ký tự)",
+			"url": "http://localhost:3000/api/products/58",
+			"time": 11,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+				"[Header] Content-Type is application/json (if response has body)": true,
+				"TC_BVA_PRD_027: Status code is 200 OK": true
+			},
+			"testPassFailCounts": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"[Header] Content-Type is application/json (if response has body)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"TC_BVA_PRD_027: Status code is 200 OK": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				11
+			],
+			"allTests": [
+				{
+					"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+					"[Header] Content-Type is application/json (if response has body)": true,
+					"TC_BVA_PRD_027: Status code is 200 OK": true
+				}
+			]
+		},
+		{
+			"id": "872cb921-37fc-44b6-a422-c6007cb2f0e4",
+			"name": "TC_BVA_PRD_028 - Update Name: Max + 1 (151 ký tự)",
+			"url": "http://localhost:3000/api/products/58",
+			"time": 4,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+				"[Header] Content-Type is application/json (if response has body)": true,
+				"TC_BVA_PRD_028: Status code is 400 Bad Request": true
+			},
+			"testPassFailCounts": {
+				"[Non-Functional] Response time is acceptable (< 1000ms)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"[Header] Content-Type is application/json (if response has body)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"TC_BVA_PRD_028: Status code is 400 Bad Request": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				4
+			],
+			"allTests": [
+				{
+					"[Non-Functional] Response time is acceptable (< 1000ms)": true,
+					"[Header] Content-Type is application/json (if response has body)": true,
+					"TC_BVA_PRD_028: Status code is 400 Bad Request": true
+				}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 471,
+	"collection": {
+		"requests": [
+			{
+				"id": "195d17c2-2012-4c08-8c0a-95a67a385e07",
+				"method": "POST"
+			},
+			{
+				"id": "fbfb56c2-b929-49bf-80c5-20404cb7dd65",
+				"method": "POST"
+			},
+			{
+				"id": "6f453c68-b518-4d9a-9200-f2de72cf4f45",
+				"method": "POST"
+			},
+			{
+				"id": "839a5deb-a66c-4a23-941f-b1e9b2631760",
+				"method": "POST"
+			},
+			{
+				"id": "459a835a-594d-494c-9140-7352462f2672",
+				"method": "POST"
+			},
+			{
+				"id": "fde0d76b-bc52-424c-95f1-440d98256f58",
+				"method": "POST"
+			},
+			{
+				"id": "a2340b9b-e36d-4c9f-ade2-151aa02f5c4b",
+				"method": "POST"
+			},
+			{
+				"id": "497a5046-9fd0-4320-ac31-d66796f915b2",
+				"method": "POST"
+			},
+			{
+				"id": "b8371293-8fd0-4e9c-88fd-840c739586b3",
+				"method": "POST"
+			},
+			{
+				"id": "be281b86-d036-4986-ae22-da3859926c4d",
+				"method": "POST"
+			},
+			{
+				"id": "dbfdb8ec-9141-45b2-9adb-60a11a8214dc",
+				"method": "POST"
+			},
+			{
+				"id": "c6354d0a-6c7f-4629-9e17-465ac7ed1c25",
+				"method": "GET"
+			},
+			{
+				"id": "cf0ed68e-488f-4b0d-96c2-49420568bb76",
+				"method": "GET"
+			},
+			{
+				"id": "7764783b-a6b7-4cac-88fb-a905058cb896",
+				"method": "GET"
+			},
+			{
+				"id": "47e0bb71-5ae3-4e52-9a3b-332e1e2d8ee0",
+				"method": "GET"
+			},
+			{
+				"id": "7ceb29bf-93d4-4e74-b7a2-0fcd8fd49bc7",
+				"method": "PUT"
+			},
+			{
+				"id": "bc8da5bc-3b75-474f-81cc-0a3ed9ea9549",
+				"method": "PUT"
+			},
+			{
+				"id": "54f2a6f2-8a86-4dcb-bffd-55d9d9239dc4",
+				"method": "PUT"
+			},
+			{
+				"id": "aa9d99d0-02a5-42d7-b51f-077c01ad0078",
+				"method": "GET"
+			},
+			{
+				"id": "3caeb112-4e91-4a11-b1e6-6647d6d82487",
+				"method": "POST"
+			},
+			{
+				"id": "cef9fb83-18d0-4285-84ea-f6a8ccf511e7",
+				"method": "POST"
+			},
+			{
+				"id": "118c87cb-5194-4f97-8cd9-94ff6c73112a",
+				"method": "POST"
+			},
+			{
+				"id": "49d78e7c-e137-4b3b-8fc7-3396639e4ae8",
+				"method": "POST"
+			},
+			{
+				"id": "bbdaf8fa-287b-4c8c-b08e-00bc6b2a2ca0",
+				"method": "POST"
+			},
+			{
+				"id": "735ffc0c-7c23-45b5-a279-3d3cd147fa13",
+				"method": "POST"
+			},
+			{
+				"id": "0120a56b-5e23-4a91-9c4f-bc7a791fd0e8",
+				"method": "POST"
+			},
+			{
+				"id": "16dae6a4-0675-423e-9f29-eb83fbbd8825",
+				"method": "POST"
+			},
+			{
+				"id": "5e9ef8b6-e1cc-4f94-857a-cb032438ea62",
+				"method": "POST"
+			},
+			{
+				"id": "fb894a9f-8583-4b57-98c9-59911643d273",
+				"method": "POST"
+			},
+			{
+				"id": "9ecd3668-2aa2-4f65-8545-02dd744313ed",
+				"method": "POST"
+			},
+			{
+				"id": "e5465cf1-dfcd-465c-a00a-d6bd629644aa",
+				"method": "POST"
+			},
+			{
+				"id": "3f27f178-49e6-4f05-beb0-9064bd5a5756",
+				"method": "POST"
+			},
+			{
+				"id": "84112b86-c06c-42e5-8ee0-5b8a9440b529",
+				"method": "POST"
+			},
+			{
+				"id": "f0753128-644f-462e-a05b-368551b55742",
+				"method": "POST"
+			},
+			{
+				"id": "e8d8fc10-5494-4c13-bf1e-b9bdf35d55f0",
+				"method": "POST"
+			},
+			{
+				"id": "8d4dc099-a0a9-4529-b553-43c94662d55c",
+				"method": "POST"
+			},
+			{
+				"id": "34a32efa-3f05-4773-8ae1-dd5f6e782401",
+				"method": "POST"
+			},
+			{
+				"id": "fe55bfa5-dc40-47de-9e0c-ad6c122e4ab6",
+				"method": "POST"
+			},
+			{
+				"id": "dbbb90fb-7ad3-4a83-b134-b3a3e8175651",
+				"method": "POST"
+			},
+			{
+				"id": "a79202e6-a231-4d81-8718-0cacbdbdb55d",
+				"method": "POST"
+			},
+			{
+				"id": "6d25a7c9-bca8-4dd3-a062-9098df31d9c4",
+				"method": "POST"
+			},
+			{
+				"id": "16855403-1883-49dd-b012-e7fd15fa0eaf",
+				"method": "POST"
+			},
+			{
+				"id": "3131bc95-6f96-4536-b9fd-87a37750858e",
+				"method": "POST"
+			},
+			{
+				"id": "e74ffd53-5b06-46e2-a0a0-ac84031950a1",
+				"method": "PUT"
+			},
+			{
+				"id": "11f5462e-9daa-40ff-87bf-c241d1a655e2",
+				"method": "PUT"
+			},
+			{
+				"id": "d62afd2d-11eb-422d-bd3f-5a49fe8203aa",
+				"method": "PUT"
+			},
+			{
+				"id": "872cb921-37fc-44b6-a422-c6007cb2f0e4",
+				"method": "PUT"
+			}
+		]
+	}
+}

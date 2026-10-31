@@ -1,0 +1,10 @@
+Table reviews {
+  id bigint [primary key, increment]
+  user_id bigint
+  phone varchar(20)
+  dish_name varchar(150)
+  content text
+  rating integer [not null, note: '1 to 5']
+  created_at timestamp
+  updated_at timestamp
+}

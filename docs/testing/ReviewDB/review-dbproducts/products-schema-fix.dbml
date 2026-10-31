@@ -1,0 +1,12 @@
+Table products {
+  id bigint [primary key, increment]
+  category_id bigint [not null]
+  name varchar(150) [not null]
+  description text
+  price decimal(10,2) [not null]
+  image text
+  stock integer [default: 0]
+  isAvailable boolean [default: true]
+  created_at timestamp
+  updated_at timestamp
+}

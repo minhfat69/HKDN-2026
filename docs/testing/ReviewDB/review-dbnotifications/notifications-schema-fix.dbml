@@ -1,0 +1,9 @@
+Table notifications {
+  id bigint [primary key, increment]
+  title varchar(255) [not null]
+  content text [not null]
+  type enum('ORDER', 'PAYMENT', 'POINT', 'PROMOTION', 'SYSTEM') [default: 'SYSTEM']
+  is_read boolean [default: false]
+  created_at timestamp
+  updated_at timestamp
+}

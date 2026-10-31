@@ -1,0 +1,456 @@
+{
+	"id": "9e609584-8fa3-4324-ac57-36f496a90831",
+	"name": "SCRUM-26 Phân quyền API",
+	"timestamp": "2026-08-17T04:43:52.636Z",
+	"collection_id": "56967522-909a299d-e176-41a5-9a1d-b3477e732a0b",
+	"folder_id": 0,
+	"environment_id": "0",
+	"totalPass": 14,
+	"delay": 0,
+	"persist": true,
+	"status": "finished",
+	"startedAt": "2026-08-17T04:43:49.695Z",
+	"totalFail": 0,
+	"results": [
+		{
+			"id": "c0aa72d9-b810-4ce5-a536-456ca7233d0c",
+			"name": "Đăng nhập Admin",
+			"url": "http://localhost:3000/api/auth/login",
+			"time": 200,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Đăng nhập Admin thành công": true
+			},
+			"testPassFailCounts": {
+				"Đăng nhập Admin thành công": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				200
+			],
+			"allTests": [
+				{
+					"Đăng nhập Admin thành công": true
+				}
+			]
+		},
+		{
+			"id": "bcbe15eb-75df-40d7-acc9-99632e210329",
+			"name": "Admin - Xem danh sách người dùng",
+			"url": "http://localhost:3000/api/users",
+			"time": 15,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Admin có quyền xem danh sách người dùng": true
+			},
+			"testPassFailCounts": {
+				"Admin có quyền xem danh sách người dùng": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				15
+			],
+			"allTests": [
+				{
+					"Admin có quyền xem danh sách người dùng": true
+				}
+			]
+		},
+		{
+			"id": "21f40a34-29ac-49c9-b50c-3a481910b275",
+			"name": "Admin - Tạo nhân viên",
+			"url": "http://localhost:3000/api/users",
+			"time": 230,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"Admin có quyền tạo nhân viên": true
+			},
+			"testPassFailCounts": {
+				"Admin có quyền tạo nhân viên": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				230
+			],
+			"allTests": [
+				{
+					"Admin có quyền tạo nhân viên": true
+				}
+			]
+		},
+		{
+			"id": "f19b7daa-1007-4bf5-a4cf-0201c4070969",
+			"name": "Đăng nhập Staff",
+			"url": "http://localhost:3000/api/auth/login",
+			"time": 181,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Đăng nhập Staff thành công": true
+			},
+			"testPassFailCounts": {
+				"Đăng nhập Staff thành công": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				181
+			],
+			"allTests": [
+				{
+					"Đăng nhập Staff thành công": true
+				}
+			]
+		},
+		{
+			"id": "f8207848-0207-47f3-b9f8-3d68ab7f705d",
+			"name": "Staff - Xem danh sách người dùng",
+			"url": "http://localhost:3000/api/users",
+			"time": 11,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Staff có quyền xem danh sách người dùng": true
+			},
+			"testPassFailCounts": {
+				"Staff có quyền xem danh sách người dùng": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				11
+			],
+			"allTests": [
+				{
+					"Staff có quyền xem danh sách người dùng": true
+				}
+			]
+		},
+		{
+			"id": "901af284-5351-4f63-9423-391d9c1e1044",
+			"name": "Staff - Xem thống kê (Bị từ chối)",
+			"url": "http://localhost:3000/api/stats",
+			"time": 6,
+			"responseCode": {
+				"code": 403,
+				"name": "Forbidden"
+			},
+			"tests": {
+				"Staff không được quyền truy cập thống kê": true
+			},
+			"testPassFailCounts": {
+				"Staff không được quyền truy cập thống kê": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				6
+			],
+			"allTests": [
+				{
+					"Staff không được quyền truy cập thống kê": true
+				}
+			]
+		},
+		{
+			"id": "edfaf736-930e-42c7-b4be-d1a0310a4efa",
+			"name": "Đăng ký Customer",
+			"url": "http://localhost:3000/api/auth/register",
+			"time": 212,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"Đăng ký Customer thành công": true
+			},
+			"testPassFailCounts": {
+				"Đăng ký Customer thành công": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				212
+			],
+			"allTests": [
+				{
+					"Đăng ký Customer thành công": true
+				}
+			]
+		},
+		{
+			"id": "a3012c6b-6f8c-40ca-8853-acd305dc2665",
+			"name": "Đăng nhập Customer",
+			"url": "http://localhost:3000/api/auth/login",
+			"time": 187,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Đăng nhập Customer thành công": true
+			},
+			"testPassFailCounts": {
+				"Đăng nhập Customer thành công": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				187
+			],
+			"allTests": [
+				{
+					"Đăng nhập Customer thành công": true
+				}
+			]
+		},
+		{
+			"id": "153a09e1-d742-495f-8b41-745ec9f99300",
+			"name": "Customer - Xem danh sách người dùng (Bị từ chối)",
+			"url": "http://localhost:3000/api/users",
+			"time": 5,
+			"responseCode": {
+				"code": 403,
+				"name": "Forbidden"
+			},
+			"tests": {
+				"Customer không được quyền xem danh sách người dùng": true
+			},
+			"testPassFailCounts": {
+				"Customer không được quyền xem danh sách người dùng": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				5
+			],
+			"allTests": [
+				{
+					"Customer không được quyền xem danh sách người dùng": true
+				}
+			]
+		},
+		{
+			"id": "0a39a648-038a-4811-b944-15ac5967dbdf",
+			"name": "Customer - Xem thông tin cá nhân",
+			"url": "http://localhost:3000/api/users/profile",
+			"time": 9,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Customer có quyền xem thông tin cá nhân": true
+			},
+			"testPassFailCounts": {
+				"Customer có quyền xem thông tin cá nhân": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				9
+			],
+			"allTests": [
+				{
+					"Customer có quyền xem thông tin cá nhân": true
+				}
+			]
+		},
+		{
+			"id": "935265b0-139b-4f8b-8299-88f57496b8a6",
+			"name": "Admin - Tạo Kitchen",
+			"url": "http://localhost:3000/api/users",
+			"time": 205,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"Admin có quyền tạo Kitchen": true
+			},
+			"testPassFailCounts": {
+				"Admin có quyền tạo Kitchen": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				205
+			],
+			"allTests": [
+				{
+					"Admin có quyền tạo Kitchen": true
+				}
+			]
+		},
+		{
+			"id": "725959b6-6212-499f-a50f-b81387c5bc76",
+			"name": "Đăng nhập Kitchen",
+			"url": "http://localhost:3000/api/auth/login",
+			"time": 161,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Đăng nhập Kitchen thành công": true
+			},
+			"testPassFailCounts": {
+				"Đăng nhập Kitchen thành công": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				161
+			],
+			"allTests": [
+				{
+					"Đăng nhập Kitchen thành công": true
+				}
+			]
+		},
+		{
+			"id": "b5571030-b27f-45b5-89d3-71e6e10a5973",
+			"name": "Kitchen - Xem danh sách người dùng (Bị từ chối)",
+			"url": "http://localhost:3000/api/users",
+			"time": 7,
+			"responseCode": {
+				"code": 403,
+				"name": "Forbidden"
+			},
+			"tests": {
+				"Kitchen không được quyền xem danh sách người dùng": true
+			},
+			"testPassFailCounts": {
+				"Kitchen không được quyền xem danh sách người dùng": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				7
+			],
+			"allTests": [
+				{
+					"Kitchen không được quyền xem danh sách người dùng": true
+				}
+			]
+		},
+		{
+			"id": "042a5153-6a4d-4c64-9a95-818954352a8b",
+			"name": "Kitchen - Xem thống kê (Bị từ chối)",
+			"url": "http://localhost:3000/api/stats",
+			"time": 7,
+			"responseCode": {
+				"code": 403,
+				"name": "Forbidden"
+			},
+			"tests": {
+				"Kitchen không được quyền truy cập thống kê": true
+			},
+			"testPassFailCounts": {
+				"Kitchen không được quyền truy cập thống kê": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				7
+			],
+			"allTests": [
+				{
+					"Kitchen không được quyền truy cập thống kê": true
+				}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 1436,
+	"collection": {
+		"requests": [
+			{
+				"id": "c0aa72d9-b810-4ce5-a536-456ca7233d0c",
+				"method": "POST"
+			},
+			{
+				"id": "bcbe15eb-75df-40d7-acc9-99632e210329",
+				"method": "GET"
+			},
+			{
+				"id": "21f40a34-29ac-49c9-b50c-3a481910b275",
+				"method": "POST"
+			},
+			{
+				"id": "f19b7daa-1007-4bf5-a4cf-0201c4070969",
+				"method": "POST"
+			},
+			{
+				"id": "f8207848-0207-47f3-b9f8-3d68ab7f705d",
+				"method": "GET"
+			},
+			{
+				"id": "901af284-5351-4f63-9423-391d9c1e1044",
+				"method": "GET"
+			},
+			{
+				"id": "edfaf736-930e-42c7-b4be-d1a0310a4efa",
+				"method": "POST"
+			},
+			{
+				"id": "a3012c6b-6f8c-40ca-8853-acd305dc2665",
+				"method": "POST"
+			},
+			{
+				"id": "153a09e1-d742-495f-8b41-745ec9f99300",
+				"method": "GET"
+			},
+			{
+				"id": "0a39a648-038a-4811-b944-15ac5967dbdf",
+				"method": "GET"
+			},
+			{
+				"id": "935265b0-139b-4f8b-8299-88f57496b8a6",
+				"method": "POST"
+			},
+			{
+				"id": "725959b6-6212-499f-a50f-b81387c5bc76",
+				"method": "POST"
+			},
+			{
+				"id": "b5571030-b27f-45b5-89d3-71e6e10a5973",
+				"method": "GET"
+			},
+			{
+				"id": "042a5153-6a4d-4c64-9a95-818954352a8b",
+				"method": "GET"
+			}
+		]
+	}
+}

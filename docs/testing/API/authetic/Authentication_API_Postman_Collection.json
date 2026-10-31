@@ -1,0 +1,2585 @@
+{
+  "info": {
+    "_postman_id": "acbe955f-96cf-4c4b-96d8-d90641ea7bbf",
+    "name": "FutureSushi - Authentication & User API Test Suite",
+    "description": "Bộ Postman Collection kiểm thử tự động toàn diện cho Module Xác thực & Người dùng (Authentication & User Management API - /api/auth & /api/users) theo chuẩn Formal Test Cases (SCRUM-10 / SCRUM-13).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000",
+      "type": "string"
+    },
+    {
+      "key": "admin_token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "customer_token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "staff_token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "kitchen_token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "createdUserId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "registered_username",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "registered_phone",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "registered_email",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "registered_password",
+      "value": "Password123@",
+      "type": "string"
+    },
+    {
+      "key": "expired_token",
+      "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFETUlOIiwiaWF0IjoxNTE2MjM5MDIyLCJleHAiOjE1MTYyMzkwMjJ9.invalid",
+      "type": "string"
+    },
+    {
+      "key": "invalid_token",
+      "value": "invalid.token.signature.12345",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "00. Auth Setup (Get Tokens)",
+      "item": [
+        {
+          "name": "Auth - Login as Admin",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Login Admin successful (200 OK)\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('token');",
+                  "    pm.expect(jsonData.user.role).to.eql('ADMIN');",
+                  "    pm.collectionVariables.set(\"admin_token\", jsonData.token);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"account\": \"admin\",\n  \"password\": \"123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Auth - Login as Customer",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Login Customer successful (200 OK)\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('token');",
+                  "    pm.expect(jsonData.user.role).to.eql('CUSTOMER');",
+                  "    pm.collectionVariables.set(\"customer_token\", jsonData.token);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"account\": \"customer\",\n  \"password\": \"123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Auth - Login as Staff",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Login Staff successful (200 OK)\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('token');",
+                  "    pm.expect(jsonData.user.role).to.eql('STAFF');",
+                  "    pm.collectionVariables.set(\"staff_token\", jsonData.token);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"account\": \"staff\",\n  \"password\": \"123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Auth - Login as Kitchen",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Login Kitchen successful (200 OK)\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('token');",
+                  "    pm.expect(jsonData.user.role).to.eql('KITCHEN');",
+                  "    pm.collectionVariables.set(\"kitchen_token\", jsonData.token);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"account\": \"kitchen\",\n  \"password\": \"123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "01. POST - User Registration (/api/auth/register)",
+      "item": [
+        {
+          "name": "TC_API_AUTH_001 - Đăng ký tài khoản mới thành công với đầy đủ các trường hợp lệ",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "var ts = Date.now();",
+                  "var randPhone = '098' + Math.floor(1000000 + Math.random() * 9000000);",
+                  "pm.variables.set('dyn_user', 'user_' + ts);",
+                  "pm.variables.set('dyn_phone', randPhone);",
+                  "pm.variables.set('dyn_email', 'user_' + ts + '@example.com');"
+                ],
+                "type": "text/javascript"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 201 Created\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});",
+                  "pm.test(\"Response contains user registration info\", function () {",
+                  "    var res = pm.response.json();",
+                  "    pm.expect(res).to.have.property('user');",
+                  "    pm.expect(res.user).to.have.property('id');",
+                  "    pm.expect(res.user.fullName).to.eql('Nguyễn Văn An');",
+                  "    pm.expect(res.user).to.not.have.property('password');",
+                  "    pm.collectionVariables.set('createdUserId', res.user.id);",
+                  "    pm.collectionVariables.set('registered_username', res.user.username);",
+                  "    pm.collectionVariables.set('registered_phone', res.user.phone);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "register"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fullName\": \"Nguyễn Văn An\",\n  \"email\": \"{{dyn_email}}\",\n  \"phone\": \"{{dyn_phone}}\",\n  \"username\": \"{{dyn_user}}\",\n  \"password\": \"Password123@\"\n}"
+            }
+          }
+        },
+        {
+          "name": "TC_API_AUTH_002 - Đăng ký tài khoản thành công khi không có trường email (Trường tùy chọn)",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "var ts = Date.now();",
+                  "var randPhone = '098' + Math.floor(1000000 + Math.random() * 9000000);",
+                  "pm.variables.set('dyn_user', 'user_' + ts);",
+                  "pm.variables.set('dyn_phone', randPhone);",
+                  "pm.variables.set('dyn_email', 'user_' + ts + '@example.com');"
+                ],
+                "type": "text/javascript"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 201 Created without email\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "    var res = pm.response.json();",
+                  "    pm.expect(res.user.username).to.eql(pm.variables.get('dyn_user'));",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "register"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fullName\": \"Trần Thị Mai\",\n  \"phone\": \"{{dyn_phone}}\",\n  \"username\": \"{{dyn_user}}\",\n  \"password\": \"Password123@\"\n}"
+            }
+          }
+        },
+        {
+          "name": "TC_API_AUTH_003 - Đăng ký tài khoản với họ tên chứa tiếng Việt có dấu và Emoji",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "var ts = Date.now();",
+                  "var randPhone = '098' + Math.floor(1000000 + Math.random() * 9000000);",
+                  "pm.variables.set('dyn_user', 'user_' + ts);",
+                  "pm.variables.set('dyn_phone', randPhone);",
+                  "pm.variables.set('dyn_email', 'user_' + ts + '@example.com');"
+                ],
+                "type": "text/javascript"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 201 Created with Unicode and Emoji\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "    var res = pm.response.json();",
+                  "    pm.expect(res.user.fullName).to.include('🍣');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "register"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fullName\": \"🍣 Lê Hoàng Long (VIP - Khách Quý) ✨\",\n  \"email\": \"{{dyn_email}}\",\n  \"phone\": \"{{dyn_phone}}\",\n  \"username\": \"{{dyn_user}}\",\n  \"password\": \"Password123@\"\n}"
+            }
+          }
+        },
+        {
+          "name": "TC_API_AUTH_004 - Đăng ký tài khoản với username đạt độ dài biên tối đa 40 ký tự (Boundary Max)",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "var ts = Date.now();",
+                  "var randPhone = '098' + Math.floor(1000000 + Math.random() * 9000000);",
+                  "pm.variables.set('dyn_user', 'user_' + ts);",
+                  "pm.variables.set('dyn_phone', randPhone);",
+                  "pm.variables.set('dyn_email', 'user_' + ts + '@example.com');",
+                  "pm.variables.set('max_40_user', ('u_' + ts + '_12345678901234567890123456').substring(0, 40));"
+                ],
+                "type": "text/javascript"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 201 Created with 40-char username\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "register"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fullName\": \"Phạm Văn Biên\",\n  \"email\": \"{{dyn_email}}\",\n  \"phone\": \"{{dyn_phone}}\",\n  \"username\": \"{{max_40_user}}\",\n  \"password\": \"Password123@\"\n}"
+            }
+          }
+        },
+        {
+          "name": "TC_API_AUTH_005 - Đăng ký tài khoản với số điện thoại định dạng chuẩn Việt Nam 10 chữ số",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "var ts = Date.now();",
+                  "var randPhone = '098' + Math.floor(1000000 + Math.random() * 9000000);",
+                  "pm.variables.set('dyn_user', 'user_' + ts);",
+                  "pm.variables.set('dyn_phone', randPhone);",
+                  "pm.variables.set('dyn_email', 'user_' + ts + '@example.com');",
+                  "pm.variables.set('fixed_phone', '09' + Math.floor(10000000 + Math.random() * 90000000));"
+                ],
+                "type": "text/javascript"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 201 Created with standard 10-digit phone\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "register"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fullName\": \"Hoàng Minh Tuấn\",\n  \"email\": \"{{dyn_email}}\",\n  \"phone\": \"{{fixed_phone}}\",\n  \"username\": \"{{dyn_user}}\",\n  \"password\": \"Password123@\"\n}"
+            }
+          }
+        },
+        {
+          "name": "TC_API_AUTH_006 - Đăng ký tài khoản với mật khẩu phức tạp chứa nhiều ký tự đặc biệt",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "var ts = Date.now();",
+                  "var randPhone = '098' + Math.floor(1000000 + Math.random() * 9000000);",
+                  "pm.variables.set('dyn_user', 'user_' + ts);",
+                  "pm.variables.set('dyn_phone', randPhone);",
+                  "pm.variables.set('dyn_email', 'user_' + ts + '@example.com');"
+                ],
+                "type": "text/javascript"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 201 Created with complex password\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "register"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fullName\": \"Bùi Văn Khang\",\n  \"email\": \"{{dyn_email}}\",\n  \"phone\": \"{{dyn_phone}}\",\n  \"username\": \"{{dyn_user}}\",\n  \"password\": \"P@ssw0rd!#%&*()_+=123\"\n}"
+            }
+          }
+        },
+        {
+          "name": "TC_API_AUTH_007 - Đăng ký thất bại khi thiếu hoàn toàn trường bắt buộc fullName",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "var ts = Date.now();",
+                  "var randPhone = '098' + Math.floor(1000000 + Math.random() * 9000000);",
+                  "pm.variables.set('dyn_user', 'user_' + ts);",
+                  "pm.variables.set('dyn_phone', randPhone);",
+                  "pm.variables.set('dyn_email', 'user_' + ts + '@example.com');"
+                ],
+                "type": "text/javascript"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 400 Bad Request when fullName missing\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "register"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{dyn_email}}\",\n  \"phone\": \"{{dyn_phone}}\",\n  \"username\": \"{{dyn_user}}\",\n  \"password\": \"Password123@\"\n}"
+            }
+          }
+        },
+        {
+          "name": "TC_API_AUTH_008 - Đăng ký thất bại khi thiếu hoàn toàn trường bắt buộc phone",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "var ts = Date.now();",
+                  "var randPhone = '098' + Math.floor(1000000 + Math.random() * 9000000);",
+                  "pm.variables.set('dyn_user', 'user_' + ts);",
+                  "pm.variables.set('dyn_phone', randPhone);",
+                  "pm.variables.set('dyn_email', 'user_' + ts + '@example.com');"
+                ],
+                "type": "text/javascript"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 400 Bad Request when phone missing\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "register"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fullName\": \"Võ Thị Hằng\",\n  \"email\": \"{{dyn_email}}\",\n  \"username\": \"{{dyn_user}}\",\n  \"password\": \"Password123@\"\n}"
+            }
+          }
+        },
+        {
+          "name": "TC_API_AUTH_009 - Đăng ký thất bại khi thiếu hoàn toàn trường bắt buộc username",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "var ts = Date.now();",
+                  "var randPhone = '098' + Math.floor(1000000 + Math.random() * 9000000);",
+                  "pm.variables.set('dyn_user', 'user_' + ts);",
+                  "pm.variables.set('dyn_phone', randPhone);",
+                  "pm.variables.set('dyn_email', 'user_' + ts + '@example.com');"
+                ],
+                "type": "text/javascript"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 400 Bad Request when username missing\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "register"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fullName\": \"Đỗ Đức Minh\",\n  \"email\": \"{{dyn_email}}\",\n  \"phone\": \"{{dyn_phone}}\",\n  \"password\": \"Password123@\"\n}"
+            }
+          }
+        },
+        {
+          "name": "TC_API_AUTH_010 - Đăng ký thất bại khi thiếu hoàn toàn trường bắt buộc password",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "var ts = Date.now();",
+                  "var randPhone = '098' + Math.floor(1000000 + Math.random() * 9000000);",
+                  "pm.variables.set('dyn_user', 'user_' + ts);",
+                  "pm.variables.set('dyn_phone', randPhone);",
+                  "pm.variables.set('dyn_email', 'user_' + ts + '@example.com');"
+                ],
+                "type": "text/javascript"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 400 Bad Request when password missing\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "register"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fullName\": \"Ngô Gia Bảo\",\n  \"email\": \"{{dyn_email}}\",\n  \"phone\": \"{{dyn_phone}}\",\n  \"username\": \"{{dyn_user}}\"\n}"
+            }
+          }
+        },
+        {
+          "name": "TC_API_AUTH_011 - Đăng ký thất bại khi gửi Request Body rỗng {}",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "var ts = Date.now();",
+                  "var randPhone = '098' + Math.floor(1000000 + Math.random() * 9000000);",
+                  "pm.variables.set('dyn_user', 'user_' + ts);",
+                  "pm.variables.set('dyn_phone', randPhone);",
+                  "pm.variables.set('dyn_email', 'user_' + ts + '@example.com');"
+                ],
+                "type": "text/javascript"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 400 Bad Request for empty body\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "register"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            }
+          }
+        },
+        {
+          "name": "TC_API_AUTH_012 - Đăng ký thất bại khi username đã tồn tại trong hệ thống (Duplicate Username)",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "var ts = Date.now();",
+                  "var randPhone = '098' + Math.floor(1000000 + Math.random() * 9000000);",
+                  "pm.variables.set('dyn_user', 'user_' + ts);",
+                  "pm.variables.set('dyn_phone', randPhone);",
+                  "pm.variables.set('dyn_email', 'user_' + ts + '@example.com');"
+                ],
+                "type": "text/javascript"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 400 Bad Request on duplicate username\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "    var res = pm.response.json();",
+                  "    pm.expect(res.message).to.eql('Tên đăng nhập này đã tồn tại!');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "register"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fullName\": \"Người Dùng Thử\",\n  \"email\": \"{{dyn_email}}\",\n  \"phone\": \"{{dyn_phone}}\",\n  \"username\": \"admin\",\n  \"password\": \"Password123@\"\n}"
+            }
+          }
+        },
+        {
+          "name": "TC_API_AUTH_013 - Đăng ký thất bại khi số điện thoại đã được đăng ký (Duplicate Phone)",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "var ts = Date.now();",
+                  "var randPhone = '098' + Math.floor(1000000 + Math.random() * 9000000);",
+                  "pm.variables.set('dyn_user', 'user_' + ts);",
+                  "pm.variables.set('dyn_phone', randPhone);",
+                  "pm.variables.set('dyn_email', 'user_' + ts + '@example.com');"
+                ],
+                "type": "text/javascript"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 400 Bad Request on duplicate phone\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "    var res = pm.response.json();",
+                  "    pm.expect(res.message).to.eql('Số điện thoại này đã được đăng ký!');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "register"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fullName\": \"Người Dùng Thử\",\n  \"email\": \"{{dyn_email}}\",\n  \"phone\": \"0900000000\",\n  \"username\": \"{{dyn_user}}\",\n  \"password\": \"Password123@\"\n}"
+            }
+          }
+        },
+        {
+          "name": "TC_API_AUTH_014 - Đăng ký thất bại khi email đã tồn tại trong hệ thống (Duplicate Email)",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "var ts = Date.now();",
+                  "var randPhone = '098' + Math.floor(1000000 + Math.random() * 9000000);",
+                  "pm.variables.set('dyn_user', 'user_' + ts);",
+                  "pm.variables.set('dyn_phone', randPhone);",
+                  "pm.variables.set('dyn_email', 'user_' + ts + '@example.com');"
+                ],
+                "type": "text/javascript"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 400 Bad Request on duplicate email\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "register"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fullName\": \"Người Dùng Thử\",\n  \"email\": \"admin@example.com\",\n  \"phone\": \"{{dyn_phone}}\",\n  \"username\": \"{{dyn_user}}\",\n  \"password\": \"Password123@\"\n}"
+            }
+          }
+        },
+        {
+          "name": "TC_API_AUTH_015 - Đăng ký thất bại khi username vượt quá 40 ký tự (Boundary 41 chars)",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "var ts = Date.now();",
+                  "var randPhone = '098' + Math.floor(1000000 + Math.random() * 9000000);",
+                  "pm.variables.set('dyn_user', 'user_' + ts);",
+                  "pm.variables.set('dyn_phone', randPhone);",
+                  "pm.variables.set('dyn_email', 'user_' + ts + '@example.com');"
+                ],
+                "type": "text/javascript"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Rejected when username > 40 chars\", function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([400, 500]);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "register"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fullName\": \"Vượt Quá Ký Tự\",\n  \"email\": \"{{dyn_email}}\",\n  \"phone\": \"{{dyn_phone}}\",\n  \"username\": \"user_exceeds_forty_characters_boundary_41\",\n  \"password\": \"Password123@\"\n}"
+            }
+          }
+        },
+        {
+          "name": "TC_API_AUTH_016 - Kiểm tra chống leo thang đặc quyền Mass Assignment (role: ADMIN, points: 9999)",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "var ts = Date.now();",
+                  "var randPhone = '098' + Math.floor(1000000 + Math.random() * 9000000);",
+                  "pm.variables.set('dyn_user', 'user_' + ts);",
+                  "pm.variables.set('dyn_phone', randPhone);",
+                  "pm.variables.set('dyn_email', 'user_' + ts + '@example.com');"
+                ],
+                "type": "text/javascript"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 201 Created and role is not escalated\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "    var res = pm.response.json();",
+                  "    pm.expect(res.user.role).to.not.eql('ADMIN');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "register"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fullName\": \"Hacker Thử Nghiệm\",\n  \"email\": \"{{dyn_email}}\",\n  \"phone\": \"{{dyn_phone}}\",\n  \"username\": \"{{dyn_user}}\",\n  \"password\": \"Password123@\",\n  \"role\": \"ADMIN\",\n  \"points\": 9999,\n  \"status\": \"BLOCKED\"\n}"
+            }
+          }
+        },
+        {
+          "name": "TC_API_AUTH_017 - Kiểm tra bảo mật chống SQL Injection trong Payload đăng ký",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "var ts = Date.now();",
+                  "var randPhone = '098' + Math.floor(1000000 + Math.random() * 9000000);",
+                  "pm.variables.set('dyn_user', 'user_' + ts);",
+                  "pm.variables.set('dyn_phone', randPhone);",
+                  "pm.variables.set('dyn_email', 'user_' + ts + '@example.com');"
+                ],
+                "type": "text/javascript"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"SQL Injection handled safely\", function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([201, 400]);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "register"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fullName\": \"User'); DROP TABLE users;--\",\n  \"email\": \"{{dyn_email}}\",\n  \"phone\": \"{{dyn_phone}}\",\n  \"username\": \"sqli_{{dyn_user}}' OR '1'='1\",\n  \"password\": \"Password123@\"\n}"
+            }
+          }
+        },
+        {
+          "name": "TC_API_AUTH_018 - Kiểm tra lưu trữ an toàn khi truyền XSS Payload vào trường fullName",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "var ts = Date.now();",
+                  "var randPhone = '098' + Math.floor(1000000 + Math.random() * 9000000);",
+                  "pm.variables.set('dyn_user', 'user_' + ts);",
+                  "pm.variables.set('dyn_phone', randPhone);",
+                  "pm.variables.set('dyn_email', 'user_' + ts + '@example.com');"
+                ],
+                "type": "text/javascript"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"XSS Payload stored safely without corrupting JSON\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "    var res = pm.response.json();",
+                  "    pm.expect(res.user.fullName).to.include('<script>');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "register"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fullName\": \"<script>alert('xss_user')</script> Nguyễn Văn A\",\n  \"email\": \"{{dyn_email}}\",\n  \"phone\": \"{{dyn_phone}}\",\n  \"username\": \"{{dyn_user}}\",\n  \"password\": \"Password123@\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "02. POST - User Login (/api/auth/login)",
+      "item": [
+        {
+          "name": "TC_API_AUTH_019 - Đăng nhập thành công bằng tài khoản Quản trị viên (Admin Login)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Admin login successful (200 OK)\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "    var res = pm.response.json();",
+                  "    pm.expect(res).to.have.property('token');",
+                  "    pm.expect(res.user.role).to.eql('ADMIN');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"account\": \"admin\",\n  \"password\": \"123\"\n}"
+            }
+          }
+        },
+        {
+          "name": "TC_API_AUTH_020 - Đăng nhập thành công bằng Username tài khoản Khách hàng (Customer Login)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Customer login by username successful (200 OK)\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "    var res = pm.response.json();",
+                  "    pm.expect(res).to.have.property('token');",
+                  "    pm.expect(res.user.role).to.eql('CUSTOMER');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"account\": \"customer\",\n  \"password\": \"123\"\n}"
+            }
+          }
+        },
+        {
+          "name": "TC_API_AUTH_021 - Đăng nhập thành công bằng Số điện thoại (Phone Login)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Login by Phone successful (200 OK)\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "    var res = pm.response.json();",
+                  "    pm.expect(res).to.have.property('token');",
+                  "    pm.expect(res.user.phone).to.eql('0900000000');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"account\": \"0900000000\",\n  \"password\": \"123\"\n}"
+            }
+          }
+        },
+        {
+          "name": "TC_API_AUTH_022 - Đăng nhập thành công bằng địa chỉ Email (Email Login)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Login by Email successful (200 OK)\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "    var res = pm.response.json();",
+                  "    pm.expect(res).to.have.property('token');",
+                  "    pm.expect(res.user.username).to.eql('admin');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"account\": \"admin@example.com\",\n  \"password\": \"123\"\n}"
+            }
+          }
+        },
+        {
+          "name": "TC_API_AUTH_023 - Kiểm tra tính toàn vẹn và bảo mật của Response sau khi Đăng nhập thành công",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Login response contains expected properties and no password leak\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "    var res = pm.response.json();",
+                  "    pm.expect(res).to.have.property('token');",
+                  "    pm.expect(res.user).to.have.property('id');",
+                  "    pm.expect(res.user).to.have.property('fullName');",
+                  "    pm.expect(res.user).to.have.property('username');",
+                  "    pm.expect(res.user).to.have.property('phone');",
+                  "    pm.expect(res.user).to.have.property('role');",
+                  "    pm.expect(res.user).to.not.have.property('password');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"account\": \"admin\",\n  \"password\": \"123\"\n}"
+            }
+          }
+        },
+        {
+          "name": "TC_API_AUTH_024 - Đăng nhập thất bại khi thiếu trường account trong Request Body",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 400 Bad Request when account missing\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "    var res = pm.response.json();",
+                  "    pm.expect(res.message).to.eql('Vui lòng nhập đầy đủ thông tin!');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"password\": \"123\"\n}"
+            }
+          }
+        },
+        {
+          "name": "TC_API_AUTH_025 - Đăng nhập thất bại khi thiếu trường password trong Request Body",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 400 Bad Request when password missing\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "    var res = pm.response.json();",
+                  "    pm.expect(res.message).to.eql('Vui lòng nhập đầy đủ thông tin!');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"account\": \"admin\"\n}"
+            }
+          }
+        },
+        {
+          "name": "TC_API_AUTH_026 - Đăng nhập thất bại khi Request Body rỗng {}",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 400 Bad Request on empty login body\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "    var res = pm.response.json();",
+                  "    pm.expect(res.message).to.eql('Vui lòng nhập đầy đủ thông tin!');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            }
+          }
+        },
+        {
+          "name": "TC_API_AUTH_027 - Đăng nhập thất bại khi account và password là chuỗi rỗng \"\"",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 400 Bad Request on empty strings\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "    var res = pm.response.json();",
+                  "    pm.expect(res.message).to.eql('Vui lòng nhập đầy đủ thông tin!');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"account\": \"\",\n  \"password\": \"\"\n}"
+            }
+          }
+        },
+        {
+          "name": "TC_API_AUTH_028 - Đăng nhập thất bại khi tài khoản không tồn tại trong hệ thống",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 404 Not Found for non-existent user\", function () {",
+                  "    pm.response.to.have.status(404);",
+                  "    var res = pm.response.json();",
+                  "    pm.expect(res.message).to.eql('Tài khoản không tồn tại!');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"account\": \"nonexistent_account_999\",\n  \"password\": \"Password123@\"\n}"
+            }
+          }
+        },
+        {
+          "name": "TC_API_AUTH_029 - Đăng nhập thất bại khi nhập sai mật khẩu (Wrong Password)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 400 Bad Request on wrong password\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "    var res = pm.response.json();",
+                  "    pm.expect(res.message).to.eql('Mật khẩu không chính xác!');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"account\": \"admin\",\n  \"password\": \"SaiMatKhau123\"\n}"
+            }
+          }
+        },
+        {
+          "name": "TC_API_AUTH_030 - Đăng nhập thất bại khi mật khẩu sai chữ hoa / chữ thường (Case Sensitivity)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 400 Bad Request on case/space sensitive password\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"account\": \"admin\",\n  \"password\": \"123 \"\n}"
+            }
+          }
+        },
+        {
+          "name": "TC_API_AUTH_031 - Đăng nhập thất bại khi tài khoản ở trạng thái bị khóa (status: BLOCKED)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 403 Forbidden when account is blocked\", function () {",
+                  "    pm.response.to.have.status(403);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"account\": \"blocked_user\",\n  \"password\": \"123\"\n}"
+            }
+          }
+        },
+        {
+          "name": "TC_API_AUTH_032 - Kiểm tra bảo mật chống SQL Injection trong trường account",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 404 Not Found on SQL Injection in account\", function () {",
+                  "    pm.response.to.have.status(404);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"account\": \"' OR '1'='1' --\",\n  \"password\": \"123\"\n}"
+            }
+          }
+        },
+        {
+          "name": "TC_API_AUTH_033 - Kiểm tra bảo mật chống SQL Injection trong trường password",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 400 Bad Request on SQL Injection in password\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"account\": \"admin\",\n  \"password\": \"' OR '1'='1\"\n}"
+            }
+          }
+        },
+        {
+          "name": "TC_API_AUTH_034 - Kiểm tra xử lý an toàn XSS Payload trong trường account",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 404 Not Found on XSS in account\", function () {",
+                  "    pm.response.to.have.status(404);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"account\": \"<script>alert(1)</script>\",\n  \"password\": \"123\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "03. GET - Auth Health Check (/api/auth/test)",
+      "item": [
+        {
+          "name": "TC_API_AUTH_035 - Kiểm tra endpoint Health Check của Auth Router (GET /api/auth/test)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200 OK\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test(\"Response body is Auth route is working!\", function () {",
+                  "    pm.expect(pm.response.text()).to.eql('Auth route is working!');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/test",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "test"
+              ]
+            }
+          }
+        },
+        {
+          "name": "TC_API_AUTH_036 - Kiểm tra Health Check khi truyền Custom Headers tùy ý (Idempotent Test)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200 OK with custom headers\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "    pm.expect(pm.response.text()).to.eql('Auth route is working!');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Custom-Header",
+                "value": "TestHeader123"
+              },
+              {
+                "key": "Cache-Control",
+                "value": "no-cache"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/test",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "test"
+              ]
+            }
+          }
+        },
+        {
+          "name": "TC_API_AUTH_037 - Gửi sai HTTP Method POST tới endpoint Health Check /api/auth/test",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 404 Not Found for POST on GET route\", function () {",
+                  "    pm.response.to.have.status(404);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/test",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "test"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "04. JWT Verification & Security (/api/users/profile & JWT)",
+      "item": [
+        {
+          "name": "TC_API_AUTH_038 - Xác thực thành công khi gọi API bảo vệ với Bearer Token hợp lệ",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200 OK for valid Bearer token\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "    var res = pm.response.json();",
+                  "    pm.expect(res).to.have.property('username');",
+                  "    pm.expect(res).to.not.have.property('password');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/users/profile",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "users",
+                "profile"
+              ]
+            }
+          }
+        },
+        {
+          "name": "TC_API_AUTH_039 - Từ chối truy cập khi không truyền Header Authorization (Khách vãng lai / Guest)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 401 Unauthorized without token\", function () {",
+                  "    pm.response.to.have.status(401);",
+                  "    var res = pm.response.json();",
+                  "    pm.expect(res.message).to.eql('No token');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/users/profile",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "users",
+                "profile"
+              ]
+            }
+          }
+        },
+        {
+          "name": "TC_API_AUTH_040 - Từ chối truy cập khi Header Authorization thiếu tiền tố Bearer (Invalid Format)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 401 Unauthorized when missing Bearer prefix\", function () {",
+                  "    pm.response.to.have.status(401);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "{{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/users/profile",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "users",
+                "profile"
+              ]
+            }
+          }
+        },
+        {
+          "name": "TC_API_AUTH_041 - Từ chối truy cập khi sử dụng Token JWT đã hết hạn (Expired Token)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 401 Unauthorized for expired token\", function () {",
+                  "    pm.response.to.have.status(401);",
+                  "    var res = pm.response.json();",
+                  "    pm.expect(res.message).to.eql('Invalid token');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{expired_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/users/profile",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "users",
+                "profile"
+              ]
+            }
+          }
+        },
+        {
+          "name": "TC_API_AUTH_042 - Từ chối truy cập khi sử dụng Token giả mạo hoặc sai chữ ký (Invalid Signature)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 401 Unauthorized for invalid signature token\", function () {",
+                  "    pm.response.to.have.status(401);",
+                  "    var res = pm.response.json();",
+                  "    pm.expect(res.message).to.eql('Invalid token');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{invalid_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/users/profile",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "users",
+                "profile"
+              ]
+            }
+          }
+        },
+        {
+          "name": "TC_API_AUTH_043 - Từ chối truy cập khi Token bị sửa đổi Payload (Tampered JWT Header/Payload)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 401 Unauthorized for tampered payload\", function () {",
+                  "    pm.response.to.have.status(401);",
+                  "    var res = pm.response.json();",
+                  "    pm.expect(res.message).to.eql('Invalid token');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OTk5LCJyb2xlIjoiQURNSU4ifQ.tampered_signature"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/users/profile",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "users",
+                "profile"
+              ]
+            }
+          }
+        },
+        {
+          "name": "TC_API_AUTH_044 - Từ chối truy cập khi Token rỗng sau tiền tố Bearer (Empty Token)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 401 Unauthorized for empty token string\", function () {",
+                  "    pm.response.to.have.status(401);",
+                  "    var res = pm.response.json();",
+                  "    pm.expect(res.message).to.eql('Invalid token');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer "
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/users/profile",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "users",
+                "profile"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "05. Role-Based Access Control & Profile (/api/users & /api/users/profile)",
+      "item": [
+        {
+          "name": "TC_API_AUTH_045 - Phân quyền Role ADMIN truy cập API quản trị danh sách người dùng",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200 OK for Admin accessing users list\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "    var res = pm.response.json();",
+                  "    pm.expect(res).to.be.an('array');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/users",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "users"
+              ]
+            }
+          }
+        },
+        {
+          "name": "TC_API_AUTH_046 - Phân quyền Role STAFF truy cập API danh sách người dùng",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200 OK for Staff accessing users list\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "    var res = pm.response.json();",
+                  "    pm.expect(res).to.be.an('array');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{staff_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/users",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "users"
+              ]
+            }
+          }
+        },
+        {
+          "name": "TC_API_AUTH_047 - Phân quyền Role CUSTOMER bị từ chối truy cập API danh sách người dùng",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 403 Forbidden for Customer accessing users list\", function () {",
+                  "    pm.response.to.have.status(403);",
+                  "    var res = pm.response.json();",
+                  "    pm.expect(res.message).to.eql('Access denied. Staff or Admin only.');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customer_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/users",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "users"
+              ]
+            }
+          }
+        },
+        {
+          "name": "TC_API_AUTH_048 - Phân quyền Role KITCHEN bị từ chối truy cập API danh sách người dùng",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 403 Forbidden for Kitchen accessing users list\", function () {",
+                  "    pm.response.to.have.status(403);",
+                  "    var res = pm.response.json();",
+                  "    pm.expect(res.message).to.eql('Access denied. Staff or Admin only.');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{kitchen_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/users",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "users"
+              ]
+            }
+          }
+        },
+        {
+          "name": "TC_API_AUTH_049 - Phân quyền Role STAFF bị từ chối xóa tài khoản người dùng (Admin Only)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 403 Forbidden for Staff deleting user\", function () {",
+                  "    pm.response.to.have.status(403);",
+                  "    var res = pm.response.json();",
+                  "    pm.expect(res.message).to.eql('Access denied. Admin only.');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{staff_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/users/999",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "users",
+                "999"
+              ]
+            }
+          }
+        },
+        {
+          "name": "TC_API_AUTH_050 - Khách hàng tự cập nhật thông tin hồ sơ của chính mình (Self Profile Update)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200 OK on profile update\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "    var res = pm.response.json();",
+                  "    pm.expect(res.message).to.eql('Cập nhật hồ sơ thành công');",
+                  "    pm.expect(res.user.fullName).to.eql('Khách Hàng Mẫu (Đã Cập Nhật)');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customer_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/users/profile",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "users",
+                "profile"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fullName\": \"Khách Hàng Mẫu (Đã Cập Nhật)\",\n  \"phone\": \"0903333444\",\n  \"avatar\": \"https://example.com/avatar_new.jpg\"\n}"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
