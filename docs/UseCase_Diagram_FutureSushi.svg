@@ -1,0 +1,480 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="usecaseSvg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2180 1550" width="3270" height="2325">
+      
+  <style>
+    text { font-family: "DejaVu Sans", Arial, Helvetica, sans-serif; fill: #111111; }
+    .uc-oval { fill: #ffffff; stroke: #111111; stroke-width: 1.6; }
+  </style>
+
+      <defs>
+        <!-- Mũi tên nét đứt <<include>> / <<extend>> -->
+        <marker id="openArrow" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+          <path d="M 1 1 L 10 6 L 1 11" fill="none" stroke="#111111" stroke-width="1.6" />
+        </marker>
+
+        <!-- Mũi tên kế thừa UML (Generalization - Tam giác rỗng) -->
+        <marker id="inheritArrow" viewBox="0 0 14 14" refX="12" refY="7" markerWidth="10" markerHeight="10" orient="auto">
+          <polygon points="1,2 12,7 1,12" fill="#ffffff" stroke="#111111" stroke-width="1.6" />
+        </marker>
+
+        <!-- Actor Stick Figure Template -->
+        <g id="actorFigure">
+          <circle cx="0" cy="-34" r="11" fill="#ffffff" stroke="#111111" stroke-width="1.8" />
+          <line x1="0" y1="-23" x2="0" y2="10" stroke="#111111" stroke-width="1.8" />
+          <line x1="-20" y1="-11" x2="20" y2="-11" stroke="#111111" stroke-width="1.8" />
+          <line x1="0" y1="10" x2="-16" y2="36" stroke="#111111" stroke-width="1.8" />
+          <line x1="0" y1="10" x2="16" y2="36" stroke="#111111" stroke-width="1.8" />
+        </g>
+      </defs>
+
+      <!-- Nền trắng chuẩn -->
+      <rect x="0" y="0" width="2180" height="1550" fill="#ffffff" />
+
+      <!-- TIÊU ĐỀ CHÍNH -->
+      <text x="1090" y="36" text-anchor="middle" font-size="22" font-weight="bold" letter-spacing="0.4">
+        USE CASE DIAGRAM – HỆ THỐNG ĐẶT BÀN, GỌI MÓN BẰNG QR VÀ QUẢN LÝ NHÀ HÀNG
+      </text>
+
+      <!-- RANH GIỚI HỆ THỐNG (SYSTEM BOUNDARY) -->
+      <rect x="200" y="54" width="1780" height="1250" fill="none" stroke="#111111" stroke-width="1.8" />
+
+      <!-- =========================================================
+           1. CÁC TÁC NHÂN (ACTORS) BÊN TRÁI & BÊN PHẢI (ĐỦ 5 PHÂN HỆ)
+           ========================================================= -->
+      <!-- Phân hệ 1: Guest (Khách vãng lai ăn tại quán) -->
+      <g transform="translate(92, 160)">
+        <use href="#actorFigure" />
+        <text x="0" y="54" text-anchor="middle" font-size="13" font-weight="bold">Guest</text>
+        <text x="0" y="70" text-anchor="middle" font-size="11.5">(Khách vãng lai tại bàn)</text>
+      </g>
+
+      <!-- Mũi tên Kế thừa (Generalization): Customer kế thừa toàn bộ chức năng của Guest -->
+      <line x1="92" y1="348" x2="92" y2="244" stroke="#111111" stroke-width="1.5" marker-end="url(#inheritArrow)" />
+      <text x="136" y="298" text-anchor="middle" font-size="11" font-style="italic">«kế thừa»</text>
+
+      <!-- Phân hệ 2: Customer (Khách hàng thành viên) -->
+      <g transform="translate(92, 400)">
+        <use href="#actorFigure" />
+        <text x="0" y="54" text-anchor="middle" font-size="13" font-weight="bold">Customer</text>
+        <text x="0" y="70" text-anchor="middle" font-size="11.5">(Khách hàng thành viên)</text>
+      </g>
+
+      <!-- Phân hệ 3: Host (Lễ tân / Quản lý sảnh) -->
+      <g transform="translate(92, 685)">
+        <use href="#actorFigure" />
+        <text x="0" y="54" text-anchor="middle" font-size="13" font-weight="bold">Host</text>
+        <text x="0" y="70" text-anchor="middle" font-size="11.5">(Lễ tân / Quản lý sảnh)</text>
+      </g>
+
+      <!-- Phân hệ 4a: Staff - Phục vụ & Thu ngân -->
+      <g transform="translate(92, 920)">
+        <use href="#actorFigure" />
+        <text x="0" y="54" text-anchor="middle" font-size="13" font-weight="bold">Staff</text>
+        <text x="0" y="70" text-anchor="middle" font-size="11.5">(Phục vụ &amp; Thu ngân)</text>
+      </g>
+
+      <!-- Phân hệ 4b: Kitchen - Nhà bếp (KDS) -->
+      <g transform="translate(92, 1175)">
+        <use href="#actorFigure" />
+        <text x="0" y="54" text-anchor="middle" font-size="13" font-weight="bold">Kitchen</text>
+        <text x="0" y="70" text-anchor="middle" font-size="11.5">(Nhà bếp - KDS)</text>
+      </g>
+
+      <!-- Phân hệ 5: Admin (Quản trị viên / Chủ nhà hàng) -->
+      <g transform="translate(2080, 440)">
+        <use href="#actorFigure" />
+        <text x="0" y="54" text-anchor="middle" font-size="13" font-weight="bold">Admin</text>
+        <text x="0" y="70" text-anchor="middle" font-size="11.5">(Quản trị / Chủ nhà hàng)</text>
+      </g>
+
+      <!-- Actor Tích hợp: Payment Gateway (PayOS) -->
+      <g transform="translate(2080, 985)">
+        <use href="#actorFigure" />
+        <text x="0" y="54" text-anchor="middle" font-size="13" font-weight="bold">Payment Gateway</text>
+        <text x="0" y="70" text-anchor="middle" font-size="11.5">(PayOS)</text>
+      </g>
+
+      <!-- =========================================================
+           2. ĐƯỜNG LIÊN KẾT ASSOCIATION (NÉT LIỀN)
+           ========================================================= -->
+      <!-- 1. Guest (92, 160) -> UC01..UC04 -->
+      <g stroke="#111111" stroke-width="1.3">
+        <line x1="116" y1="148" x2="230" y2="95" />
+        <line x1="116" y1="155" x2="230" y2="145" />
+        <line x1="116" y1="162" x2="230" y2="195" />
+        <line x1="116" y1="170" x2="230" y2="245" />
+      </g>
+
+      <!-- 2. Customer (92, 400) -> UC05..UC11 -->
+      <g stroke="#111111" stroke-width="1.3">
+        <line x1="116" y1="385" x2="230" y2="305" />
+        <line x1="116" y1="390" x2="230" y2="355" />
+        <line x1="116" y1="395" x2="230" y2="405" />
+        <line x1="116" y1="400" x2="230" y2="455" />
+        <line x1="116" y1="405" x2="230" y2="505" />
+        <line x1="116" y1="410" x2="230" y2="555" />
+        <line x1="116" y1="415" x2="230" y2="605" />
+      </g>
+
+      <!-- 3. Host (92, 685) -> UC12..UC14 -->
+      <g stroke="#111111" stroke-width="1.3">
+        <line x1="116" y1="678" x2="230" y2="665" />
+        <line x1="116" y1="685" x2="230" y2="715" />
+        <line x1="116" y1="692" x2="230" y2="765" />
+      </g>
+
+      <!-- 4a. Staff - Phục vụ & Thu ngân (92, 920) -> UC15..UC19 -->
+      <g stroke="#111111" stroke-width="1.3">
+        <line x1="116" y1="908" x2="230" y2="830" />
+        <line x1="116" y1="914" x2="230" y2="880" />
+        <line x1="116" y1="920" x2="230" y2="930" />
+        <line x1="116" y1="926" x2="230" y2="980" />
+        <line x1="116" y1="932" x2="230" y2="1030" />
+      </g>
+
+      <!-- 4b. Kitchen - Nhà bếp (92, 1175) -> UC20..UC22 -->
+      <g stroke="#111111" stroke-width="1.3">
+        <line x1="116" y1="1168" x2="230" y2="1115" />
+        <line x1="116" y1="1175" x2="230" y2="1175" />
+        <line x1="116" y1="1182" x2="230" y2="1235" />
+      </g>
+
+      <!-- 5. Admin (2080, 440) -> UC26..UC33 -->
+      <g stroke="#111111" stroke-width="1.3">
+        <line x1="2055" y1="418" x2="1945" y2="115" />
+        <line x1="2055" y1="424" x2="1945" y2="175" />
+        <line x1="2055" y1="430" x2="1945" y2="235" />
+        <line x1="2055" y1="435" x2="1945" y2="295" />
+        <line x1="2055" y1="442" x2="1945" y2="415" />
+        <line x1="2055" y1="450" x2="1945" y2="660" />
+        <line x1="2055" y1="456" x2="1945" y2="730" />
+        <line x1="2055" y1="462" x2="1945" y2="800" />
+      </g>
+
+      <!-- =========================================================
+           3. CÁC USE CASE CỘT TRÁI (cx=395, rx=165, ry=20)
+           ========================================================= -->
+      <!-- 1. Phân hệ GUEST (Khách vãng lai tại quán) -->
+      <g>
+        <ellipse class="uc-oval new-uc" cx="395" cy="95" rx="165" ry="20" />
+        <text x="395" y="100" text-anchor="middle" font-size="11.5" font-weight="bold">UC01 - Quét QR định danh bàn (Guest)</text>
+
+        <ellipse class="uc-oval new-uc" cx="395" cy="145" rx="165" ry="20" />
+        <text x="395" y="150" text-anchor="middle" font-size="11.5" font-weight="bold">UC02 - Gọi món trực tuyến (Ghi chú món)</text>
+
+        <ellipse class="uc-oval new-uc" cx="395" cy="195" rx="165" ry="20" />
+        <text x="395" y="200" text-anchor="middle" font-size="11.5" font-weight="bold">UC03 - Theo dõi trạng thái đơn tạm thời</text>
+
+        <ellipse class="uc-oval new-uc" cx="395" cy="245" rx="165" ry="20" />
+        <text x="395" y="250" text-anchor="middle" font-size="11.5" font-weight="bold">UC04 - Yêu cầu thanh toán (Tiền mặt / QR)</text>
+      </g>
+
+      <!-- 2. Phân hệ CUSTOMER (Khách hàng thành viên) -->
+      <g>
+        <ellipse class="uc-oval" cx="395" cy="305" rx="165" ry="20" />
+        <text x="395" y="310" text-anchor="middle" font-size="11.5" font-weight="bold">UC05 - Đăng ký tài khoản</text>
+
+        <ellipse class="uc-oval" cx="395" cy="355" rx="165" ry="20" />
+        <text x="395" y="360" text-anchor="middle" font-size="11.5" font-weight="bold">UC06 - Đăng nhập</text>
+
+        <ellipse class="uc-oval new-uc" cx="395" cy="405" rx="165" ry="20" />
+        <text x="395" y="410" text-anchor="middle" font-size="11.5" font-weight="bold">UC07 - Đặt Web Delivery (Trả trước 100%)</text>
+
+        <ellipse class="uc-oval" cx="395" cy="455" rx="165" ry="20" />
+        <text x="395" y="460" text-anchor="middle" font-size="11.5" font-weight="bold">UC08 - Đặt bàn trước (Reservation)</text>
+
+        <ellipse class="uc-oval new-uc" cx="395" cy="505" rx="165" ry="20" />
+        <text x="395" y="510" text-anchor="middle" font-size="11.5" font-weight="bold">UC09 - Xem hạng thành viên (Bạc/Vàng/VIP)</text>
+
+        <ellipse class="uc-oval" cx="395" cy="555" rx="165" ry="20" />
+        <text x="395" y="560" text-anchor="middle" font-size="11.5" font-weight="bold">UC10 - Xem lịch sử &amp; Đánh giá (1-5 sao)</text>
+
+        <ellipse class="uc-oval" cx="395" cy="605" rx="165" ry="20" />
+        <text x="395" y="610" text-anchor="middle" font-size="11.5" font-weight="bold">UC11 - Đăng xuất</text>
+      </g>
+
+      <!-- 3. Phân hệ HOST (Lễ tân / Quản lý sảnh) -->
+      <g>
+        <ellipse class="uc-oval" cx="395" cy="665" rx="165" ry="20" />
+        <text x="395" y="670" text-anchor="middle" font-size="11.5" font-weight="bold">UC12 - Quản lý đặt bàn &amp; Check-in</text>
+
+        <ellipse class="uc-oval new-uc" cx="395" cy="715" rx="165" ry="20" />
+        <text x="395" y="720" text-anchor="middle" font-size="11.5" font-weight="bold">UC13 - Xếp hàng chờ (Waitlist &amp; Giờ chờ)</text>
+
+        <ellipse class="uc-oval new-uc" cx="395" cy="765" rx="165" ry="20" />
+        <text x="395" y="770" text-anchor="middle" font-size="11.5" font-weight="bold">UC14 - Điều phối sơ đồ bàn (4 màu)</text>
+      </g>
+
+      <!-- 4a. Phân hệ STAFF (Phục vụ & Thu ngân) -->
+      <g>
+        <ellipse class="uc-oval" cx="395" cy="830" rx="165" ry="20" />
+        <text x="395" y="835" text-anchor="middle" font-size="11.5" font-weight="bold">UC15 - Nhận thông báo &amp; Xác nhận đơn</text>
+
+        <ellipse class="uc-oval new-uc" cx="395" cy="880" rx="165" ry="20" />
+        <text x="395" y="885" text-anchor="middle" font-size="11.5" font-weight="bold">UC16 - Tạo đơn thủ công (POS)</text>
+
+        <ellipse class="uc-oval" cx="395" cy="930" rx="165" ry="20" />
+        <text x="395" y="935" text-anchor="middle" font-size="11.5" font-weight="bold">UC17 - Gom đơn, tính tiền thừa / QR</text>
+
+        <ellipse class="uc-oval new-uc" cx="395" cy="980" rx="165" ry="20" />
+        <text x="395" y="985" text-anchor="middle" font-size="11.5" font-weight="bold">UC18 - In hóa đơn chuyên nghiệp (VAT)</text>
+
+        <ellipse class="uc-oval new-uc" cx="395" cy="1030" rx="165" ry="20" />
+        <text x="395" y="1035" text-anchor="middle" font-size="11.5" font-weight="bold">UC19 - Quản lý Ca (Mở / Đóng ca đối soát)</text>
+      </g>
+
+      <!-- 4b. Phân hệ KITCHEN (Nhà bếp) -->
+      <g>
+        <ellipse class="uc-oval" cx="395" cy="1115" rx="165" ry="20" />
+        <text x="395" y="1120" text-anchor="middle" font-size="11.5" font-weight="bold">UC20 - Xem danh sách chế biến (KDS)</text>
+
+        <ellipse class="uc-oval" cx="395" cy="1175" rx="165" ry="21" />
+        <text x="395" y="1171" text-anchor="middle" font-size="11.5" font-weight="bold">UC21 - Cập nhật trạng thái</text>
+        <text x="395" y="1186" text-anchor="middle" font-size="11.5" font-weight="bold">("Đang nấu" / "Chế biến xong")</text>
+
+        <ellipse class="uc-oval new-uc" cx="395" cy="1235" rx="165" ry="20" />
+        <text x="395" y="1240" text-anchor="middle" font-size="11.5" font-weight="bold">UC22 - Báo hết món khẩn cấp (Ẩn món)</text>
+      </g>
+
+      <!-- =========================================================
+           4. CÁC USE CASE TRUNG TÂM & MỞ RỘNG (INCLUDE / EXTEND)
+           ========================================================= -->
+      <!-- Hub 1: UC00 - Quản lý tài khoản -->
+      <ellipse class="uc-oval" cx="800" cy="215" rx="120" ry="27" />
+      <text x="800" y="220" text-anchor="middle" font-size="12.5" font-weight="bold">UC00 - Quản lý tài khoản</text>
+
+      <!-- Extensions of UC00 -->
+      <ellipse class="uc-oval" cx="1135" cy="165" rx="145" ry="23" />
+      <text x="1135" y="161" text-anchor="middle" font-size="11.5" font-weight="bold">UC00.1 - Cập nhật</text>
+      <text x="1135" y="176" text-anchor="middle" font-size="11.5" font-weight="bold">thông tin cá nhân</text>
+
+      <ellipse class="uc-oval" cx="1135" cy="255" rx="145" ry="23" />
+      <text x="1135" y="260" text-anchor="middle" font-size="11.5" font-weight="bold">UC00.2 - Đổi mật khẩu</text>
+
+      <!-- Hub 2: UC23 - Quản lý đơn hàng -->
+      <ellipse class="uc-oval" cx="800" cy="640" rx="120" ry="28" />
+      <text x="800" y="645" text-anchor="middle" font-size="12.5" font-weight="bold">UC23 - Quản lý đơn hàng</text>
+
+      <!-- Extensions of UC23 -->
+      <ellipse class="uc-oval" cx="1135" cy="555" rx="150" ry="23" />
+      <text x="1135" y="560" text-anchor="middle" font-size="11.5" font-weight="bold">UC23.1 - Xem chi tiết đơn</text>
+
+      <ellipse class="uc-oval" cx="1135" cy="640" rx="150" ry="23" />
+      <text x="1135" y="645" text-anchor="middle" font-size="11.5" font-weight="bold">UC23.2 - Cập nhật trạng thái đơn</text>
+
+      <ellipse class="uc-oval new-uc" cx="1135" cy="725" rx="150" ry="25" />
+      <text x="1135" y="721" text-anchor="middle" font-size="11.5" font-weight="bold">UC23.3 - Hủy món / Hao hụt</text>
+      <text x="1135" y="736" text-anchor="middle" font-size="11.5" font-weight="bold">(Void / Waste cần mã PIN Quản lý)</text>
+
+      <!-- Hub 3: UC24 - Thanh toán -->
+      <ellipse class="uc-oval" cx="800" cy="930" rx="120" ry="28" />
+      <text x="800" y="935" text-anchor="middle" font-size="12.5" font-weight="bold">UC24 - Thanh toán</text>
+
+      <!-- Extensions of UC24 (ĐÃ BỎ THẺ - CHỈ GIỮ TIỀN MẶT, QR & CHUYỂN KHOẢN) -->
+      <ellipse class="uc-oval" cx="1135" cy="880" rx="150" ry="23" />
+      <text x="1135" y="885" text-anchor="middle" font-size="11.5" font-weight="bold">UC24.1 - Thanh toán tiền mặt</text>
+
+      <ellipse class="uc-oval new-uc" cx="1135" cy="985" rx="150" ry="25" />
+      <text x="1135" y="981" text-anchor="middle" font-size="11.5" font-weight="bold">UC24.2 - Thanh toán qua PayOS</text>
+      <text x="1135" y="996" text-anchor="middle" font-size="11.5" font-weight="bold">(Quét mã QR / Chuyển khoản)</text>
+
+      <!-- Hub 4: UC25 - Tích điểm & Thăng hạng thành viên -->
+      <ellipse class="uc-oval new-uc" cx="800" cy="1155" rx="130" ry="28" />
+      <text x="800" y="1151" text-anchor="middle" font-size="11.5" font-weight="bold">UC25 - Tích điểm &amp; Thăng hạng</text>
+      <text x="800" y="1166" text-anchor="middle" font-size="11" font-weight="bold">(Bạc / Vàng / VIP - Menu ẩn)</text>
+
+      <!-- Extension of UC25 -->
+      <ellipse class="uc-oval new-uc" cx="1135" cy="1155" rx="150" ry="25" />
+      <text x="1135" y="1151" text-anchor="middle" font-size="11.5" font-weight="bold">UC25.1 - Dùng điểm thưởng</text>
+      <text x="1135" y="1166" text-anchor="middle" font-size="11.5" font-weight="bold">hoặc Mã giảm giá (Voucher)</text>
+
+      <!-- =========================================================
+           5. CỘT PHẢI: ADMIN & CỤM QUẢN LÝ TỒN KHO (INVENTORY) ĐẦY ĐỦ
+           ========================================================= -->
+      <!-- Nhóm Quản lý Danh mục, Thực đơn & Tài nguyên -->
+      <ellipse class="uc-oval" cx="1790" cy="115" rx="155" ry="21" />
+      <text x="1790" y="120" text-anchor="middle" font-size="11.5" font-weight="bold">UC26 - Quản lý danh mục</text>
+
+      <ellipse class="uc-oval" cx="1790" cy="175" rx="155" ry="21" />
+      <text x="1790" y="180" text-anchor="middle" font-size="11.5" font-weight="bold">UC27 - Quản lý thực đơn (Món ăn, Giá)</text>
+
+      <ellipse class="uc-oval" cx="1790" cy="235" rx="155" ry="21" />
+      <text x="1790" y="240" text-anchor="middle" font-size="11.5" font-weight="bold">UC28 - Quản lý bàn &amp; Tạo mã QR</text>
+
+      <ellipse class="uc-oval" cx="1790" cy="295" rx="155" ry="21" />
+      <text x="1790" y="300" text-anchor="middle" font-size="11.5" font-weight="bold">UC29 - Quản lý nhân sự &amp; Phân quyền</text>
+
+      <!-- CỤM QUẢN LÝ TỒN KHO & NHẬP HÀNG (INVENTORY) - ĐẦY ĐỦ 3 CHỨC NĂNG CON -->
+      <ellipse class="uc-oval new-uc inv-uc" cx="1790" cy="415" rx="155" ry="26" />
+      <text x="1790" y="411" text-anchor="middle" font-size="11.5" font-weight="bold">UC30 - Quản lý Tồn kho</text>
+      <text x="1790" y="426" text-anchor="middle" font-size="11.5" font-weight="bold">&amp; Nhập hàng (Inventory)</text>
+
+      <!-- 3 Use Case con của Kho (nằm ở cột riêng cx=1405, cy=340, 415, 490) -->
+      <ellipse class="uc-oval new-uc inv-uc" cx="1405" cy="340" rx="145" ry="23" />
+      <text x="1405" y="336" text-anchor="middle" font-size="11.2" font-weight="bold">UC30.1 - Quét mã vạch / QR</text>
+      <text x="1405" y="351" text-anchor="middle" font-size="11.2" font-weight="bold">tạo phiếu nhập kho nhanh</text>
+
+      <ellipse class="uc-oval new-uc inv-uc" cx="1405" cy="415" rx="145" ry="24" />
+      <text x="1405" y="411" text-anchor="middle" font-size="11.2" font-weight="bold">UC30.2 - Quản lý hạn dùng (MFG/EXP)</text>
+      <text x="1405" y="426" text-anchor="middle" font-size="11.2" font-weight="bold">&amp; Gợi ý xuất kho theo lô (FEFO)</text>
+
+      <ellipse class="uc-oval new-uc inv-uc" cx="1405" cy="490" rx="145" ry="24" />
+      <text x="1405" y="486" text-anchor="middle" font-size="11.2" font-weight="bold">UC30.3 - Thiết lập công thức (Recipe)</text>
+      <text x="1405" y="501" text-anchor="middle" font-size="11.2" font-weight="bold">tự động trừ kho khi hoàn thành đơn</text>
+
+      <!-- Nhóm Báo cáo & Phân tích (Analytics) -->
+      <ellipse class="uc-oval new-uc" cx="1790" cy="660" rx="155" ry="24" />
+      <text x="1790" y="656" text-anchor="middle" font-size="11.5" font-weight="bold">UC31 - Báo cáo Lợi nhuận (P&amp;L)</text>
+      <text x="1790" y="671" text-anchor="middle" font-size="11.5" font-weight="bold">(Doanh thu &amp; Giá vốn nguyên liệu)</text>
+
+      <ellipse class="uc-oval new-uc inv-uc" cx="1790" cy="730" rx="155" ry="24" />
+      <text x="1790" y="726" text-anchor="middle" font-size="11.5" font-weight="bold">UC32 - Biểu đồ xu hướng &amp; Dự báo</text>
+      <text x="1790" y="741" text-anchor="middle" font-size="11.5" font-weight="bold">món bán chạy nhắc kho chuẩn bị</text>
+
+      <ellipse class="uc-oval new-uc" cx="1790" cy="800" rx="155" ry="23" />
+      <text x="1790" y="796" text-anchor="middle" font-size="11.5" font-weight="bold">UC33 - Kiểm soát Đánh giá (Review)</text>
+      <text x="1790" y="811" text-anchor="middle" font-size="11.5" font-weight="bold">&amp; Quản lý chương trình Voucher</text>
+
+      <!-- =========================================================
+           6. CÁC MŨI TÊN <<include>> VÀ <<extend>> (NÉT ĐỨT)
+           ========================================================= -->
+      <g stroke="#111111" stroke-width="1.3" stroke-dasharray="6,4" fill="none">
+        <!-- UC05 (Đăng ký), UC06 (Đăng nhập), UC11 (Đăng xuất) -> UC00 (include) -->
+        <path d="M 560 305 Q 645 275 695 232" marker-end="url(#openArrow)" />
+        <path d="M 560 355 Q 660 315 720 238" marker-end="url(#openArrow)" />
+        <path d="M 560 605 Q 690 470 770 242" marker-end="url(#openArrow)" />
+
+        <!-- UC00 -> UC00.1, UC00.2 (extend) -->
+        <path d="M 920 207 L 950 207 L 950 165 L 988 165" marker-end="url(#openArrow)" />
+        <path d="M 920 223 L 950 223 L 950 255 L 988 255" marker-end="url(#openArrow)" />
+
+        <!-- UC00 -> UC23 (vertical include) -->
+        <line x1="800" y1="242" x2="800" y2="610" marker-end="url(#openArrow)" />
+
+        <!-- UC02 (Gọi món QR), UC07 (Web Delivery), UC15 (Xác nhận đơn), UC16 (POS) -> UC23 (include) -->
+        <path d="M 560 145 Q 685 340 760 612" marker-end="url(#openArrow)" />
+        <path d="M 560 405 Q 665 485 735 616" marker-end="url(#openArrow)" />
+        <path d="M 560 830 Q 665 755 735 660" marker-end="url(#openArrow)" />
+        <path d="M 560 880 Q 680 795 760 665" marker-end="url(#openArrow)" />
+
+        <!-- UC23 -> UC23.1, UC23.2, UC23.3 (extend) -->
+        <path d="M 920 630 L 950 630 L 950 555 L 983 555" marker-end="url(#openArrow)" />
+        <line x1="920" y1="640" x2="983" y2="640" marker-end="url(#openArrow)" />
+        <path d="M 920 650 L 950 650 L 950 725 L 983 725" marker-end="url(#openArrow)" />
+
+        <!-- Cụm Tồn kho UC30 (trái 1635) -> UC30.1, UC30.2, UC30.3 (phải 1550) -->
+        <path d="M 1635 405 L 1595 405 L 1595 340 L 1552 340" marker-end="url(#openArrow)" />
+        <line x1="1635" y1="415" x2="1552" y2="415" marker-end="url(#openArrow)" />
+        <path d="M 1635 425 L 1595 425 L 1595 490 L 1552 490" marker-end="url(#openArrow)" />
+
+        <!-- Tự động trừ kho Recipe: UC23.2 (Cập nhật trạng thái đơn) -> UC30.3 (Recipe trừ kho) -->
+        <path d="M 1285 640 Q 1395 620 1405 516" marker-end="url(#openArrow)" />
+
+        <!-- UC23 -> UC24 (vertical include) -->
+        <line x1="800" y1="668" x2="800" y2="900" marker-end="url(#openArrow)" />
+
+        <!-- UC17 (Gom đơn tính tiền) -> UC24 (include) -->
+        <line x1="560" y1="930" x2="678" y2="930" marker-end="url(#openArrow)" />
+
+        <!-- UC24 -> UC24.1, UC24.2 (extend) -->
+        <path d="M 920 922 L 950 922 L 950 880 L 983 880" marker-end="url(#openArrow)" />
+        <path d="M 920 938 L 950 938 L 950 985 L 983 985" marker-end="url(#openArrow)" />
+
+        <!-- UC24 -> UC25 (vertical include) -->
+        <line x1="800" y1="958" x2="800" y2="1125" marker-end="url(#openArrow)" />
+
+        <!-- UC25 -> UC25.1 (extend) -->
+        <line x1="930" y1="1155" x2="983" y2="1155" marker-end="url(#openArrow)" />
+
+        <!-- Payment Gateway (PayOS) -> UC24.2 (include) -->
+        <line x1="2040" y1="985" x2="1287" y2="985" marker-end="url(#openArrow)" />
+      </g>
+
+      <!-- Nhãn <<include>> và <<extend>> -->
+      <g font-size="11" text-anchor="middle">
+        <text x="615" y="255">«include»</text>
+        <text x="635" y="305">«include»</text>
+        <text x="680" y="425">«include»</text>
+
+        <text x="965" y="157">«extend»</text>
+        <text x="965" y="248">«extend»</text>
+
+        <text x="835" y="435">«include»</text>
+        <text x="650" y="365">«include»</text>
+        <text x="645" y="505">«include»</text>
+        <text x="645" y="745">«include»</text>
+        <text x="675" y="790">«include»</text>
+
+        <text x="965" y="547">«extend»</text>
+        <text x="952" y="632">«extend»</text>
+        <text x="965" y="717">«extend»</text>
+
+        <!-- Nhãn cụm Kho -->
+        <text x="1595" y="332">«include»</text>
+        <text x="1595" y="408">«include»</text>
+        <text x="1595" y="506">«include»</text>
+        <text x="1435" y="588">«include» (Tự động trừ kho)</text>
+
+        <text x="835" y="785">«include»</text>
+        <text x="618" y="922">«include»</text>
+
+        <text x="965" y="872">«extend»</text>
+        <text x="965" y="977">«extend»</text>
+
+        <text x="835" y="1045">«include»</text>
+        <text x="956" y="1147">«extend»</text>
+
+        <text x="1660" y="975">«include»</text>
+      </g>
+
+      <!-- =========================================================
+           7. BA KHUNG CHÚ THÍCH BÊN DƯỚI (GIỐNG Y HỆT ẢNH GỐC)
+           ========================================================= -->
+      <!-- Khung 1: CHÚ THÍCH -->
+      <rect x="35" y="1325" width="450" height="195" rx="4" ry="4" fill="#ffffff" stroke="#64748b" stroke-width="1.2" />
+      <text x="150" y="1348" font-size="14" font-weight="bold">CHÚ THÍCH</text>
+
+      <!-- Icon Actor nhỏ -->
+      <g transform="translate(72, 1370) scale(0.32)">
+        <use href="#actorFigure" />
+      </g>
+      <text x="125" y="1374" font-size="12.5">: Tác nhân (Actor)</text>
+
+      <!-- Icon Use Case nhỏ -->
+      <ellipse cx="72" cy="1398" rx="22" ry="9" fill="#ffffff" stroke="#111111" stroke-width="1.4" />
+      <text x="125" y="1402" font-size="12.5">: Chức năng (Use Case)</text>
+
+      <!-- Icon Association & Generalization -->
+      <line x1="50" y1="1424" x2="94" y2="1424" stroke="#111111" stroke-width="1.4" />
+      <text x="125" y="1428" font-size="12.5">: Association (Liên kết) / Kế thừa</text>
+
+      <!-- Icon Include -->
+      <line x1="50" y1="1450" x2="92" y2="1450" stroke="#111111" stroke-width="1.4" stroke-dasharray="5,3" marker-end="url(#openArrow)" />
+      <text x="125" y="1454" font-size="12.5">: «include» - Include (Bao gồm)</text>
+
+      <!-- Icon Extend -->
+      <line x1="50" y1="1476" x2="92" y2="1476" stroke="#111111" stroke-width="1.4" stroke-dasharray="5,3" marker-end="url(#openArrow)" />
+      <text x="125" y="1480" font-size="12.5">: «extend» - Extend (Mở rộng)</text>
+
+      <!-- Icon System Boundary -->
+      <rect x="53" y="1490" width="36" height="15" fill="#ffffff" stroke="#111111" stroke-width="1.4" />
+      <text x="125" y="1502" font-size="12.5">: Ranh giới hệ thống (System Boundary)</text>
+
+      <!-- Khung 2: GHI CHÚ CHUNG -->
+      <rect x="505" y="1325" width="1155" height="195" rx="4" ry="4" fill="#ffffff" stroke="#64748b" stroke-width="1.2" />
+      <text x="720" y="1348" font-size="14" font-weight="bold">GHI CHÚ CHUNG (ĐẦY ĐỦ 5 PHÂN HỆ &amp; KHO)</text>
+      <text x="522" y="1372" font-size="12">- 1. Guest (Khách vãng lai): Quét QR định danh bàn vào thẳng Menu, gọi món (ghi chú ít cay/không hành), theo dõi đơn tạm thời, thanh toán tại quầy.</text>
+      <text x="522" y="1394" font-size="12">- 2. Customer (Thành viên): Kế thừa Guest + Đăng ký/Đăng nhập, Tích điểm &amp; Voucher, Thăng hạng (Bạc/Vàng/VIP), Web Delivery trả trước 100%, Đặt bàn, Đánh giá.</text>
+      <text x="522" y="1416" font-size="12">- 3. Host (Lễ tân): Quản lý Đặt bàn &amp; Check-in, Xếp hàng chờ (Waitlist) ước tính giờ chờ, Điều phối sơ đồ bàn theo 4 màu trạng thái.</text>
+      <text x="522" y="1438" font-size="12">- 4. Staff (Phục vụ / Bếp / Thu ngân): Xác nhận đơn đẩy xuống bếp, tạo đơn POS; Bếp KDS cập nhật nấu xong &amp; Báo hết món khẩn cấp; Thu ngân Mở/Đóng ca, In bill VAT, Hủy món PIN.</text>
+      <text x="522" y="1460" font-size="12">- 5. Admin (Quản trị): Quản lý Danh mục/Món/Bàn QR/Nhân sự; Quản lý Tồn kho (Quét Barcode nhập kho, Hạn dùng MFG/EXP gợi ý lô FEFO, Công thức Recipe tự trừ kho); Báo cáo P&amp;L &amp; Dự báo.</text>
+      <text x="522" y="1482" font-size="12">- Payment Gateway (PayOS): Đối soát thanh toán qua mã QR và Chuyển khoản ngân hàng (đã bỏ thanh toán thẻ).</text>
+
+      <!-- Khung 3: LƯU Ý -->
+      <rect x="1680" y="1340" width="465" height="165" rx="4" ry="4" fill="#ffffff" stroke="#64748b" stroke-width="1.2" />
+      <text x="1702" y="1368" font-size="14" font-weight="bold">LƯU Ý</text>
+      <text x="1702" y="1394" font-size="12.5">- Khi đơn hàng hoàn thành, hệ thống tự động trừ</text>
+      <text x="1702" y="1416" font-size="12.5">  tồn kho nguyên liệu theo định lượng Recipe (UC30.3).</text>
+      <text x="1702" y="1440" font-size="12.5">- Hủy món/Hao hụt (UC23.3) bắt buộc nhập PIN Quản lý.</text>
+      <text x="1702" y="1464" font-size="12.5">- Thanh toán chỉ hỗ trợ Tiền mặt, QR &amp; Chuyển khoản.</text>
+    </svg>
