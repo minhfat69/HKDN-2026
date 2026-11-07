@@ -6,7 +6,7 @@ require("dotenv").config();
 
 exports.getAllProducts = async (req, res) => {
   try {
-    const { category_id, search } = req.query;
+    const { category_id, search, available } = req.query;
     const where = {};
     if (category_id) {
       where.category_id = category_id;
@@ -14,6 +14,8 @@ exports.getAllProducts = async (req, res) => {
     if (search) {
       where.name = { [Op.like]: `%${search}%` };
     }
+    // ?available=true: chỉ trả món đang phục vụ (dùng cho menu QR/Web của khách)
+    if (available === 'true') where.isAvailable = true;
     const products = await Product.findAll({ where });
     res.status(200).json(products);
   } catch (error) {
@@ -66,6 +68,32 @@ exports.deleteProduct = async (req, res) => {
       return res.status(404).json({ message: "Product not found" });
     }
     res.status(204).send();
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+
+// Bật/tắt phục vụ một món (báo hết món khẩn cấp). Bếp, phục vụ, admin được dùng.
+exports.setAvailability = async (req, res) => {
+  try {
+    const product = await Product.findByPk(req.params.id);
+    if (!product) return res.status(404).json({ message: "Product not found" });
+    const { isAvailable } = req.body;
+    if (typeof isAvailable !== 'boolean') {
+      return res.status(400).json({ message: "isAvailable phải là true hoặc false" });
+    }
+    const fields = { isAvailable };
+    // Bật lại món đang có stock = 0 thì cần có suất để khách đặt được
+    if (isAvailable && product.stock === 0) {
+      const restock = parseInt(req.body.stock);
+      if (!restock || restock < 1) {
+        return res.status(400).json({ message: "Món đang hết kho, cần nhập số suất (stock) khi bật lại" });
+      }
+      fields.stock = restock;
+    }
+    await product.update(fields);
+    res.status(200).json({ message: isAvailable ? "Đã mở bán lại món" : "Đã báo hết món", data: product });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

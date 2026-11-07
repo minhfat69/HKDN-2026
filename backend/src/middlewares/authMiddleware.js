@@ -79,3 +79,14 @@ exports.isStaffOrAdmin = (req, res, next) => {
         });
     }
 };
+
+const allowRoles = (roles, label) => (req, res, next) => {
+    const role = req.user?.role?.toUpperCase();
+    if (role && roles.includes(role)) return next();
+    return res.status(403).json({ message: `Access denied. ${label} only.` });
+};
+
+// HOST (lễ tân) / STAFF / ADMIN: điều phối sảnh, hàng chờ
+exports.isHostOrStaffOrAdmin = allowRoles(['ADMIN', 'STAFF', 'HOST'], 'Host, Staff or Admin');
+// KITCHEN / STAFF / ADMIN: báo hết món
+exports.isKitchenOrStaffOrAdmin = allowRoles(['ADMIN', 'STAFF', 'KITCHEN'], 'Kitchen, Staff or Admin');

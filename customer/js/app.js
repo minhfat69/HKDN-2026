@@ -1,4 +1,4 @@
-const API_BASE = "http://localhost:3000";
+const API_BASE = window.location.origin;
 const TOKEN_KEY = 'appdatmon_customer_token';
 const USER_KEY = 'appdatmon_customer_user';
 const app = document.getElementById('app');
@@ -317,7 +317,7 @@ async function api(path, options = {}) {
 async function loadInitialData() {
   try {
     const [productsRes, categoriesRes] = await Promise.all([
-      api('/api/products'),
+      api('/api/products?available=true'),
       api('/api/categories')
     ]);
     state.products = productsRes || [];
@@ -588,7 +588,7 @@ async function loadHeaderPoints() {
     try {
 
         const response = await fetch(
-            "http://localhost:3000/api/points/me",
+            `${window.location.origin}/api/points/me`,
             {
                 method: "GET",
 

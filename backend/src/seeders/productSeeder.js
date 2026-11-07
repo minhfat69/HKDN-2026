@@ -16,21 +16,24 @@ const seedProducts = async () => {
                     description: "Sushi cá hồi tươi sống",
                     price: 150000,
                     category_id: category.id,
-                    status: 'AVAILABLE'
+                    stock: 100,
+                    isAvailable: true
                 },
                 {
                     name: "Sashimi Tổng Hợp",
                     description: "Nhiều loại cá tươi",
                     price: 450000,
                     category_id: category.id,
-                    status: 'AVAILABLE'
+                    stock: 100,
+                    isAvailable: true
                 },
                 {
                     name: "Mì Ramen Thịt Heo",
                     description: "Ramen truyền thống",
                     price: 120000,
                     category_id: category.id,
-                    status: 'AVAILABLE'
+                    stock: 100,
+                    isAvailable: true
                 }
             ];
 

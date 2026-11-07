@@ -62,6 +62,8 @@ const pointRoutes = require('./routes/pointRoutes');
 const statRoutes = require('./routes/statRoutes');
 const payosRoutes = require('./routes/payosRoutes');
 const paymentRoutes = require('./routes/paymentRoutes');
+const waitlistRoutes = require('./routes/waitlistRoutes');
+const operationsRoutes = require('./routes/operationsRoutes');
 
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
@@ -76,6 +78,8 @@ app.use('/api/points', pointRoutes);
 app.use('/api/stats', statRoutes);
 app.use('/api/payos', payosRoutes);
 app.use('/api/payments', paymentRoutes);
+app.use('/api/waitlist', waitlistRoutes);
+app.use('/api/ops', operationsRoutes);
 
 // Customer Static files
 app.use(express.static(customerDir, { etag: false, maxAge: 0, setHeaders: (res) => { res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate'); } }));

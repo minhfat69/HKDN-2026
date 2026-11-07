@@ -11,64 +11,63 @@ const Order = require('./Order')(sequelize);
 const OrderItem = require('./OrderItem')(sequelize);
 const Payment = require('./Payment')(sequelize);
 const Review = require('./Review')(sequelize);
+const Waitlist = require('./Waitlist')(sequelize);
+const { Voucher, Shift, Ingredient, InventoryBatch, Recipe } = require('./AdvancedModels')(sequelize);
 
-// Category - Product
-Category.hasMany(Product, {
-    foreignKey: 'category_id',
-    as: 'products'
-});
-Product.belongsTo(Category, {
-    foreignKey: 'category_id',
-    as: 'category'
-});
+Category.hasMany(Product, { foreignKey: 'category_id', as: 'products' });
+Product.belongsTo(Category, { foreignKey: 'category_id', as: 'category' });
 
-// User - Cart
 User.hasOne(Cart, { foreignKey: "user_id" });
 Cart.belongsTo(User, { foreignKey: "user_id" });
 
-// Cart - CartItem
 Cart.hasMany(CartItem, { foreignKey: "cart_id" });
 CartItem.belongsTo(Cart, { foreignKey: "cart_id" });
 
-// Product - CartItem
 Product.hasMany(CartItem, { foreignKey: "product_id" });
 CartItem.belongsTo(Product, { foreignKey: "product_id" });
 
-// User - Reservation
 User.hasMany(Reservation, { foreignKey: "user_id", as: 'reservations' });
 Reservation.belongsTo(User, { foreignKey: "user_id", as: 'User' });
 
-// RestaurantTable - Reservation
 RestaurantTable.hasMany(Reservation, { foreignKey: "table_id", as: 'reservations' });
 Reservation.belongsTo(RestaurantTable, { foreignKey: "table_id", as: 'table' });
 
-// User - Order
 User.hasMany(Order, { foreignKey: "user_id", as: 'orders' });
 Order.belongsTo(User, { foreignKey: "user_id", as: 'User' });
 
-// RestaurantTable - Order
 RestaurantTable.hasMany(Order, { foreignKey: "table_id", as: 'orders' });
 Order.belongsTo(RestaurantTable, { foreignKey: "table_id", as: 'RestaurantTable' });
 
-// Reservation - Order
 Reservation.hasMany(Order, { foreignKey: "reservation_id" });
 Order.belongsTo(Reservation, { foreignKey: "reservation_id" });
 
-// Order - OrderItem
 Order.hasMany(OrderItem, { foreignKey: "order_id", as: 'OrderItems' });
 OrderItem.belongsTo(Order, { foreignKey: "order_id" });
 
-// Product - OrderItem
 Product.hasMany(OrderItem, { foreignKey: "product_id" });
 OrderItem.belongsTo(Product, { foreignKey: "product_id", as: 'Product' });
 
-// Order - Payment
 Order.hasOne(Payment, { foreignKey: "order_id" });
 Payment.belongsTo(Order, { foreignKey: "order_id" });
 
-// User - Review
 User.hasMany(Review, { foreignKey: "user_id", as: 'reviews' });
 Review.belongsTo(User, { foreignKey: "user_id", as: 'user' });
+
+// Waitlist của Claude
+RestaurantTable.hasMany(Waitlist, { foreignKey: 'table_id', as: 'waitlistEntries' });
+Waitlist.belongsTo(RestaurantTable, { foreignKey: 'table_id', as: 'table' });
+
+// Kho, Lô hàng, Định lượng công thức (Recipe) & Ca làm việc
+Ingredient.hasMany(InventoryBatch, { foreignKey: 'ingredient_id', as: 'batches' });
+InventoryBatch.belongsTo(Ingredient, { foreignKey: 'ingredient_id', as: 'ingredient' });
+
+Product.hasMany(Recipe, { foreignKey: 'product_id', as: 'recipes' });
+Recipe.belongsTo(Product, { foreignKey: 'product_id', as: 'product' });
+Ingredient.hasMany(Recipe, { foreignKey: 'ingredient_id', as: 'recipes' });
+Recipe.belongsTo(Ingredient, { foreignKey: 'ingredient_id', as: 'ingredient' });
+
+User.hasMany(Shift, { foreignKey: 'staff_id', as: 'shifts' });
+Shift.belongsTo(User, { foreignKey: 'staff_id', as: 'staff' });
 
 module.exports = {
     sequelize,
@@ -83,5 +82,11 @@ module.exports = {
     Order,
     OrderItem,
     Payment,
-    Review
+    Review,
+    Waitlist,
+    Voucher,
+    Shift,
+    Ingredient,
+    InventoryBatch,
+    Recipe
 };

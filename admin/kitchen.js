@@ -1,4 +1,4 @@
-const API_BASE_URL = (window.ADMIN_API_BASE_URL || localStorage.getItem('appdatmon_admin_api_base') || 'http://localhost:3000').replace(/\/$/, '');
+const API_BASE_URL = (window.ADMIN_API_BASE_URL || localStorage.getItem('appdatmon_admin_api_base') || window.location.origin).replace(/\/$/, '');
 const TOKEN_KEY = 'appdatmon_admin_token';
 
 let kitchenOrders = [];
@@ -332,3 +332,60 @@ if (document.readyState === 'loading') {
 } else {
   bootstrap();
 }
+
+// ===== Báo hết món khẩn cấp =====
+let soldoutProducts = [];
+
+function renderSoldoutPanel() {
+  const list = document.querySelector('#soldout-list');
+  if (!list) return;
+  const q = (document.querySelector('#soldout-search')?.value || '').trim().toLowerCase();
+  const rows = soldoutProducts.filter(p => !q || String(p.name || '').toLowerCase().includes(q));
+  list.innerHTML = rows.map(p => {
+    const off = p.isAvailable === false;
+    return `<div style="display:flex; justify-content:space-between; align-items:center; gap:.5rem; padding:.55rem .7rem; border:1px solid ${off ? '#fecaca' : '#e2e8f0'}; background:${off ? '#fef2f2' : '#ffffff'}; border-radius:12px">
+      <div style="min-width:0">
+        <div style="font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis">${escapeHtml(p.name)}</div>
+        <div style="font-size:.78rem; color:${off ? '#dc2626' : '#16a34a'}; font-weight:700">${off ? 'ĐÃ HẾT / TẠM NGƯNG' : 'Đang bán'}${p.stock != null ? ` · kho ${escapeHtml(p.stock)}` : ''}</div>
+      </div>
+      <button type="button" class="btn btn-small ${off ? 'btn-primary' : 'btn-secondary'}" data-soldout-id="${p.id}" data-soldout-to="${off ? 'on' : 'off'}" style="font-weight:700; white-space:nowrap">${off ? 'Mở bán' : 'Báo hết'}</button>
+    </div>`;
+  }).join('') || '<p style="color:#64748b">Không có món phù hợp.</p>';
+}
+
+async function loadSoldoutPanel() {
+  try {
+    const products = await api('/api/products');
+    soldoutProducts = Array.isArray(products) ? products : [];
+    renderSoldoutPanel();
+  } catch (e) {
+    console.error('Không tải được danh sách món:', e.message);
+  }
+}
+
+document.addEventListener('click', async event => {
+  const btn = event.target.closest('[data-soldout-id]');
+  if (!btn) return;
+  const turnOn = btn.dataset.soldoutTo === 'on';
+  const body = { isAvailable: turnOn };
+  if (turnOn) {
+    const product = soldoutProducts.find(p => String(p.id) === btn.dataset.soldoutId);
+    if (product && Number(product.stock) === 0) {
+      const input = prompt(`Món "${product.name}" đang hết kho. Nhập số suất có thể bán:`, '10');
+      if (input === null) return;
+      body.stock = parseInt(input);
+    }
+  } else if (!confirm('Báo hết món này? Món sẽ biến mất khỏi menu của khách ngay lập tức.')) {
+    return;
+  }
+  try {
+    await api(`/api/products/${btn.dataset.soldoutId}/availability`, { method: 'PUT', body: JSON.stringify(body) });
+  } catch (e) {
+    alert(e.message);
+  }
+  loadSoldoutPanel();
+});
+
+document.querySelector('#soldout-search')?.addEventListener('input', renderSoldoutPanel);
+loadSoldoutPanel();
+setInterval(loadSoldoutPanel, 30000);

@@ -80,7 +80,7 @@ const ENTITY_CONFIGS = {
       { name: 'password', label: 'Mật khẩu', type: 'password', requiredOnCreate: true, helper: 'Bỏ trống khi chỉnh sửa người dùng hiện tại.' },
       { name: 'avatar', label: 'Avatar', type: 'image' },
       { name: 'points', label: 'Điểm tích lũy', type: 'number', min: 0 },
-      { name: 'role', label: 'Vai trò', type: 'select', options: ['CUSTOMER', 'STAFF', 'KITCHEN', 'ADMIN'] },
+      { name: 'role', label: 'Vai trò', type: 'select', options: ['CUSTOMER', 'HOST', 'STAFF', 'KITCHEN', 'ADMIN'] },
       { name: 'status', label: 'Trạng thái', type: 'select', options: ['ACTIVE', 'BLOCKED'] }
     ],
     columns: [
@@ -352,6 +352,7 @@ function getRoleRoute(role) {
   if (normalized === 'ADMIN') return 'admin';
   if (normalized === 'STAFF') return 'staff';
   if (normalized === 'KITCHEN') return 'kitchen';
+  if (normalized === 'HOST') return 'host';
   return null;
 }
 
@@ -361,6 +362,11 @@ function redirectByRole(role) {
 
   if (route === 'staff' && !currentPath.endsWith('staff.html')) {
     window.location.assign('./staff.html');
+    return true;
+  }
+
+  if (route === 'host' && !currentPath.endsWith('host.html')) {
+    window.location.assign('./host.html');
     return true;
   }
 
@@ -1383,7 +1389,7 @@ function renderViewKpiSummary(view, rawData) {
 
   if (view === 'users') {
     const total = list.length;
-    const staff = list.filter(u => ['ADMIN', 'STAFF', 'KITCHEN'].includes(String(u.role).toUpperCase())).length;
+    const staff = list.filter(u => ['ADMIN', 'STAFF', 'KITCHEN', 'HOST'].includes(String(u.role).toUpperCase())).length;
     const customers = list.filter(u => String(u.role).toUpperCase() === 'CUSTOMER' || !u.role).length;
     const blocked = list.filter(u => String(u.status).toUpperCase() === 'BLOCKED' || String(u.status).toUpperCase() === 'INACTIVE').length;
 
@@ -1514,6 +1520,7 @@ function renderViewFilterTabs(view, rawData) {
       { id: 'ALL', label: 'Tất cả', count: list.length },
       { id: 'ADMIN', label: 'ADMIN', count: list.filter(u => String(u.role).toUpperCase() === 'ADMIN').length },
       { id: 'STAFF', label: 'STAFF', count: list.filter(u => String(u.role).toUpperCase() === 'STAFF').length },
+      { id: 'HOST', label: 'HOST', count: list.filter(u => String(u.role).toUpperCase() === 'HOST').length },
       { id: 'KITCHEN', label: 'KITCHEN', count: list.filter(u => String(u.role).toUpperCase() === 'KITCHEN').length },
       { id: 'CUSTOMER', label: 'CUSTOMER', count: list.filter(u => String(u.role).toUpperCase() === 'CUSTOMER' || !u.role).length }
     ];

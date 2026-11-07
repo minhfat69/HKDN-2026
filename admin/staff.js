@@ -1,4 +1,4 @@
-const API_BASE_URL = (window.ADMIN_API_BASE_URL || localStorage.getItem('appdatmon_admin_api_base') || 'http://localhost:3000').replace(/\/$/, '');
+const API_BASE_URL = (window.ADMIN_API_BASE_URL || localStorage.getItem('appdatmon_admin_api_base') || window.location.origin).replace(/\/$/, '');
 const TOKEN_KEY = 'appdatmon_admin_token';
 
 let state = {

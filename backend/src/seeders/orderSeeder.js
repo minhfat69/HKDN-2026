@@ -1,9 +1,19 @@
-const { Order, OrderItem, Product } = require('../models');
+const bcrypt = require('bcryptjs');
+const { Order, OrderItem, Product, User } = require('../models');
 
 const seedOrders = async () => {
     try {
         const count = await Order.count();
         if (count < 5) {
+            // Tạo 2 khách hàng mẫu (id 2, 3) để đơn mẫu không vi phạm khóa ngoại
+            const pw = await bcrypt.hash('123', 10);
+            const demoUsers = [
+                { id: 2, fullName: 'Khách Demo 1', phone: '0911111111', username: 'customer1', email: 'customer1@example.com' },
+                { id: 3, fullName: 'Khách Demo 2', phone: '0922222222', username: 'customer2', email: 'customer2@example.com' }
+            ];
+            for (const u of demoUsers) {
+                await User.findOrCreate({ where: { id: u.id }, defaults: { ...u, password: pw, role: 'CUSTOMER', status: 'ACTIVE', points: 0 } });
+            }
             const products = await Product.findAll();
             if (products.length === 0) return;
 

@@ -283,7 +283,7 @@ async function loadProducts() {
 
         products =
             await api(
-                "/api/products"
+                "/api/products?available=true"
             );
 
 
@@ -398,11 +398,11 @@ function getProductImage(product) {
 
     // Nếu database lưu /uploads/...
     if (product.image.startsWith("/")) {
-        return `http://localhost:3000${product.image}`;
+        return `${window.location.origin}${product.image}`;
     }
 
     // Nếu database chỉ lưu tên file
-    return `http://localhost:3000/uploads/${product.image}`;
+    return `${window.location.origin}/uploads/${product.image}`;
 }
 
 
@@ -708,164 +708,141 @@ function(id) {
 
 
 /*==================================================
-                    CHECKOUT
+        CHECKOUT (HỖ TRỢ CẢ GUEST & CUSTOMER)
 ==================================================*/
-
 async function checkout() {
-
     if (cart.length === 0) {
-
-        showToast(
-            "Giỏ hàng đang trống."
-        );
-
+        showToast("Giỏ hàng đang trống.");
         return;
-
     }
 
+    const orderMode = document.getElementById("orderModeSelect")?.value || "DINE_IN";
+    const voucherCode = document.getElementById("voucherInput")?.value?.trim() || "";
+    const customNote = document.getElementById("orderNoteInput")?.value?.trim() || "";
 
-    /*
-     * Lấy thông tin bàn đã xác thực
-     */
+    // Luồng 1: Đặt hàng Web Delivery (Omnichannel - Thanh toán trực tuyến 100% trước khi giao)
+    if (orderMode === "DELIVERY") {
+        const deliveryAddress = prompt("Nhập địa chỉ giao hàng tận nơi:");
+        if (!deliveryAddress) return;
+        const recipientPhone = prompt("Nhập số điện thoại người nhận:");
+        if (!recipientPhone) return;
 
-    const tableQr =
-        sessionStorage.getItem(
-            "appdatmon_table_qr"
-        );
+        try {
+            const result = await api("/api/ops/delivery/order", {
+                method: "POST",
+                body: JSON.stringify({
+                    items: cart.map(item => ({ product_id: item.id, quantity: item.quantity, note: item.note || "" })),
+                    deliveryAddress,
+                    recipientPhone,
+                    voucherCode,
+                    note: customNote,
+                    paymentMethod: "PAYOS"
+                })
+            });
+            showToast(result.message || "Đặt đơn giao hàng thành công!");
+            cart = [];
+            renderCart();
+        } catch (error) {
+            showToast(error.message);
+        }
+        return;
+    }
 
-
-    const tableData =
-        sessionStorage.getItem(
-            "appdatmon_table"
-        );
-
+    // Luồng 2: Khách ăn tại bàn (Guest hoặc Customer quét QR) - KHÔNG BẮT ĐĂNG NHẬP
+    const tableQr = sessionStorage.getItem("appdatmon_table_qr");
+    const tableData = sessionStorage.getItem("appdatmon_table");
 
     if (!tableQr || !tableData) {
-
-        showToast(
-            "Phiên QR không hợp lệ. Vui lòng quét lại."
-        );
-
-
-        setTimeout(() => {
-
-            window.location.href =
-                "index.html";
-
-        }, 1000);
-
-
+        showToast("Phiên QR không hợp lệ. Vui lòng quét lại.");
+        setTimeout(() => { window.location.href = "index.html"; }, 1000);
         return;
-
     }
 
-
-    /*
-     * Kiểm tra đăng nhập
-     */
-
-    const token =
-        localStorage.getItem(
-            TOKEN_KEY
-        );
-
-
-    if (!token) {
-
-        showToast(
-            "Vui lòng đăng nhập."
-        );
-
-
-        setTimeout(() => {
-
-            location.href =
-                "login.html";
-
-        }, 800);
-
-
-        return;
-
-    }
-
-
-    const table =
-        JSON.parse(
-            tableData
-        );
-
-
+    const table = JSON.parse(tableData);
     const body = {
-
-        table_id:
-            table.id,
-
-        items:
-            cart.map(
-                item => ({
-
-                    product_id:
-                        item.id,
-
-                    quantity:
-                        item.quantity
-
-                })
-            ),
-
-        note:
-            "Đặt món từ Website"
-
+        table_id: table.id,
+        items: cart.map(item => ({
+            product_id: item.id,
+            quantity: item.quantity,
+            note: item.note || ""
+        })),
+        note: `${customNote || "Đặt món từ QR bàn"}${voucherCode ? ` [VOUCHER:${voucherCode}]` : ""}`
     };
 
-
     try {
-
-        const result =
-            await api(
-
-                "/api/orders",
-
-                {
-
-                    method: "POST",
-
-                    body:
-                        JSON.stringify(
-                            body
-                        )
-
-                }
-
-            );
-
-
-        showToast(
-
-            result.message ||
-            "Đặt món thành công."
-
-        );
-
-
+        const result = await api("/api/orders", {
+            method: "POST",
+            body: JSON.stringify(body)
+        });
+        showToast(result.message || "Đã gửi đơn xuống bếp!");
         cart = [];
-
         renderCart();
-
-
+        refreshGuestTableTracker(table.id);
     } catch (error) {
-
-        console.error(
-            "Checkout error:",
-            error
-        );
-
-
-        showToast(
-            error.message
-        );
-
+        console.error("Checkout error:", error);
+        showToast(error.message);
     }
-
 }
+
+// Khung tiện ích: Chế độ đặt hàng, Ghi chú, Mã Voucher & Theo dõi trạng thái đơn trực tiếp tại bàn
+function mountGuestOrderControls() {
+    const cartPanel = document.querySelector(".cart-panel");
+    if (!cartPanel || document.getElementById("guestExtraControls")) return;
+
+    const extraDiv = document.createElement("div");
+    extraDiv.id = "guestExtraControls";
+    extraDiv.style.cssText = "margin-top:12px; display:grid; gap:8px; font-size:13px;";
+    extraDiv.innerHTML = `
+        <select id="orderModeSelect" style="padding:8px; border-radius:8px; background:#1e293b; color:#fff; border:1px solid #334155;">
+            <option value="DINE_IN">🍽️ Ăn tại bàn (Quét QR - Guest/Member)</option>
+            <option value="DELIVERY">🛵 Giao tận nơi (Web Delivery - Trả trước 100%)</option>
+        </select>
+        <input id="orderNoteInput" type="text" placeholder="📝 Ghi chú (VD: ít cay, không hành...)" style="padding:8px; border-radius:8px; background:#1e293b; color:#fff; border:1px solid #334155;" />
+        <input id="voucherInput" type="text" placeholder="🎟️ Mã Voucher (VD: FUTURESUSHI50, VIP10)" style="padding:8px; border-radius:8px; background:#1e293b; color:#fff; border:1px solid #334155;" />
+        <div id="guestLiveOrderBox" style="margin-top:8px; padding:10px; border-radius:10px; background:rgba(15,23,42,0.85); border:1px solid #334155;"></div>
+    `;
+    cartPanel.appendChild(extraDiv);
+
+    const tableData = sessionStorage.getItem("appdatmon_table");
+    if (tableData) {
+        const t = JSON.parse(tableData);
+        if (t?.id) {
+            refreshGuestTableTracker(t.id);
+            setInterval(() => refreshGuestTableTracker(t.id), 6000);
+        }
+    }
+}
+
+async function refreshGuestTableTracker(tableId) {
+    const box = document.getElementById("guestLiveOrderBox");
+    if (!box) return;
+    try {
+        const orders = await api(`/api/orders/table/${tableId}`);
+        if (!orders || !orders.length) {
+            box.innerHTML = `<span style="color:#94a3b8;">Chưa có món nào đang chế biến tại bàn này.</span>`;
+            return;
+        }
+        const stMap = {
+            PENDING: "⏳ Chờ xác nhận",
+            CONFIRMED: "✅ Đã xác nhận",
+            PREPARING: "🔥 Đang nấu",
+            READY: "🍽️ Đã xong (Sẵn sàng phục vụ)"
+        };
+        box.innerHTML = `
+            <div style="font-weight:700; color:#38bdf8; margin-bottom:6px;">📡 Trạng thái đơn tại Bàn #${tableId}</div>
+            ${orders.map(o => `
+                <div style="padding:6px 0; border-bottom:1px dashed #334155;">
+                    <div><strong>Đơn #${o.id}</strong>: <span style="color:#fde047;">${stMap[o.status] || o.status}</span></div>
+                    <div style="font-size:12px; color:#cbd5e1;">Thành tiền: ${Number(o.finalPrice).toLocaleString("vi-VN")}đ</div>
+                </div>
+            `).join("")}
+            <button type="button" onclick="alert('Đã gửi yêu cầu thanh toán của Bàn #${tableId} tới quầy Thu ngân!')" style="margin-top:8px; width:100%; padding:8px; border-radius:8px; border:0; background:#16a34a; color:#fff; font-weight:700; cursor:pointer;">
+                💳 Yêu cầu thanh toán (Tiền mặt / QR)
+            </button>
+        `;
+    } catch (e) {}
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    setTimeout(mountGuestOrderControls, 500);
+});

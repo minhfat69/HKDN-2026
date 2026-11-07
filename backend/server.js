@@ -16,16 +16,20 @@ const PORT = process.env.PORT || 3000;
 connectDB();
 
 // Đồng bộ database
-sequelize.sync().then(async () => {
+sequelize.sync({ alter: true }).then(async () => {
     console.log('Database synced successfully.');
     try {
         await sequelize.query("ALTER TABLE payments MODIFY COLUMN paymentMethod VARCHAR(50) NOT NULL DEFAULT 'CASH';");
         await sequelize.query("ALTER TABLE orders MODIFY COLUMN paymentMethod VARCHAR(50) NULL;");
         console.log('Database schema column paymentMethod altered successfully.');
+        // Cho DB cũ: thêm role HOST vào cột ENUM (sync() không tự sửa ENUM đã tồn tại)
+        await sequelize.query("ALTER TABLE users MODIFY COLUMN role ENUM('CUSTOMER','HOST','STAFF','KITCHEN','ADMIN') NOT NULL DEFAULT 'CUSTOMER';");
     } catch (err) {
         console.log('Column alter note:', err.message);
     }
     await seedAdmin();
+    await seedTables();
+    await seedProducts();
     await seedReviews();
     await seedOrders();
     await seedReservations();

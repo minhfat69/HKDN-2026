@@ -1,4 +1,5 @@
 const { Order, OrderItem, Product, RestaurantTable, User, Reservation, Payment, sequelize } = require('../models');
+const { deductIngredientsByOrder } = require('./operationsController');
 
 exports.createOrder = async (req, res, next) => {
     const t = await sequelize.transaction();
@@ -214,6 +215,10 @@ exports.updateOrderStatus = async (req, res, next) => {
                     console.log(`>>> Restored ${item.quantity} to product #${product.id} (${product.name}). New stock: ${restoredStock}`);
                 }
             }
+        }
+
+        if (['READY', 'COMPLETED'].includes(newStatus)) {
+            await deductIngredientsByOrder(order.id, t);
         }
 
         await order.update({ status: newStatus }, { transaction: t });

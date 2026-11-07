@@ -96,6 +96,18 @@
             </div>
           </article>
 
+          <!-- Báo hết món khẩn cấp -->
+          <article class="dashboard-panel" id="soldout-panel">
+            <div style="display:flex; justify-content:space-between; align-items:center; gap:.8rem; flex-wrap:wrap; margin-bottom:.75rem">
+              <div>
+                <h3 style="margin:0; font-size:1.05rem; font-weight:800"><i class="fa-solid fa-triangle-exclamation" style="color:#dc2626"></i> Báo hết món khẩn cấp</h3>
+                <p style="margin:.2rem 0 0; color:#64748b; font-size:.84rem">Bấm "Báo hết" để ẩn món ngay khỏi menu QR/Web. Bấm "Mở bán" khi có nguyên liệu lại.</p>
+              </div>
+              <input type="text" id="soldout-search" placeholder="Lọc theo tên món..." style="padding:.45rem .8rem; border-radius:10px; border:1px solid #cbd5e1; min-width:200px" />
+            </div>
+            <div id="soldout-list" style="display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:.6rem"></div>
+          </article>
+
           <!-- Kitchen Date & Quick Filter Toolbar -->
           <div class="dashboard-panel" style="padding:0.75rem 1.25rem; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.8rem">
             <div style="display:flex; align-items:center; gap:0.6rem; flex-wrap:wrap">

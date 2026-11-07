@@ -1074,7 +1074,7 @@ async function loadMyPoints() {
 
 
         const response = await fetch(
-            "http://localhost:3000/api/points/me",
+            `${window.location.origin}/api/points/me`,
             {
                 method: "GET",
 
