@@ -34,6 +34,10 @@ module.exports = (sequelize) => {
                 min: 1,
                 max: 5
             }
+        },
+        status: {
+            type: DataTypes.ENUM("VISIBLE", "HIDDEN"),
+            defaultValue: "VISIBLE"
         }
     }, {
         tableName: 'reviews',

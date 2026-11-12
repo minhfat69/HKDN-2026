@@ -15,6 +15,14 @@ module.exports = (sequelize) => {
             type: DataTypes.ENUM("MEMBER", "SILVER", "GOLD", "VIP"),
             defaultValue: "MEMBER",
         },
+        membershipTier: {
+            type: DataTypes.ENUM("BAC", "VANG", "VIP"),
+            defaultValue: "BAC",
+        },
+        pinCode: {
+            type: DataTypes.STRING(255),
+            allowNull: true,
+        },
         role: {
             type: DataTypes.ENUM("CUSTOMER", "HOST", "STAFF", "KITCHEN", "ADMIN"),
             defaultValue: "CUSTOMER",

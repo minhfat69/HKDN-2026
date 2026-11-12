@@ -55,5 +55,25 @@ module.exports = (sequelize) => {
         amountRequired: { type: DataTypes.DECIMAL(10, 2), allowNull: false }
     }, { tableName: 'recipes', timestamps: false });
 
-    return { Voucher, Shift, Ingredient, InventoryBatch, Recipe };
+    const InventoryTransaction = sequelize.define('InventoryTransaction', {
+        id: { type: DataTypes.BIGINT, autoIncrement: true, primaryKey: true },
+        ingredient_id: { type: DataTypes.BIGINT, allowNull: false },
+        batch_id: { type: DataTypes.BIGINT, allowNull: true },
+        type: { type: DataTypes.ENUM('IN', 'OUT'), allowNull: false, defaultValue: 'IN' },
+        quantity: { type: DataTypes.DECIMAL(10, 2), allowNull: false, defaultValue: 0 },
+        unit: { type: DataTypes.STRING(20), defaultValue: 'kg' },
+        note: { type: DataTypes.STRING(255), allowNull: true },
+        transactionDate: { type: DataTypes.DATEONLY, allowNull: true }
+    }, { tableName: 'inventory_transactions', timestamps: true, createdAt: 'created_at', updatedAt: false });
+
+    const VoidLog = sequelize.define('VoidLog', {
+        id: { type: DataTypes.BIGINT, autoIncrement: true, primaryKey: true },
+        order_item_id: { type: DataTypes.BIGINT, allowNull: false },
+        type: { type: DataTypes.ENUM('VOID', 'WASTE'), allowNull: false },
+        reason: { type: DataTypes.STRING(255), allowNull: false },
+        quantity: { type: DataTypes.INTEGER, defaultValue: 1 },
+        authorizedBy: { type: DataTypes.BIGINT, allowNull: false }
+    }, { tableName: 'void_logs', timestamps: true, createdAt: 'created_at', updatedAt: false });
+
+    return { Voucher, Shift, Ingredient, InventoryBatch, Recipe, InventoryTransaction, VoidLog };
 };
