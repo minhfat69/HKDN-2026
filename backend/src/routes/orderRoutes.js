@@ -9,6 +9,8 @@ router.get('/', orderController.getAllOrders);
 router.post('/', optionalVerifyToken, orderController.createOrder);
 router.get('/:id', orderController.getOrderById);
 router.put('/:id/status', orderController.updateOrderStatus);
+router.put('/:id/items/:itemId/cancel', orderController.cancelOrderItemFromKitchen);
+router.post('/:id/items/:itemId/cancel', orderController.cancelOrderItemFromKitchen);
 router.delete('/:id', orderController.deleteOrder);
 
 router.get('/table/:tableId', orderController.getCurrentOrderByTable);

@@ -302,7 +302,42 @@ function renderCart() {
     const finalAmount = Math.max(0, subtotal - totalDiscount);
 
     totalPrice.innerHTML = finalAmount.toLocaleString("vi-VN") + "đ";
+    refreshEligibleVoucherOptions(subtotal);
     updatePricingBreakdownUI(subtotal, totalDiscount, finalAmount);
+}
+
+function refreshEligibleVoucherOptions(subtotal) {
+    const selectEl = document.getElementById("voucherSelectDropdown");
+    const statusEl = document.getElementById("voucherStatusText");
+    if (!selectEl) return;
+
+    const currentVal = orderCustomerState.voucherCode || "";
+    const eligibleList = availableVouchers.filter(v => subtotal >= Number(v.minOrderValue || 0));
+
+    selectEl.innerHTML = `<option value="">-- Chọn Voucher có sẵn (${eligibleList.length}/${availableVouchers.length} mã đủ điều kiện) --</option>` +
+        availableVouchers.map(v => {
+            const minVal = Number(v.minOrderValue || 0);
+            const isEligible = subtotal > 0 && subtotal >= minVal;
+            const needMore = Math.max(0, minVal - subtotal);
+            const discLabel = v.discountType === "PERCENT" ? `${v.discountValue}%` : `${Number(v.discountValue).toLocaleString("vi-VN")}đ`;
+            return `<option value="${v.code}" ${!isEligible ? "disabled" : ""} ${currentVal === v.code && isEligible ? "selected" : ""}>
+                ${isEligible ? "✅" : "🔒"} ${v.code} — Giảm ${discLabel} (Đơn từ ${minVal.toLocaleString("vi-VN")}đ${!isEligible && subtotal > 0 ? ` • thiếu ${needMore.toLocaleString("vi-VN")}đ` : ""})
+            </option>`;
+        }).join("");
+
+    // Nếu mã đang chọn không còn đủ điều kiện đơn tối thiểu -> tự động gỡ mã
+    if (currentVal) {
+        const activeV = availableVouchers.find(v => v.code === currentVal);
+        if (activeV && subtotal < Number(activeV.minOrderValue || 0)) {
+            orderCustomerState.voucherCode = "";
+            orderCustomerState.discountPreview = null;
+            const inputEl = document.getElementById("voucherInput");
+            if (inputEl) inputEl.value = "";
+            if (statusEl) {
+                statusEl.innerHTML = `<span style="color:#facc15;">⚠️ Đơn hàng cần đạt tối thiểu ${Number(activeV.minOrderValue || 0).toLocaleString("vi-VN")}đ để dùng mã ${currentVal}.</span>`;
+            }
+        }
+    }
 }
 
 function updatePricingBreakdownUI(subtotal, totalDiscount, finalAmount) {
@@ -345,6 +380,10 @@ function mountGuestOrderControls() {
     extraDiv.id = "guestExtraControls";
     extraDiv.style.cssText = "margin-top:14px; display:grid; gap:10px; font-size:13px;";
 
+    const isLoggedInMember = orderCustomerState.customerType === "MEMBER" && orderCustomerState.memberUser;
+    const tierRates = { MEMBER: "0%", SILVER: "3%", GOLD: "5%", VIP: "10%" };
+    const memberTier = orderCustomerState.memberUser?.tier || "MEMBER";
+
     extraDiv.innerHTML = `
         <!-- 1. Chế độ ăn tại bàn & Chọn bàn -->
         <div style="display:grid; grid-template-columns:1fr 115px; gap:6px;">
@@ -357,51 +396,42 @@ function mountGuestOrderControls() {
             </select>
         </div>
 
-        <!-- 2. Chọn Khách Vãng Lai hoặc Thành Viên Đã Đăng Ký để Tích Điểm -->
-        <div style="background:#222226; padding:11px; border-radius:12px; border:1px solid #3f3f46; display:grid; gap:8px;">
+        <!-- 2. Tài khoản Khách hàng (Xác thực qua Đăng nhập, không cho khách tự ý gán VIP của người khác) -->
+        <div style="background:#222226; padding:11px; border-radius:12px; border:1px solid #3f3f46; display:grid; gap:7px;">
             <div style="font-weight:700; color:#f4f4f5; font-size:12.5px; display:flex; justify-content:space-between; align-items:center;">
-                <span><i class="fa-solid fa-user-check" style="color:#ff595e"></i> Đối tượng khách & Tích điểm</span>
+                <span><i class="fa-solid fa-user-shield" style="color:#ff595e"></i> Tài khoản & Quyền lợi Tích điểm</span>
+                ${isLoggedInMember
+                    ? `<span style="background:#14532d; color:#4ade80; padding:2px 8px; border-radius:99px; font-size:11px;">⭐ Đã đăng nhập</span>`
+                    : `<a href="login.html" style="color:#38bdf8; font-size:11.5px; text-decoration:underline;">Đăng nhập tích điểm →</a>`
+                }
             </div>
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px;">
-                <button type="button" id="btnTypeGuest" style="padding:7px 8px; border-radius:8px; border:1px solid #ef4444; background:#ef4444; color:#fff; font-weight:700; font-size:12px; cursor:pointer;">
-                    👤 Khách vãng lai
-                </button>
-                <button type="button" id="btnTypeMember" style="padding:7px 8px; border-radius:8px; border:1px solid #3f3f46; background:#18181b; color:#cbd5e1; font-weight:700; font-size:12px; cursor:pointer;">
-                    ⭐ Thành viên (Tích điểm)
-                </button>
-            </div>
-
-            <!-- Khung Tìm kiếm Thành viên theo Tên / SĐT / Username -->
-            <div id="memberLookupPanel" style="display:none; gap:7px; margin-top:2px;">
-                <div style="display:flex; gap:6px;">
-                    <input id="memberPhoneInput" type="text" placeholder="🔍 Tìm Tên, SĐT hoặc Username thành viên..." style="flex:1; padding:8px 10px; border-radius:8px; background:#18181b; color:#fff; border:1px solid #52525b; font-size:12.5px;" autocomplete="off" />
-                    <button type="button" id="btnLookupMember" style="padding:8px 12px; border-radius:8px; background:#2563eb; color:#fff; border:0; font-weight:700; cursor:pointer; font-size:12px;">Tìm</button>
+            ${isLoggedInMember ? `
+                <div style="background:#14532d; color:#bbf7d0; padding:8px 10px; border-radius:8px; border:1px solid #22c55e; font-size:12px;">
+                    <div><strong>✅ ${orderCustomerState.memberUser.fullName || orderCustomerState.memberUser.username}</strong> (${orderCustomerState.memberUser.phone || ""})</div>
+                    <div style="font-size:11.5px; margin-top:2px;">Hạng thẻ: <strong style="color:#fde047">${memberTier} (Ưu đãi -${tierRates[memberTier] || "0%"})</strong> • Điểm hiện có: <strong>${Number(orderCustomerState.memberUser.points || 0).toLocaleString("vi-VN")} điểm</strong></div>
                 </div>
-                <div id="memberSearchResultsList" style="display:none; max-height:150px; overflow-y:auto; background:#18181b; border:1px solid #3f3f46; border-radius:8px; padding:4px; gap:4px;"></div>
-                <div style="display:flex; gap:4px; flex-wrap:wrap; font-size:11px; color:#94a3b8;">
-                    <span>Chọn nhanh:</span>
-                    <button type="button" class="quick-member-btn" data-phone="0901234567" style="background:#27272a; color:#fde047; border:1px solid #3f3f46; border-radius:6px; padding:2px 6px; cursor:pointer;">0901234567 (Vàng)</button>
-                    <button type="button" class="quick-member-btn" data-phone="0909999999" style="background:#27272a; color:#38bdf8; border:1px solid #3f3f46; border-radius:6px; padding:2px 6px; cursor:pointer;">0909999999 (VIP)</button>
-                </div>
-                <div id="memberVerifiedBadge" style="font-size:12px; color:#94a3b8;">Chưa chọn tài khoản thành viên.</div>
-                <div id="memberUsePointsWrap" style="display:none; align-items:center; justify-content:space-between; gap:6px; padding-top:4px; border-top:1px dashed #3f3f46;">
+                <div style="display:flex; align-items:center; justify-content:space-between; gap:6px; padding-top:4px; border-top:1px dashed #3f3f46;">
                     <span style="font-size:12px; color:#cbd5e1;">Dùng điểm thưởng (1đ = 1₫):</span>
                     <input id="memberUsePointsInput" type="number" min="0" step="1000" value="0" style="width:105px; padding:5px 8px; border-radius:7px; background:#18181b; color:#fde047; border:1px solid #52525b; font-weight:700; text-align:right;" />
                 </div>
-            </div>
+            ` : `
+                <div style="color:#94a3b8; font-size:12px; line-height:1.45;">
+                    👤 Bạn đang gọi món dưới tư cách <strong>Khách vãng lai</strong>. <a href="login.html" style="color:#fde047; font-weight:600;">Đăng nhập tài khoản</a> hoặc báo SĐT cho Thu ngân tại quầy để tích điểm thành viên.
+                </div>
+            `}
         </div>
 
-        <!-- 3. Chọn hoặc Nhập Mã Voucher Giảm Giá -->
+        <!-- 3. Chọn Mã Voucher Giảm Giá Có Sẵn (Tự động mở khóa khi đơn hàng đạt mức tối thiểu) -->
         <div style="background:#222226; padding:11px; border-radius:12px; border:1px solid #3f3f46; display:grid; gap:7px;">
-            <div style="font-weight:700; color:#f4f4f5; font-size:12.5px;">
-                <i class="fa-solid fa-ticket" style="color:#f59e0b"></i> Mã giảm giá (Voucher)
+            <div style="font-weight:700; color:#f4f4f5; font-size:12.5px; display:flex; justify-content:space-between; align-items:center;">
+                <span><i class="fa-solid fa-ticket" style="color:#f59e0b"></i> Voucher Khuyến Mãi Có Sẵn</span>
+                <span style="font-size:11px; color:#94a3b8;">Đạt mức đơn tối thiểu để áp dụng</span>
             </div>
             <select id="voucherSelectDropdown" style="padding:8px; border-radius:8px; background:#18181b; color:#fde047; border:1px solid #3f3f46; font-size:12.5px; font-weight:600;">
-                <option value="">-- Chọn nhanh Voucher khuyến mãi --</option>
-                ${availableVouchers.map(v => `<option value="${v.code}">${v.code} — Giảm ${v.discountType === "PERCENT" ? v.discountValue + "%" : Number(v.discountValue).toLocaleString("vi-VN") + "đ"} (Đơn từ ${Number(v.minOrderValue || 0).toLocaleString("vi-VN")}đ)</option>`).join("")}
+                <option value="">-- Chọn Voucher khuyến mãi --</option>
             </select>
             <div style="display:flex; gap:6px;">
-                <input id="voucherInput" type="text" placeholder="Hoặc nhập mã Voucher..." style="flex:1; padding:8px 10px; border-radius:8px; background:#18181b; color:#fff; border:1px solid #3f3f46; font-size:12.5px;" />
+                <input id="voucherInput" type="text" placeholder="Hoặc nhập mã Voucher khác..." style="flex:1; padding:8px 10px; border-radius:8px; background:#18181b; color:#fff; border:1px solid #3f3f46; font-size:12.5px;" />
                 <button type="button" id="btnApplyVoucher" style="padding:8px 12px; border-radius:8px; background:#16a34a; color:#fff; border:0; font-weight:700; cursor:pointer; font-size:12px;">Áp mã</button>
             </div>
             <div id="voucherStatusText" style="font-size:11.5px; color:#94a3b8;"></div>
@@ -427,12 +457,7 @@ function mountGuestOrderControls() {
     cartPanel.appendChild(trackerDiv);
 
     bindCustomerCartControls();
-
-    if (orderCustomerState.customerType === "MEMBER" && orderCustomerState.memberUser) {
-        setCustomerTypeUI("MEMBER");
-        document.getElementById("memberPhoneInput").value = orderCustomerState.memberUser.phone || "";
-        renderVerifiedMemberBadge(orderCustomerState.memberUser);
-    }
+    refreshEligibleVoucherOptions(getCartSubtotal());
 
     const activeTableId = Number(document.getElementById("menuTableSelect")?.value || currentTable?.id || 1);
     refreshGuestTableTracker(activeTableId);

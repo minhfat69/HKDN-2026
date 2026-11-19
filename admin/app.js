@@ -57,6 +57,10 @@ const VIEW_META = {
     title: 'Ca Thu ngân, Hủy món PIN & Hóa đơn VAT',
     description: 'Mở/Đóng ca đối soát tiền mặt, duyệt Hủy món/Hao hụt (Void/Waste) bằng mã PIN Quản lý và in hóa đơn VAT 8%.'
   },
+  kitchen: {
+    title: 'Màn hình Bếp (KDS) & Chế biến món',
+    description: 'Theo dõi đơn hàng cần nấu theo thời gian thực, chuyển trạng thái Đang làm / Hoàn thành, báo hết món khẩn cấp và hủy món đột xuất ngay tại khu vực bếp.'
+  },
   stats: {
     title: 'Báo cáo Doanh thu, Lợi nhuận P&L & Dự báo',
     description: 'Phân tích doanh thu, giá vốn nguyên liệu (COGS), chi phí hao hụt (Waste), lợi nhuận ròng P&L và dự báo món bán chạy.'
@@ -76,6 +80,7 @@ const NAV_ICONS = {
   inventory: 'fa-boxes-stacked',
   vouchers: 'fa-ticket',
   shifts: 'fa-cash-register',
+  kitchen: 'fa-fire-burner',
   stats: 'fa-chart-line'
 };
 
@@ -566,7 +571,7 @@ function render() {
         ['Tổng quan', ['overview']],
         ['Quản lý thực đơn', ['products', 'categories']],
         ['Quản lý Kho & Tồn kho', ['inventory']],
-        ['Phục vụ & đặt bàn', ['tables', 'reservations', 'orders']],
+        ['Phục vụ, Đặt bàn & Bếp KDS', ['tables', 'reservations', 'orders', 'kitchen']],
         ['Thanh toán & Thu ngân', ['payments', 'shifts', 'vouchers']],
         ['Khách hàng & Đánh giá', ['users', 'reviews']],
         ['Báo cáo & P&L', ['stats']]
@@ -575,7 +580,7 @@ function render() {
         ['Tổng quan', ['overview']],
         ['Quản lý thực đơn', ['products', 'categories']],
         ['Quản lý Kho & Tồn kho', ['inventory']],
-        ['Phục vụ & đặt bàn', ['tables', 'reservations', 'orders']],
+        ['Phục vụ, Đặt bàn & Bếp KDS', ['tables', 'reservations', 'orders', 'kitchen']],
         ['Thanh toán & Thu ngân', ['payments', 'shifts', 'vouchers']],
         ['Khách hàng & Đánh giá', ['users', 'reviews']]
       ];
@@ -778,6 +783,7 @@ function navItem(view) {
     tables: 'Quản lý bàn',
     reservations: 'Đặt bàn trước',
     orders: 'Quản lý đơn hàng',
+    kitchen: 'Bếp KDS & Chế biến',
     payments: 'Lịch sử thanh toán',
     shifts: 'Ca thu ngân & Hủy PIN',
     vouchers: 'Mã giảm giá (Voucher)',
@@ -790,6 +796,9 @@ function navItem(view) {
   if (view === 'orders') {
     const pending = (state.data.orders || []).filter(o => String(o.status).toUpperCase() === 'PENDING').length;
     if (pending > 0) countBadge = `<span class="nav-badge badge-rose">${pending} mới</span>`;
+  } else if (view === 'kitchen') {
+    const cooking = (state.data.orders || []).filter(o => ['PENDING', 'CONFIRMED', 'PREPARING'].includes(String(o.status).toUpperCase())).length;
+    if (cooking > 0) countBadge = `<span class="nav-badge badge-rose">${cooking} đơn</span>`;
   } else if (view === 'reservations') {
     const pending = (state.data.reservations || []).filter(r => String(r.status).toUpperCase() === 'PENDING').length;
     if (pending > 0) countBadge = `<span class="nav-badge badge-amber">${pending} chờ</span>`;
@@ -837,6 +846,10 @@ function renderActiveView() {
 
   if (state.activeView === 'shifts') {
     return renderShiftsView();
+  }
+
+  if (state.activeView === 'kitchen') {
+    return renderKitchenView();
   }
 
   return renderEntityView(state.activeView);
@@ -1479,9 +1492,25 @@ function renderInventoryView() {
       </div>
     </article>
 
-    <div class="dashboard-grid-two" style="align-items:start">
-      <!-- 1. Quét Barcode Nhập Kho & Lô hàng FEFO -->
-      <article class="dashboard-panel">
+    <!-- THANH ĐIỀU HƯỚNG SLIDER & KHU VỰC TRƯỢT NGANG XEM KHO BARCODE & ĐỊNH LƯỢNG CÔNG THỨC MÓN ĂN -->
+    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.75rem; margin-bottom:0.85rem; background:#ffffff; padding:0.75rem 1.1rem; border-radius:16px; border:1px solid #e2e8f0; box-shadow:0 4px 12px rgba(15,23,42,0.04)">
+      <div style="font-size:0.88rem; color:#0f172a; font-weight:700">
+        <i class="fa-solid fa-arrows-left-right" style="color:#2563eb; margin-right:0.35rem"></i>
+        Trượt ngang (Slide) hoặc bấm nút bên phải để chuyển nhanh giữa <strong>Kho Barcode (FEFO)</strong> và <strong>Định lượng Công thức Món ăn (Recipe)</strong>:
+      </div>
+      <div style="display:flex; gap:0.5rem; flex-wrap:wrap">
+        <button type="button" class="btn btn-secondary btn-small" data-action="slide-inventory-panel" data-target="barcode" style="font-weight:800">
+          <i class="fa-solid fa-barcode" style="color:#7c3aed"></i> ⬅️ Slide 1: Kho Barcode (FEFO)
+        </button>
+        <button type="button" class="btn btn-primary btn-small" data-action="slide-inventory-panel" data-target="recipe" style="font-weight:800; background:linear-gradient(135deg,#d97706,#ea580c)">
+          <i class="fa-solid fa-flask"></i> Slide 2: Định lượng Công thức (Recipe) ➡️
+        </button>
+      </div>
+    </div>
+
+    <div id="inventoryHorizontalSlider" style="display:flex; gap:1.25rem; overflow-x:auto; scroll-behavior:smooth; scroll-snap-type:x mandatory; padding-bottom:0.85rem; align-items:stretch">
+      <!-- Slide 1: Quét Barcode Nhập Kho & Lô hàng FEFO -->
+      <article class="dashboard-panel" id="slide-panel-barcode" style="flex:0 0 min(100%, 640px); min-width:520px; scroll-snap-align:start">
         <div class="dashboard-panel-header">
           <div>
             <h3 class="dashboard-panel-title"><i class="fa-solid fa-barcode" style="color:#7c3aed; margin-right:0.4rem"></i>Quét Barcode Nhập Kho Theo Lô (MFG / EXP)</h3>
@@ -1550,8 +1579,8 @@ function renderInventoryView() {
         </div>
       </article>
 
-      <!-- 2. Định lượng Công thức (Recipe) -->
-      <article class="dashboard-panel">
+      <!-- Slide 2: Định lượng Công thức (Recipe) -->
+      <article class="dashboard-panel" id="slide-panel-recipe" style="flex:0 0 min(100%, 640px); min-width:520px; scroll-snap-align:start">
         <div class="dashboard-panel-header">
           <div>
             <h3 class="dashboard-panel-title"><i class="fa-solid fa-flask" style="color:#d97706; margin-right:0.4rem"></i>Định lượng Công thức Món ăn (Recipe)</h3>
@@ -1883,6 +1912,172 @@ function renderShiftsView() {
         </table>
       </div>
     </article>
+  `;
+}
+
+function renderKitchenView() {
+  const orders = Array.isArray(state.data.orders) ? state.data.orders : [];
+  const products = Array.isArray(state.data.products) ? state.data.products : [];
+  const tables = Array.isArray(state.data.tables) ? state.data.tables : [];
+  const q = String(state.filters.kitchen || '').trim().toLowerCase();
+
+  const filteredOrders = orders.filter(order => {
+    if (!q) return true;
+    const tInfo = getOrderTableInfo(order, tables);
+    const str = `${order.id} ${tInfo.label} ${order.note || ''} ${order.User?.fullName || ''} ${(order.OrderItems || []).map(i => i.Product?.name || '').join(' ')}`.toLowerCase();
+    return str.includes(q);
+  });
+
+  const todoOrders = filteredOrders.filter(o => ['PENDING', 'CONFIRMED'].includes(String(o.status).toUpperCase()));
+  const doingOrders = filteredOrders.filter(o => String(o.status).toUpperCase() === 'PREPARING');
+  const doneOrders = filteredOrders.filter(o => String(o.status).toUpperCase() === 'READY');
+
+  const renderKitchenCard = (order, colKey) => {
+    const tInfo = getOrderTableInfo(order, tables);
+    const customerName = order.User?.fullName || (order.user_id ? `Thành viên #${order.user_id}` : 'Khách vãng lai');
+    const orderItems = order.OrderItems || [];
+
+    const itemsHtml = orderItems.map(item => {
+      const prodName = item.Product?.name || `Món #${item.product_id}`;
+      return `
+        <div style="display:flex; justify-content:space-between; align-items:center; gap:0.4rem; padding:0.45rem 0; border-bottom:1.5px dashed rgba(115,118,134,0.14)">
+          <div style="min-width:0; flex:1">
+            <strong style="color:#0f172a; font-size:0.92rem">${escapeHtml(prodName)}</strong>
+            ${item.note ? `<div style="font-size:0.75rem; color:#d97706">📝 ${escapeHtml(item.note)}</div>` : ''}
+          </div>
+          <div style="display:flex; align-items:center; gap:0.35rem; flex-shrink:0">
+            <span class="badge-inline" style="background:#dbe1ff; color:#004ac6; font-weight:800; font-size:0.84rem">x${item.quantity}</span>
+            ${colKey !== 'done' ? `
+              <button type="button" class="btn btn-danger btn-small" data-action="kitchen-cancel-item" data-order-id="${order.id}" data-item-id="${item.id}" data-product-name="${escapeHtml(prodName)}" style="padding:0.2rem 0.48rem; font-size:0.72rem; font-weight:800; background:#fee2e2; color:#dc2626; border:1px solid #fecaca" title="Hết món đột xuất -> Báo hủy món này khỏi đơn khách & tự động khóa món trên Menu">
+                <i class="fa-solid fa-ban"></i> Hủy món
+              </button>
+            ` : ''}
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    return `
+      <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:16px; padding:1rem; box-shadow:0 4px 12px rgba(15,23,42,0.04); display:grid; gap:0.55rem">
+        <div style="display:flex; justify-content:space-between; align-items:center">
+          <strong style="font-size:1.02rem; color:#004ac6"><i class="fa-solid fa-receipt"></i> Đơn #${order.id}</strong>
+          ${tInfo.displayBadge}
+        </div>
+        <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.8rem; color:#64748b">
+          <span>Khách: <strong>${escapeHtml(customerName)}</strong></span>
+          <span><i class="fa-regular fa-clock"></i> ${formatDateTime(order.created_at || order.createdAt)}</span>
+        </div>
+        <div style="background:#f8fafc; padding:0.55rem 0.75rem; border-radius:12px; border:1px solid #e2e8f0">
+          ${itemsHtml || '<div class="muted">Không có chi tiết món</div>'}
+        </div>
+        ${order.note ? `
+          <div style="padding:0.45rem 0.65rem; background:#fff7d6; border-radius:10px; border:1px solid #fef08a; font-size:0.8rem; color:#b45309">
+            <i class="fa-solid fa-note-sticky"></i> <strong>Ghi chú:</strong> ${escapeHtml(order.note)}
+          </div>
+        ` : ''}
+        ${colKey === 'todo' ? `
+          <div style="display:grid; grid-template-columns:1fr auto; gap:0.4rem; margin-top:0.25rem">
+            <button type="button" class="btn btn-primary btn-small" data-action="kitchen-update-status" data-id="${order.id}" data-status="PREPARING" style="background:linear-gradient(135deg,#e11d48,#f43f5e); font-weight:800">
+              <i class="fa-solid fa-fire"></i> Bắt đầu làm món
+            </button>
+            <button type="button" class="btn btn-danger btn-small" data-action="cancel-order" data-id="${order.id}" style="font-weight:800" title="Hủy toàn bộ đơn do hết món">
+              <i class="fa-solid fa-ban"></i> Hủy đơn
+            </button>
+          </div>
+        ` : colKey === 'doing' ? `
+          <div style="display:grid; grid-template-columns:1fr auto; gap:0.4rem; margin-top:0.25rem">
+            <button type="button" class="btn btn-primary btn-small" data-action="kitchen-update-status" data-id="${order.id}" data-status="READY" style="background:linear-gradient(135deg,#10b981,#059669); font-weight:800">
+              <i class="fa-solid fa-circle-check"></i> Báo Hoàn thành (READY)
+            </button>
+            <button type="button" class="btn btn-danger btn-small" data-action="cancel-order" data-id="${order.id}" style="font-weight:800" title="Hủy toàn bộ đơn do hết món">
+              <i class="fa-solid fa-ban"></i> Hủy đơn
+            </button>
+          </div>
+        ` : `
+          <div style="text-align:center; font-size:0.84rem; color:#15803d; font-weight:800; padding:0.45rem; background:#dcfce7; border-radius:10px">
+            <i class="fa-solid fa-circle-check"></i> Đã nấu xong • Chờ phục vụ / Thu tiền
+          </div>
+        `}
+      </div>
+    `;
+  };
+
+  return `
+    <section class="entity-page-header">
+      <div>
+        <h3 class="entity-page-title"><i class="fa-solid fa-fire-burner" style="color:#e11d48; margin-right:0.4rem"></i>Màn hình Điều phối Bếp (Kitchen KDS) & Báo Hủy Món Đột Xuất</h3>
+        <p class="entity-page-copy">Tích hợp trực tiếp màn hình Bếp vào Dashboard Admin: chuyển trạng thái chế biến, báo hết món khẩn cấp hoặc bấm <strong>"🚫 Hủy món"</strong> ngay trên từng món trong đơn nếu hết nguyên liệu đột xuất.</p>
+      </div>
+      <div class="entity-page-actions">
+        <a href="kitchen.html" target="_blank" class="btn btn-secondary"><i class="fa-solid fa-up-right-from-square"></i> Mở màn hình KDS Bếp riêng</a>
+      </div>
+    </section>
+
+    <!-- BẢNG BÁO HẾT MÓN KHẨN CẤP -->
+    <article class="dashboard-panel" style="margin-bottom:1.25rem">
+      <div class="dashboard-panel-header" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.8rem">
+        <div>
+          <h3 class="dashboard-panel-title"><i class="fa-solid fa-triangle-exclamation" style="color:#dc2626; margin-right:0.35rem"></i>Báo Hết Món Khẩn Cấp Trên Menu (${products.filter(p => p.isAvailable === false || Number(p.stock) <= 0).length} món đang ngưng)</h3>
+          <p class="dashboard-panel-copy">Bấm "Báo hết" để khóa món ngay lập tức trên Menu QR của khách. Bấm "Mở bán (+20)" khi bếp đã có nguyên liệu trở lại.</p>
+        </div>
+      </div>
+      <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(230px, 1fr)); gap:0.65rem; max-height:220px; overflow-y:auto; padding-right:0.25rem">
+        ${products.map(p => {
+          const isOff = p.isAvailable === false || Number(p.stock ?? 0) <= 0;
+          return `
+            <div style="display:flex; justify-content:space-between; align-items:center; gap:0.5rem; padding:0.55rem 0.75rem; border:1px solid ${isOff ? '#fecaca' : '#e2e8f0'}; background:${isOff ? '#fef2f2' : '#ffffff'}; border-radius:12px">
+              <div style="min-width:0">
+                <div style="font-weight:700; font-size:0.88rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis">${escapeHtml(p.name)}</div>
+                <div style="font-size:0.76rem; color:${isOff ? '#dc2626' : '#16a34a'}; font-weight:700">
+                  ${isOff ? 'ĐÃ HẾT / TẠM NGƯNG' : 'Đang bán'} • Kho: ${formatNumber(p.stock ?? 0)}
+                </div>
+              </div>
+              ${isOff ? `
+                <button type="button" class="btn btn-primary btn-small" data-action="quick-add-stock" data-id="${p.id}" data-delta="20" style="font-weight:800; white-space:nowrap; padding:0.3rem 0.55rem; font-size:0.76rem">Mở bán (+20)</button>
+              ` : `
+                <button type="button" class="btn btn-secondary btn-small" data-action="toggle-product-available" data-id="${p.id}" style="font-weight:800; color:#dc2626; white-space:nowrap; padding:0.3rem 0.55rem; font-size:0.76rem">Báo hết</button>
+              `}
+            </div>
+          `;
+        }).join('')}
+      </div>
+    </article>
+
+    <!-- 3 CỘT KANBAN CHẾ BIẾN BẾP -->
+    <div style="display:grid; grid-template-columns:repeat(3, minmax(290px, 1fr)); gap:1.1rem; align-items:start; overflow-x:auto; padding-bottom:0.5rem">
+      <!-- Cột 1: Chờ chế biến -->
+      <article class="dashboard-panel" style="background:#f8fafc; border:1px solid #e2e8f0">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.85rem; padding-bottom:0.6rem; border-bottom:2px solid #f59e0b">
+          <h3 style="margin:0; font-size:1rem; font-weight:800; color:#b45309"><i class="fa-solid fa-clock"></i> 1. Chờ chế biến (PENDING/CONFIRMED)</h3>
+          <span class="badge-inline" style="background:#fef3c7; color:#b45309; font-weight:800">${todoOrders.length} đơn</span>
+        </div>
+        <div style="display:grid; gap:0.8rem">
+          ${todoOrders.length ? todoOrders.map(o => renderKitchenCard(o, 'todo')).join('') : `<div style="text-align:center; padding:1.5rem; color:#64748b; font-size:0.86rem">Không có đơn chờ chế biến</div>`}
+        </div>
+      </article>
+
+      <!-- Cột 2: Đang nấu -->
+      <article class="dashboard-panel" style="background:#fff1f2; border:1px solid #fecdd3">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.85rem; padding-bottom:0.6rem; border-bottom:2px solid #e11d48">
+          <h3 style="margin:0; font-size:1rem; font-weight:800; color:#be123c"><i class="fa-solid fa-fire"></i> 2. Bếp đang làm (PREPARING)</h3>
+          <span class="badge-inline" style="background:#ffe4e6; color:#be123c; font-weight:800">${doingOrders.length} đơn</span>
+        </div>
+        <div style="display:grid; gap:0.8rem">
+          ${doingOrders.length ? doingOrders.map(o => renderKitchenCard(o, 'doing')).join('') : `<div style="text-align:center; padding:1.5rem; color:#64748b; font-size:0.86rem">Chưa có món đang nấu</div>`}
+        </div>
+      </article>
+
+      <!-- Cột 3: Đã xong (READY) -->
+      <article class="dashboard-panel" style="background:#f0fdf4; border:1px solid #bbf7d0">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.85rem; padding-bottom:0.6rem; border-bottom:2px solid #16a34a">
+          <h3 style="margin:0; font-size:1rem; font-weight:800; color:#15803d"><i class="fa-solid fa-bell-concierge"></i> 3. Hoàn thành / Chờ bưng (READY)</h3>
+          <span class="badge-inline" style="background:#dcfce7; color:#15803d; font-weight:800">${doneOrders.length} đơn</span>
+        </div>
+        <div style="display:grid; gap:0.8rem">
+          ${doneOrders.length ? doneOrders.map(o => renderKitchenCard(o, 'done')).join('') : `<div style="text-align:center; padding:1.5rem; color:#64748b; font-size:0.86rem">Chưa có đơn hoàn thành chờ phục vụ</div>`}
+        </div>
+      </article>
+    </div>
   `;
 }
 
@@ -3028,48 +3223,79 @@ function renderOrderModal() {
   const products = state.data.products || [];
   const users = Array.isArray(state.data.users) ? state.data.users : [];
   const vouchers = Array.isArray(state.data.vouchers) ? state.data.vouchers.filter(v => v.isActive !== false) : [];
+  const orders = Array.isArray(state.data.orders) ? state.data.orders : [];
   const prefill = state.modal?.prefill || {};
+
+  // Kiểm tra bàn được chọn có đang có đơn chưa thanh toán không
+  const activeTableOrder = prefill.table_id ? orders.find(o =>
+    String(o.table_id) === String(prefill.table_id) &&
+    String(o.paymentStatus).toUpperCase() !== 'PAID' &&
+    ['PENDING', 'CONFIRMED', 'PREPARING', 'READY'].includes(String(o.status).toUpperCase())
+  ) : null;
+
+  const selectedMember = prefill.user_id ? users.find(u => String(u.id) === String(prefill.user_id)) : (activeTableOrder?.user_id ? users.find(u => String(u.id) === String(activeTableOrder.user_id)) : null);
+  const initialUserId = selectedMember ? selectedMember.id : (prefill.user_id || '');
+  const initialPhone = selectedMember?.phone || prefill.phone || '';
+
   const defaultItems = [
     { product_id: products[0]?.id || '', quantity: 1, note: '' }
   ];
 
   return `
     <div class="modal-backdrop" data-action="close-modal">
-      <div class="modal-card" data-action="stop-propagation" style="max-width:740px">
+      <div class="modal-card" data-action="stop-propagation" style="max-width:760px">
         <div class="modal-head">
           <div>
-            <h3 class="modal-title">Tạo đơn hàng POS (Tìm kiếm Thành viên tích điểm / Vãng lai & Voucher)</h3>
-            <div class="subtle">Hỗ trợ tìm kiếm khách hàng thành viên theo Tên / SĐT, tự động đồng bộ khách từ lịch Đặt bàn của bàn được chọn và áp mã Voucher.</div>
+            <h3 class="modal-title">Tạo / Bổ sung đơn hàng POS (Tìm kiếm Thành viên gần đúng & Chống chồng đơn)</h3>
+            <div class="subtle">Gõ Tên hoặc SĐT gần đúng để hiển thị danh sách khách hàng thành viên, click chọn để tự động điền các trường xung quanh. Nếu bàn đang có đơn mở, hệ thống sẽ tự động gộp món & đồng bộ khách hàng vào đơn hiện tại.</div>
           </div>
           <button class="btn btn-ghost btn-small" data-action="close-modal">Đóng</button>
         </div>
 
         <form class="modal-body" data-form="order-create">
+          <div id="posTableActiveOrderBanner" style="display:${activeTableOrder ? 'block' : 'none'}; padding:0.75rem 1rem; border-radius:12px; background:#eff6ff; border:1px solid #bfdbfe; color:#1e40af; font-size:0.84rem; margin-bottom:0.4rem">
+            ${activeTableOrder ? `<i class="fa-solid fa-layer-group"></i> <strong>Bàn này đang có Đơn #${activeTableOrder.id} (${activeTableOrder.status} • ${formatCurrency(activeTableOrder.finalPrice ?? activeTableOrder.totalPrice)})</strong> — Món mới và thông tin Thành viên/Vãng lai bạn chọn bên dưới sẽ được <strong>gộp trực tiếp vào Đơn #${activeTableOrder.id}</strong> (không bị tạo đơn chồng)!` : ''}
+          </div>
+
           <div class="modal-grid">
             <div class="field">
-              <label for="orderTable">Vị trí Bàn ăn (Tự động đồng bộ khách đặt bàn)</label>
+              <label for="orderTable">Vị trí Bàn ăn (Tự động đồng bộ khách đặt bàn & đơn đang mở)</label>
               <select id="orderTable" name="table_id" data-action="pos-order-table-change">
                 <option value="">Khách mang đi (Takeaway) / Chưa gán bàn</option>
                 ${tables.map(table => `<option value="${table.id}" ${String(prefill.table_id) === String(table.id) ? 'selected' : ''}>Bàn #${table.tableNumber} • ${escapeHtml(table.calculatedStatus || table.status)} (${table.capacity || 4} chỗ)</option>`).join('')}
               </select>
             </div>
 
-            <div class="field">
-              <label for="posMemberSearchInput"><i class="fa-solid fa-magnifying-glass" style="color:#2563eb"></i> Tìm kiếm Khách hàng Thành viên tích điểm</label>
-              <input id="posMemberSearchInput" type="search" placeholder="Gõ Tên, SĐT hoặc Username để lọc nhanh thành viên..." autocomplete="off" />
+            <div class="field" style="position:relative">
+              <label for="posMemberSearchInput"><i class="fa-solid fa-magnifying-glass" style="color:#2563eb"></i> Tìm kiếm Tên hoặc SĐT gần đúng của Thành viên</label>
+              <input id="posMemberSearchInput" type="search" data-action="pos-member-search" value="${escapeHtml(selectedMember ? `${selectedMember.fullName} (${selectedMember.phone})` : '')}" placeholder="Gõ ký tự tên hoặc SĐT gần đúng (VD: Nguyễn, VIP, 090...)" autocomplete="off" />
+              <div id="posMemberSuggestList" style="display:none; position:absolute; top:100%; left:0; right:0; z-index:99; max-height:210px; overflow-y:auto; background:#ffffff; border:1px solid #cbd5e1; border-radius:12px; box-shadow:0 12px 28px rgba(15,23,42,0.16); margin-top:4px; padding:0.35rem"></div>
             </div>
 
             <div class="field">
-              <label for="orderCustomerSelect">Chọn Khách hàng (Thành viên / Vãng lai)</label>
-              <select id="orderCustomerSelect" name="user_id">
+              <label for="orderCustomerSelect">Khách hàng áp dụng cho đơn (Thành viên / Vãng lai)</label>
+              <select id="orderCustomerSelect" name="user_id" data-action="pos-customer-select-change">
                 <option value="">👤 Khách vãng lai (Không tích điểm)</option>
-                ${users.map(u => `<option value="${u.id}" data-search="${escapeHtml(`${u.fullName || ''} ${u.phone || ''} ${u.username || ''} ${u.email || ''}`.toLowerCase())}" ${String(prefill.user_id) === String(u.id) ? 'selected' : ''}>⭐ ${escapeHtml(u.fullName || u.username)} (${escapeHtml(u.phone || '-')}) • Hạng ${escapeHtml(u.tier || 'MEMBER')} • ${formatNumber(u.points || 0)} điểm</option>`).join('')}
+                ${users.map(u => `<option value="${u.id}" data-name="${escapeHtml(u.fullName || u.username)}" data-phone="${escapeHtml(u.phone || '')}" data-tier="${escapeHtml(u.tier || 'MEMBER')}" data-points="${Number(u.points || 0)}" data-search="${escapeHtml(`${u.fullName || ''} ${u.phone || ''} ${u.username || ''} ${u.email || ''}`.toLowerCase())}" ${String(initialUserId) === String(u.id) ? 'selected' : ''}>⭐ ${escapeHtml(u.fullName || u.username)} (${escapeHtml(u.phone || '-')}) • Hạng ${escapeHtml(u.tier || 'MEMBER')} • ${formatNumber(u.points || 0)} điểm</option>`).join('')}
               </select>
             </div>
 
             <div class="field">
-              <label for="orderCustomerPhone">Hoặc nhập SĐT Thành viên trực tiếp</label>
-              <input id="orderCustomerPhone" name="customerPhone" type="text" value="${escapeHtml(prefill.phone && !prefill.user_id ? prefill.phone : '')}" placeholder="Nhập SĐT thành viên (VD: 0901234567)..." />
+              <label for="orderCustomerPhone">Số điện thoại Khách hàng (Tự động cập nhật khi chọn)</label>
+              <input id="orderCustomerPhone" name="customerPhone" type="text" value="${escapeHtml(initialPhone)}" placeholder="SĐT thành viên tự động điền hoặc nhập tại đây..." />
+            </div>
+
+            <div class="field full" id="posSelectedMemberInfoCard" style="margin-top:-0.25rem">
+              ${selectedMember ? `
+                <div style="padding:0.65rem 0.9rem; border-radius:12px; background:#f0fdf4; border:1px solid #bbf7d0; color:#166534; font-size:0.84rem; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem">
+                  <div><strong>⭐ Đã chọn Thành viên: ${escapeHtml(selectedMember.fullName)}</strong> • SĐT: <strong>${escapeHtml(selectedMember.phone || '-')}</strong></div>
+                  <div>Hạng thẻ: <span class="badge-inline" style="background:#fef3c7; color:#b45309; font-weight:800">${escapeHtml(selectedMember.tier || 'MEMBER')}</span> • Điểm khả dụng: <strong>${formatNumber(selectedMember.points || 0)} điểm</strong></div>
+                </div>
+              ` : `
+                <div style="padding:0.55rem 0.9rem; border-radius:12px; background:#f8fafc; border:1px solid #e2e8f0; color:#64748b; font-size:0.82rem">
+                  👤 Đang chọn: <strong>Khách vãng lai</strong> (Gõ Tên hoặc SĐT vào ô Tìm kiếm bên trên để chọn Thành viên tích điểm)
+                </div>
+              `}
             </div>
 
             <div class="field">
@@ -3082,7 +3308,7 @@ function renderOrderModal() {
 
             <div class="field">
               <label for="orderPoints">Dùng điểm tích lũy của Thành viên (1 điểm = 1₫)</label>
-              <input id="orderPoints" name="used_points" type="number" min="0" step="1000" value="0" />
+              <input id="orderPoints" name="used_points" type="number" min="0" max="${selectedMember ? Number(selectedMember.points || 0) : 9999999}" step="1000" value="0" />
             </div>
 
             <div class="field full">
@@ -3493,6 +3719,77 @@ function bindGlobalEvents() {
           render();
           break;
         }
+        case 'slide-inventory-panel': {
+          const targetSlide = target.dataset.target;
+          const panelEl = app.querySelector(targetSlide === 'recipe' ? '#slide-panel-recipe' : '#slide-panel-barcode');
+          if (panelEl) {
+            panelEl.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+          }
+          break;
+        }
+        case 'select-pos-member-suggest': {
+          const userId = target.dataset.userId;
+          const userObj = (state.data.users || []).find(u => String(u.id) === String(userId));
+          const selectEl = app.querySelector('#orderCustomerSelect');
+          const phoneEl = app.querySelector('#orderCustomerPhone');
+          const searchEl = app.querySelector('#posMemberSearchInput');
+          const suggestBox = app.querySelector('#posMemberSuggestList');
+          const pointsEl = app.querySelector('#orderPoints');
+          const infoCard = app.querySelector('#posSelectedMemberInfoCard');
+
+          if (userObj) {
+            if (selectEl) selectEl.value = String(userObj.id);
+            if (phoneEl) phoneEl.value = userObj.phone || '';
+            if (searchEl) searchEl.value = `${userObj.fullName || userObj.username} (${userObj.phone || ''})`;
+            if (pointsEl) {
+              pointsEl.max = String(Number(userObj.points || 0));
+            }
+            if (infoCard) {
+              infoCard.innerHTML = `
+                <div style="padding:0.65rem 0.9rem; border-radius:12px; background:#f0fdf4; border:1px solid #bbf7d0; color:#166534; font-size:0.84rem; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem">
+                  <div><strong>⭐ Đã chọn Thành viên: ${escapeHtml(userObj.fullName || userObj.username)}</strong> • SĐT: <strong>${escapeHtml(userObj.phone || '-')}</strong></div>
+                  <div>Hạng thẻ: <span class="badge-inline" style="background:#fef3c7; color:#b45309; font-weight:800">${escapeHtml(userObj.tier || 'MEMBER')}</span> • Điểm khả dụng: <strong>${formatNumber(userObj.points || 0)} điểm</strong></div>
+                </div>
+              `;
+            }
+          } else {
+            if (selectEl) selectEl.value = '';
+            if (phoneEl) phoneEl.value = '';
+            if (searchEl) searchEl.value = '';
+            if (infoCard) {
+              infoCard.innerHTML = `
+                <div style="padding:0.55rem 0.9rem; border-radius:12px; background:#f8fafc; border:1px solid #e2e8f0; color:#64748b; font-size:0.82rem">
+                  👤 Đang chọn: <strong>Khách vãng lai</strong> (Gõ Tên hoặc SĐT vào ô Tìm kiếm bên trên để chọn Thành viên tích điểm)
+                </div>
+              `;
+            }
+          }
+          if (suggestBox) suggestBox.style.display = 'none';
+          break;
+        }
+        case 'kitchen-update-status': {
+          const nextStatus = target.dataset.status || 'PREPARING';
+          await simpleAction(`/api/orders/${id}/status`, {
+            method: 'PUT',
+            body: JSON.stringify({ status: nextStatus })
+          }, `Đã chuyển trạng thái Đơn #${id} sang ${nextStatus}`);
+          break;
+        }
+        case 'kitchen-cancel-item': {
+          const orderId = target.dataset.orderId;
+          const itemId = target.dataset.itemId;
+          const prodName = target.dataset.productName || 'Món ăn';
+          const reason = prompt(`Báo hết món đột xuất & hủy món "${prodName}" khỏi Đơn #${orderId}?\nNhập lý do báo hủy (Món sẽ tự động chuyển sang Tạm ngưng trên Menu và ghi Log ca thu ngân):`, 'Hết nguyên liệu đột xuất tại Bếp');
+          if (reason !== null) {
+            const res = await api(`/api/orders/${orderId}/items/${itemId}/cancel`, {
+              method: 'PUT',
+              body: JSON.stringify({ reason, markSoldOut: true })
+            });
+            toast('success', 'Đã hủy món tại Bếp', res.message || `Đã hủy món ${prodName} khỏi Đơn #${orderId}`);
+            await reloadAfterMutation();
+          }
+          break;
+        }
         case 'add-order-item':
           addOrderItem();
           break;
@@ -3627,20 +3924,80 @@ function bindGlobalEvents() {
     } else if (target.matches('[data-action="pos-order-table-change"]')) {
       const tableId = target.value;
       const tableObj = (state.data.tables || []).find(t => String(t.id) === String(tableId));
+      const activeTableOrder = tableId ? (state.data.orders || []).find(o =>
+        String(o.table_id) === String(tableId) &&
+        String(o.paymentStatus).toUpperCase() !== 'PAID' &&
+        ['PENDING', 'CONFIRMED', 'PREPARING', 'READY'].includes(String(o.status).toUpperCase())
+      ) : null;
+
+      const bannerEl = app.querySelector('#posTableActiveOrderBanner');
+      if (bannerEl) {
+        if (activeTableOrder) {
+          bannerEl.style.display = 'block';
+          bannerEl.innerHTML = `<i class="fa-solid fa-layer-group"></i> <strong>Bàn này đang có Đơn #${activeTableOrder.id} (${activeTableOrder.status} • ${formatCurrency(activeTableOrder.finalPrice ?? activeTableOrder.totalPrice)})</strong> — Món mới và thông tin Thành viên/Vãng lai bạn chọn bên dưới sẽ được <strong>gộp trực tiếp vào Đơn #${activeTableOrder.id}</strong> (không bị tạo đơn chồng)!`;
+        } else {
+          bannerEl.style.display = 'none';
+        }
+      }
+
       const resv = tableObj?.activeReservation || (state.data.reservations || []).find(r =>
         String(r.table_id) === String(tableId) &&
-        ['PENDING', 'CONFIRMED', 'COMPLETED'].includes(String(r.status).toUpperCase())
+        ['PENDING', 'CONFIRMED', 'CHECKED_IN', 'COMPLETED'].includes(String(r.status).toUpperCase())
       );
-      if (resv) {
-        const selectEl = app.querySelector('#orderCustomerSelect');
-        const phoneEl = app.querySelector('#orderCustomerPhone');
-        if (selectEl && resv.user_id) {
-          selectEl.value = String(resv.user_id);
-        } else if (selectEl) {
-          selectEl.value = '';
+
+      const matchedUserId = resv?.user_id || activeTableOrder?.user_id || '';
+      const matchedUser = matchedUserId ? (state.data.users || []).find(u => String(u.id) === String(matchedUserId)) : null;
+      const selectEl = app.querySelector('#orderCustomerSelect');
+      const phoneEl = app.querySelector('#orderCustomerPhone');
+      const searchEl = app.querySelector('#posMemberSearchInput');
+      const infoCard = app.querySelector('#posSelectedMemberInfoCard');
+
+      if (matchedUser) {
+        if (selectEl) selectEl.value = String(matchedUser.id);
+        if (phoneEl) phoneEl.value = matchedUser.phone || '';
+        if (searchEl) searchEl.value = `${matchedUser.fullName || matchedUser.username} (${matchedUser.phone || ''})`;
+        if (infoCard) {
+          infoCard.innerHTML = `
+            <div style="padding:0.65rem 0.9rem; border-radius:12px; background:#f0fdf4; border:1px solid #bbf7d0; color:#166534; font-size:0.84rem; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem">
+              <div><strong>⭐ Đã đồng bộ Thành viên từ Bàn: ${escapeHtml(matchedUser.fullName || matchedUser.username)}</strong> • SĐT: <strong>${escapeHtml(matchedUser.phone || '-')}</strong></div>
+              <div>Hạng thẻ: <span class="badge-inline" style="background:#fef3c7; color:#b45309; font-weight:800">${escapeHtml(matchedUser.tier || 'MEMBER')}</span> • Điểm khả dụng: <strong>${formatNumber(matchedUser.points || 0)} điểm</strong></div>
+            </div>
+          `;
         }
-        if (phoneEl && resv.guestPhone) {
-          phoneEl.value = resv.guestPhone;
+      } else if (resv) {
+        if (selectEl) selectEl.value = '';
+        if (phoneEl) phoneEl.value = resv.guestPhone || '';
+        if (searchEl) searchEl.value = '';
+      }
+    } else if (target.matches('[data-action="pos-customer-select-change"]')) {
+      const userId = target.value;
+      const userObj = userId ? (state.data.users || []).find(u => String(u.id) === String(userId)) : null;
+      const phoneEl = app.querySelector('#orderCustomerPhone');
+      const searchEl = app.querySelector('#posMemberSearchInput');
+      const pointsEl = app.querySelector('#orderPoints');
+      const infoCard = app.querySelector('#posSelectedMemberInfoCard');
+
+      if (userObj) {
+        if (phoneEl) phoneEl.value = userObj.phone || '';
+        if (searchEl) searchEl.value = `${userObj.fullName || userObj.username} (${userObj.phone || ''})`;
+        if (pointsEl) pointsEl.max = String(Number(userObj.points || 0));
+        if (infoCard) {
+          infoCard.innerHTML = `
+            <div style="padding:0.65rem 0.9rem; border-radius:12px; background:#f0fdf4; border:1px solid #bbf7d0; color:#166534; font-size:0.84rem; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem">
+              <div><strong>⭐ Đã chọn Thành viên: ${escapeHtml(userObj.fullName || userObj.username)}</strong> • SĐT: <strong>${escapeHtml(userObj.phone || '-')}</strong></div>
+              <div>Hạng thẻ: <span class="badge-inline" style="background:#fef3c7; color:#b45309; font-weight:800">${escapeHtml(userObj.tier || 'MEMBER')}</span> • Điểm khả dụng: <strong>${formatNumber(userObj.points || 0)} điểm</strong></div>
+            </div>
+          `;
+        }
+      } else {
+        if (phoneEl) phoneEl.value = '';
+        if (searchEl) searchEl.value = '';
+        if (infoCard) {
+          infoCard.innerHTML = `
+            <div style="padding:0.55rem 0.9rem; border-radius:12px; background:#f8fafc; border:1px solid #e2e8f0; color:#64748b; font-size:0.82rem">
+              👤 Đang chọn: <strong>Khách vãng lai</strong> (Gõ Tên hoặc SĐT vào ô Tìm kiếm bên trên để chọn Thành viên tích điểm)
+            </div>
+          `;
         }
       }
     }
@@ -3652,28 +4009,41 @@ function bindGlobalEvents() {
       state.filters[target.dataset.view] = target.value;
       render();
     } else if (target.matches('[data-action="pos-member-search"]')) {
-      const keyword = String(target.value || '').trim().toLowerCase();
-      const selectEl = app.querySelector('#orderCustomerSelect');
-      if (selectEl) {
-        let firstMatchedValue = null;
-        [...selectEl.options].forEach(opt => {
-          if (!opt.value) {
-            opt.hidden = false;
-            return;
-          }
-          const searchText = String(opt.dataset.search || opt.textContent || '').toLowerCase();
-          const matched = !keyword || searchText.includes(keyword);
-          opt.hidden = !matched;
-          if (matched && firstMatchedValue === null && keyword) {
-            firstMatchedValue = opt.value;
-          }
-        });
-        if (keyword && firstMatchedValue) {
-          selectEl.value = firstMatchedValue;
-        } else if (!keyword) {
-          selectEl.value = '';
-        }
+      const rawKeyword = String(target.value || '').trim().toLowerCase();
+      const normKeyword = rawKeyword.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+      const users = Array.isArray(state.data.users) ? state.data.users : [];
+      const suggestBox = app.querySelector('#posMemberSuggestList');
+
+      if (!suggestBox) return;
+      if (!rawKeyword) {
+        suggestBox.style.display = 'none';
+        return;
       }
+
+      const matchedUsers = users.filter(u => {
+        const haystack = `${u.fullName || ''} ${u.phone || ''} ${u.username || ''} ${u.email || ''} ${u.tier || ''}`.toLowerCase();
+        const normHaystack = haystack.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+        return haystack.includes(rawKeyword) || normHaystack.includes(normKeyword);
+      });
+
+      suggestBox.style.display = 'grid';
+      suggestBox.style.gap = '0.3rem';
+      suggestBox.innerHTML = `
+        <button type="button" data-action="select-pos-member-suggest" data-user-id="" style="text-align:left; padding:0.5rem 0.7rem; border-radius:8px; border:1px solid #e2e8f0; background:#f8fafc; color:#475569; font-size:0.82rem; cursor:pointer; font-weight:700">
+          👤 Chọn Khách vãng lai (Không gắn tài khoản thành viên)
+        </button>
+        ${matchedUsers.length ? matchedUsers.map(u => `
+          <button type="button" data-action="select-pos-member-suggest" data-user-id="${u.id}" style="text-align:left; padding:0.55rem 0.75rem; border-radius:8px; border:1px solid #dbeafe; background:#eff6ff; color:#0f172a; font-size:0.83rem; cursor:pointer; display:flex; justify-content:space-between; align-items:center; gap:0.5rem">
+            <div>
+              <strong>⭐ ${escapeHtml(u.fullName || u.username)}</strong>
+              <span style="color:#004ac6; font-weight:700; margin-left:0.35rem">📞 ${escapeHtml(u.phone || 'Chưa có SĐT')}</span>
+            </div>
+            <span class="badge-inline" style="background:#fef3c7; color:#b45309; font-weight:800; font-size:0.75rem">
+              Hạng ${escapeHtml(u.tier || 'MEMBER')} • ${formatNumber(u.points || 0)} điểm
+            </span>
+          </button>
+        `).join('') : `<div style="padding:0.6rem; color:#64748b; font-size:0.82rem; text-align:center">Không tìm thấy thành viên nào khớp với "${escapeHtml(target.value)}"</div>`}
+      `;
     }
   };
 
