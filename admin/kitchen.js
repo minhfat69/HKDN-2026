@@ -147,24 +147,44 @@ function renderBoard(orders) {
       const orderItems = order.OrderItems || [];
 
       const itemsList = orderItems.map(item => `
-        <div style="display:flex; justify-content:space-between; align-items:center; padding:0.35rem 0; border-bottom:1.5px dashed rgba(115,118,134,0.12)">
-          <strong style="color:#111c2d; font-size:0.95rem">${escapeHtml(item.Product?.name || `#${item.product_id}`)}</strong>
-          <span class="badge-inline" style="background:#dbe1ff; color:#004ac6; font-weight:800; font-size:0.85rem">x${item.quantity}</span>
+        <div style="display:flex; justify-content:space-between; align-items:center; gap:0.4rem; padding:0.4rem 0; border-bottom:1.5px dashed rgba(115,118,134,0.12)">
+          <div style="min-width:0; flex:1">
+            <strong style="color:#111c2d; font-size:0.95rem">${escapeHtml(item.Product?.name || `#${item.product_id}`)}</strong>
+            ${item.note ? `<div style="font-size:0.76rem; color:#d97706">📝 ${escapeHtml(item.note)}</div>` : ''}
+          </div>
+          <div style="display:flex; align-items:center; gap:0.35rem">
+            <span class="badge-inline" style="background:#dbe1ff; color:#004ac6; font-weight:800; font-size:0.85rem">x${item.quantity}</span>
+            ${key !== 'done' ? `
+              <button type="button" class="btn btn-danger btn-small" data-action="kitchen-cancel-item" data-order-id="${order.id}" data-item-id="${item.id}" data-product-name="${escapeHtml(item.Product?.name || `Món #${item.product_id}`)}" style="padding:0.2rem 0.45rem; font-size:0.72rem; font-weight:800; background:#fee2e2; color:#dc2626; border:1px solid #fecaca" title="Hết món đột xuất -> Báo hủy món này khỏi đơn khách">
+                <i class="fa-solid fa-ban"></i> Hủy món
+              </button>
+            ` : ''}
+          </div>
         </div>
       `).join('');
 
       let actionBtn = '';
       if (key === 'todo') {
         actionBtn = `
-          <button type="button" class="btn btn-primary btn-small" data-action="update-kitchen-status" data-id="${order.id}" data-target="PREPARING" style="width:100%; margin-top:0.8rem; background:linear-gradient(135deg, #e11d48, #f43f5e); font-weight:800">
-            <i class="fa-solid fa-fire"></i> Bắt đầu làm món
-          </button>
+          <div style="display:grid; grid-template-columns:1fr auto; gap:0.4rem; margin-top:0.8rem">
+            <button type="button" class="btn btn-primary btn-small" data-action="update-kitchen-status" data-id="${order.id}" data-target="PREPARING" style="background:linear-gradient(135deg, #e11d48, #f43f5e); font-weight:800">
+              <i class="fa-solid fa-fire"></i> Bắt đầu làm món
+            </button>
+            <button type="button" class="btn btn-danger btn-small" data-action="kitchen-cancel-order" data-id="${order.id}" style="background:#fee2e2; color:#dc2626; border:1px solid #fecaca; font-weight:800" title="Hủy toàn bộ đơn do hết món">
+              <i class="fa-solid fa-ban"></i> Hủy đơn
+            </button>
+          </div>
         `;
       } else if (key === 'doing') {
         actionBtn = `
-          <button type="button" class="btn btn-primary btn-small" data-action="update-kitchen-status" data-id="${order.id}" data-target="READY" style="width:100%; margin-top:0.8rem; background:linear-gradient(135deg, #10b981, #059669); font-weight:800">
-            <i class="fa-solid fa-circle-check"></i> Báo Hoàn thành (READY)
-          </button>
+          <div style="display:grid; grid-template-columns:1fr auto; gap:0.4rem; margin-top:0.8rem">
+            <button type="button" class="btn btn-primary btn-small" data-action="update-kitchen-status" data-id="${order.id}" data-target="READY" style="background:linear-gradient(135deg, #10b981, #059669); font-weight:800">
+              <i class="fa-solid fa-circle-check"></i> Báo Hoàn thành (READY)
+            </button>
+            <button type="button" class="btn btn-danger btn-small" data-action="kitchen-cancel-order" data-id="${order.id}" style="background:#fee2e2; color:#dc2626; border:1px solid #fecaca; font-weight:800" title="Hủy toàn bộ đơn do hết món">
+              <i class="fa-solid fa-ban"></i> Hủy đơn
+            </button>
+          </div>
         `;
       } else {
         actionBtn = `
@@ -240,6 +260,35 @@ function bindActions() {
 
   // Click handler for 1-click status update buttons
   document.addEventListener('click', async event => {
+    const cancelItemBtn = event.target.closest('[data-action="kitchen-cancel-item"]');
+    if (cancelItemBtn) {
+      const orderId = cancelItemBtn.dataset.orderId;
+      const itemId = cancelItemBtn.dataset.itemId;
+      const productName = cancelItemBtn.dataset.productName;
+      const reason = prompt(`Báo hết đột xuất & hủy món "${productName}" khỏi Đơn #${orderId}?\nNhập lý do báo hủy (và tự động khóa món trên menu):`, 'Hết nguyên liệu đột xuất tại Bếp');
+      if (reason === null) return;
+      try {
+        const res = await api(`/api/orders/${orderId}/items/${itemId}/cancel`, {
+          method: 'PUT',
+          body: JSON.stringify({ reason, markSoldOut: true })
+        });
+        alert(res.message || 'Đã báo hủy món thành công');
+        await bootstrap();
+        loadSoldoutPanel();
+      } catch (e) {
+        alert(e.message || 'Không thể hủy món');
+      }
+      return;
+    }
+
+    const cancelOrderBtn = event.target.closest('[data-action="kitchen-cancel-order"]');
+    if (cancelOrderBtn) {
+      const orderId = cancelOrderBtn.dataset.id;
+      if (!confirm(`Bạn chắc chắn muốn báo HỦY toàn bộ Đơn #${orderId} do hết món đột xuất?`)) return;
+      await updateOrderStatus(orderId, 'CANCELLED');
+      return;
+    }
+
     const btn = event.target.closest('[data-action="update-kitchen-status"]');
     if (btn) {
       const orderId = btn.dataset.id;

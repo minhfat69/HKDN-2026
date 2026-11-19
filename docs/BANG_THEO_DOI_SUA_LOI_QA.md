@@ -2,17 +2,26 @@
 
 > Chi tiết kỹ thuật về nguyên nhân và giải pháp sửa lỗi được lưu tại [NHAT_KY_HE_THONG_VA_GHI_NHO_SUA_LOI.md](file:///c:/Users/Admin/Desktop/HKDN/HKDN2026/docs/NHAT_KY_HE_THONG_VA_GHI_NHO_SUA_LOI.md).
 
-## Đợt 2 — 7 Hạng mục đã sửa & kiểm thử thành công (7/7 ✅)
+## Đợt 3 — 4 Hạng mục đã sửa & kiểm thử thành công (4/4 ✅)
 
 | Tick | Mã | Hạng mục / Chức năng | Giải pháp đã thực hiện | Kết quả |
 | :---: | :---: | :--- | :--- | :---: |
-| `[x]` | **QA-06** | **1. Search khách hàng thành viên tích điểm** | Thêm API `GET /api/ops/members/search?q=...`, ô tìm kiếm thành viên trực tiếp (theo Tên, SĐT, Username) trong Giỏ hàng khách (`customer/js/menu.js`), trong Modal Tạo đơn POS (`admin/app.js`), và sửa lỗi mất focus con trỏ khi gõ tìm kiếm ở các bảng Admin. | ✅ **PASS** |
-| `[x]` | **QA-07** | **2. Thêm Log vào Ca thu ngân & Hủy đơn** | Ghi log hủy đơn/hao hụt bếp (`Void/Waste`) vào bảng `void_logs` và nối trực tiếp vào `Shift.note` của ca thu ngân đang mở; hiển thị bảng **Nhật Ký Ca Thu Ngân** và **Nhật Ký Hủy Đơn / Hao Hụt Bếp** trong tab `Ca thu ngân & Hủy PIN` (`admin/app.js`). | ✅ **PASS** |
-| `[x]` | **QA-08** | **3. Quản lý bàn đồng bộ đặt bàn (Thành viên vs Khách vãng lai theo SĐT)** | Tự động đối chiếu `guestPhone` của đơn đặt bàn với bảng `users` để hiển thị huy hiệu **⭐ Thành viên (Hạng thẻ • Điểm)** hoặc **👤 Khách vãng lai** ngay trên thẻ Bàn (`tablesView.js`, `staff.js`) và đồng bộ thông tin khách khi bấm **"🍽️ Gọi món"** cho bàn đó. | ✅ **PASS** |
-| `[x]` | **QA-09** | **4. Quản lý kho & Xem số lượng tồn kho trong Dashboard Admin** | Hiển thị khu vực **Quản lý Kho & Xem Số Lượng Tồn Kho Thực Tế** (cả tồn kho suất món ăn `products.stock` kèm nút nạp nhanh `+20 suất` và tồn kho nguyên vật liệu Barcode/FEFO) ngay trên **Dashboard Tổng quan (`overview`)** và trong tab **Quản lý Kho & Tồn kho (`inventory`)**. | ✅ **PASS** |
-| `[x]` | **QA-10** | **5. Fix lỗi `Cannot PUT /api/reviews/9/reply`** | Hỗ trợ cả `PUT` & `POST` tại `backend/src/routes/reviewRoutes.js` và khởi động lại server Node mới trên cổng `3000` (thay thế tiến trình cũ PID `25204`). | ✅ **PASS** |
-| `[x]` | **QA-11** | **6. Chỉnh lại Front UI/UX trang Khách (`customer/`) cho đẹp và đều** | Đồng bộ chiều cao & ảnh `.feature-card img` ở `customer/css/home.css` & `layout.css`, thêm link **Thực đơn (`menu.html`)** trên Header, hiển thị hạng thẻ cạnh điểm thưởng, và tự động nhận diện SĐT Thành viên/Khách vãng lai ngay trên trang Đặt bàn (`customer/js/booking.js`). | ✅ **PASS** |
-| `[x]` | **QA-12** | **7. Rà soát toàn bộ chức năng & Tạo file `.md` ghi nhớ** | Bổ sung cấu hình **Menu ẩn VIP (`isSecretMenu`)** & **Giá vốn (`costPrice`)** vào form Món ăn Admin và lưu toàn bộ lịch sử hệ thống vào `docs/NHAT_KY_HE_THONG_VA_GHI_NHO_SUA_LOI.md`. | ✅ **PASS** |
+| `[x]` | **QA-13** | **1. Trang Khách khu Thực đơn: Chỉ mở Voucher có sẵn khi đơn đạt yêu cầu, KHÔNG cho khách tự gán Thành viên VIP** | Gỡ bỏ ô tự tìm/chọn nhanh tài khoản VIP người khác khỏi giỏ hàng trang Khách (`customer/js/menu.js`); tự động kiểm tra tổng tiền đơn hàng với `minOrderValue` để mở khóa hoặc khóa (`🔒 thiếu ...đ`) từng Voucher có sẵn. | ✅ **PASS** |
+| `[x]` | **QA-14** | **2. Ở Kho Barcode thêm phần trượt Slide để xem Định lượng Công thức Món ăn** | Chuyển 2 bảng Kho Barcode (FEFO) và Định lượng Công thức (Recipe) trong `admin/app.js` thành Slider trượt ngang (`#inventoryHorizontalSlider`) kèm 2 nút bấm chuyển nhanh **⬅️ Slide 1** và **Slide 2 ➡️** mà không cần zoom trình duyệt. | ✅ **PASS** |
+| `[x]` | **QA-15** | **3. Quản lý bàn gọi món: Chống chồng đơn & Search gần đúng Tên/SĐT cập nhật các trường xung quanh** | Tự động gộp món và cập nhật thông tin Khách hàng (Vãng lai <-> Thành viên VIP) vào đơn đang mở của bàn tại `orderController.js` (không tạo đơn chồng); hiển thị danh sách gợi ý nổi `#posMemberSuggestList` khi gõ gần đúng Tên/SĐT và tự động điền toàn bộ các trường xung quanh khi click chọn. | ✅ **PASS** |
+| `[x]` | **QA-16** | **4. Gộp Kitchen vào Dashboard Admin & Báo hủy món khách đột xuất ngay tại khu vực chế biến** | Tích hợp mục **🔥 Bếp KDS & Chế biến (`kitchen`)** vào Sidebar trang Admin chính (`admin/app.js`), thêm API `PUT /api/orders/:id/items/:itemId/cancel` và nút **"🚫 Hủy món"** trên từng món ăn để Bếp báo hủy món đột xuất, tự động khóa món trên Menu, ghi Log ca thu ngân và tính lại tiền đơn. | ✅ **PASS** |
+
+## Đợt 2 — 7 Hạng mục đã sửa & kiểm thử thành công (7/7 ✅)
+
+| Tick | Mã | Hạng mục / Chức năng | Kết quả |
+| :---: | :---: | :--- | :---: |
+| `[x]` | **QA-06** | Search khách hàng thành viên tích điểm & sửa lỗi mất focus con trỏ | ✅ **PASS** |
+| `[x]` | **QA-07** | Thêm Log vào Ca thu ngân & Hủy đơn (`Shift.note` & Bảng Nhật ký Ca / Void Logs) | ✅ **PASS** |
+| `[x]` | **QA-08** | Quản lý bàn đồng bộ đặt bàn (Thành viên vs Khách vãng lai theo SĐT) | ✅ **PASS** |
+| `[x]` | **QA-09** | Quản lý kho & Xem số lượng tồn kho ngay trong Dashboard Admin (`overview` & `inventory`) | ✅ **PASS** |
+| `[x]` | **QA-10** | Fix lỗi `Cannot PUT /api/reviews/9/reply` khi phản hồi đánh giá | ✅ **PASS** |
+| `[x]` | **QA-11** | Chỉnh lại Front UI/UX trang Khách (`customer/`) cho đẹp và đều | ✅ **PASS** |
+| `[x]` | **QA-12** | Rà soát toàn bộ chức năng & Tạo file `.md` ghi nhớ hệ thống | ✅ **PASS** |
 
 ## Đợt 1 — 5 Hạng mục đã sửa & kiểm thử thành công (5/5 ✅)
 

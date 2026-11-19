@@ -115,3 +115,47 @@ Hệ thống **FutureSuShi (AppDatMon)** sử dụng cơ sở dữ liệu MySQL 
     - Cập nhật cụm nút Hero gồm: **Xem Thực đơn & Đặt món (`menu.html`)**, **Quét QR tại bàn (`#openQrBtn`)**, và **Đặt bàn (`booking.html`)**.
   - [customer/js/booking.js](file:///c:/Users/Admin/Desktop/HKDN/HKDN2026/customer/js/booking.js):
     - Tự động điền ngày hôm nay, tự động kiểm tra SĐT khi khách gõ để báo ngay **⭐ Thành viên (Hạng thẻ & Điểm - Tự động đồng bộ vào Bàn)** hay **👤 Khách vãng lai**, và cho phép xem lịch sử đặt bàn theo SĐT.
+
+---
+
+## 3. Chi tiết Nhật ký Sửa lỗi Đợt 3 (QA-13 đến QA-17)
+
+### 🔹 QA-13 (Mục 1 Đợt 3): Ở trang Khách hàng khu Thực đơn — Không cho khách tự thêm Thành viên VIP của người khác, chỉ hiển thị Voucher có sẵn khi đơn hàng đạt yêu cầu
+- **Nguyên nhân**: Ở giỏ hàng trang Khách (`customer/js/menu.js`) trước đó có nút cho khách tự bấm chọn Thành viên và có sẵn 2 nút chọn nhanh `0901234567 (Vàng)` / `0909999999 (VIP)` khiến khách vãng lai có thể tự gắn tài khoản VIP của người khác để hưởng giảm giá. Đồng thời dropdown Voucher hiển thị tất cả mã kể cả khi tổng tiền giỏ hàng chưa đạt mức tối thiểu (`minOrderValue`).
+- **Giải pháp & File đã sửa**:
+  - [customer/js/menu.js](file:///c:/Users/Admin/Desktop/HKDN/HKDN2026/customer/js/menu.js):
+    - Gỡ bỏ hoàn toàn ô tự tìm kiếm/chọn nhanh tài khoản VIP người khác trên màn hình Khách hàng.
+    - Trang Khách chỉ tự động nhận diện quyền lợi Thành viên khi khách **đã đăng nhập tài khoản của chính mình** (`login.html`), hoặc hiển thị hướng dẫn báo SĐT cho Thu ngân tại quầy POS.
+    - Bổ sung hàm `refreshEligibleVoucherOptions(subtotal)`: Tự động kiểm tra tổng tiền giỏ hàng với `minOrderValue` của từng Voucher có sẵn; các mã đủ điều kiện hiển thị `✅ [Mã]`, các mã chưa đủ điều kiện sẽ bị khóa (`disabled`, `🔒 thiếu ...đ`) và tự động gỡ nếu khách giảm số lượng món xuống dưới mức tối thiểu.
+
+### 🔹 QA-14 (Mục 2 Đợt 3): Ở Kho Barcode thêm phần trượt Slide để xem Định lượng Công thức Món ăn (không cần zoom web)
+- **Nguyên nhân**: Trong tab `Kho Barcode & Recipe` (`admin/app.js`), 2 bảng **Kho Barcode (FEFO)** và **Định lượng Công thức Món ăn (Recipe)** đặt trong lưới 2 cột cố định (`.dashboard-grid-two` tỷ lệ `2fr 1fr`), trên màn hình vừa/nhỏ cột phải bị ép hẹp hoặc tràn ngang khiến người dùng phải thu nhỏ (zoom out) trình duyệt mới thấy rõ.
+- **Giải pháp & File đã sửa**:
+  - [admin/app.js](file:///c:/Users/Admin/Desktop/HKDN/HKDN2026/admin/app.js):
+    - Chuyển khu vực này thành **Slider trượt ngang (`#inventoryHorizontalSlider`)** với `scroll-snap-type: x mandatory` và thanh điều hướng 2 nút chuyển nhanh: **⬅️ Slide 1: Kho Barcode (FEFO)** và **Slide 2: Định lượng Công thức (Recipe) ➡️** (`data-action="slide-inventory-panel"`).
+
+### 🔹 QA-15 (Mục 3 Đợt 3): Ở Quản lý bàn khi chọn bàn gọi món — Chống chồng đơn (Vãng lai -> Thành viên VIP) & Tìm kiếm gần đúng Tên / SĐT tự động điền các trường xung quanh
+- **Nguyên nhân**:
+  1. Khi bàn đang có 1 đơn chưa thanh toán (ví dụ vừa đặt với Khách vãng lai), nếu bấm **Gọi món** cho bàn đó lần nữa và chọn Thành viên VIP, `POST /api/orders` lại tạo thêm 1 đơn hàng mới thứ 2 trên cùng bàn đó (lỗi chồng đơn).
+  2. Trong Modal Tạo đơn POS (`admin/app.js`), ô tìm kiếm cũ chỉ ẩn `<option>` bên trong thẻ `<select>` (trình duyệt Windows không tự xổ `<select>` khi đang gõ ở `<input>`), nên người dùng gõ tên không thấy danh sách gợi ý hiện ra và khi chọn không tự động cập nhật ô SĐT + thẻ thông tin hạng thẻ/điểm xung quanh.
+- **Giải pháp & File đã sửa**:
+  - [backend/src/controllers/orderController.js](file:///c:/Users/Admin/Desktop/HKDN/HKDN2026/backend/src/controllers/orderController.js):
+    - Trong `createOrder`: Kiểm tra nếu `table_id` đã có đơn hàng đang mở (`UNPAID` và trạng thái thuộc `PENDING/CONFIRMED/PREPARING/READY`), hệ thống **không tạo đơn mới** mà tự động **gộp các món mới vào đơn đang mở của bàn đó**, đồng thời cập nhật lại chủ đơn (từ Vãng lai sang Thành viên VIP hoặc ngược lại) và tính lại chiết khấu hạng thẻ/tổng tiền.
+    - Sửa luôn logic chiết khấu hạng thẻ để mọi đơn có gắn Thành viên (`SILVER`/`GOLD`/`VIP`) đều tự động được tính giảm giá hạng thẻ kể cả khi không nhập mã Voucher.
+  - [admin/app.js](file:///c:/Users/Admin/Desktop/HKDN/HKDN2026/admin/app.js):
+    - Hiển thị băng thông báo `#posTableActiveOrderBanner` ngay đầu Modal Tạo đơn POS nếu bàn đang có đơn mở.
+    - Xây dựng danh sách gợi ý nổi `#posMemberSuggestList` ngay dưới ô `#posMemberSearchInput` hỗ trợ tìm gần đúng cả tiếng Việt có dấu và không dấu theo **Tên, SĐT, Username, Hạng thẻ**.
+    - Khi click chọn 1 thành viên trong danh sách gợi ý (`select-pos-member-suggest`), hệ thống tự động điền đồng bộ tất cả các trường xung quanh: Dropdown Khách hàng (`#orderCustomerSelect`), Số điện thoại (`#orderCustomerPhone`), Thẻ thông tin Hạng thẻ & Điểm khả dụng (`#posSelectedMemberInfoCard`), và giới hạn điểm tối đa của ô Dùng điểm (`#orderPoints`).
+
+### 🔹 QA-16 (Mục 4 Đợt 3): Gộp Kitchen (Bếp KDS) vào thẳng Dashboard Admin & Cho phép Bếp bấm Báo hủy món khách đột xuất ngay tại khu vực chế biến
+- **Nguyên nhân**: Màn hình Bếp trước đó chỉ nằm ở trang riêng `admin/kitchen.html` và chỉ có nút chuyển trạng thái cả đơn (`PREPARING` / `READY`), chưa có nút hủy riêng từng món trong đơn khi bếp phát hiện hết nguyên liệu đột xuất trong lúc đang chế biến.
+- **Giải pháp & File đã sửa**:
+  - [backend/src/controllers/orderController.js](file:///c:/Users/Admin/Desktop/HKDN/HKDN2026/backend/src/controllers/orderController.js) & [backend/src/routes/orderRoutes.js](file:///c:/Users/Admin/Desktop/HKDN/HKDN2026/backend/src/routes/orderRoutes.js):
+    - Thêm API `PUT /api/orders/:id/items/:itemId/cancel` (`cancelOrderItemFromKitchen`):
+      - Xóa món bị hủy đột xuất khỏi đơn hàng của khách.
+      - Tự động khóa món đó trên Menu (`isAvailable: false, stock: 0`) để khách không đặt tiếp được.
+      - Ghi nhận vào bảng `void_logs` và ghi trực tiếp vào `Shift.note` của Ca thu ngân đang mở (`[BẾP HỦY MÓN] ...`).
+      - Nếu đơn còn các món khác -> Tự động tính lại `totalPrice`, `discountAmount`, `finalPrice` của đơn. Nếu đơn chỉ có duy nhất món đó -> Tự động chuyển cả đơn sang `CANCELLED` và giải phóng bàn.
+  - [admin/app.js](file:///c:/Users/Admin/Desktop/HKDN/HKDN2026/admin/app.js) & [admin/kitchen.js](file:///c:/Users/Admin/Desktop/HKDN/HKDN2026/admin/kitchen.js):
+    - Tích hợp mục **🔥 Bếp KDS & Chế biến (`kitchen`)** trực tiếp vào Sidebar của trang Admin chính (`admin/index.html`).
+    - Trên từng dòng món ăn của thẻ đơn hàng tại cột **Chờ chế biến** và **Bếp đang làm**, bổ sung nút **"🚫 Hủy món"** (`data-action="kitchen-cancel-item"`) và nút **"🚫 Hủy đơn"** để đầu bếp/quản lý bấm báo hủy ngay lập tức khi hết món đột xuất.
