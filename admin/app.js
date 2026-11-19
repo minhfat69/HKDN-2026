@@ -45,9 +45,21 @@ const VIEW_META = {
     title: 'Thanh toán & Giao dịch',
     description: 'Quản lý lịch sử giao dịch thanh toán, mã giao dịch và phương thức thanh toán.'
   },
+  inventory: {
+    title: 'Kho Barcode & Định lượng Recipe',
+    description: 'Quét mã vạch nhập kho theo lô (MFG/EXP), gợi ý xuất kho FEFO và thiết lập định lượng công thức tự động trừ kho.'
+  },
+  vouchers: {
+    title: 'Khuyến mãi & Voucher',
+    description: 'Quản lý các chương trình mã giảm giá theo phần trăm hoặc số tiền cố định.'
+  },
+  shifts: {
+    title: 'Ca Thu ngân, Hủy món PIN & Hóa đơn VAT',
+    description: 'Mở/Đóng ca đối soát tiền mặt, duyệt Hủy món/Hao hụt (Void/Waste) bằng mã PIN Quản lý và in hóa đơn VAT 8%.'
+  },
   stats: {
-    title: 'Reports',
-    description: 'Lọc theo ngày, tháng hoặc năm để xem tổng đơn và tổng doanh thu.'
+    title: 'Báo cáo Doanh thu, Lợi nhuận P&L & Dự báo',
+    description: 'Phân tích doanh thu, giá vốn nguyên liệu (COGS), chi phí hao hụt (Waste), lợi nhuận ròng P&L và dự báo món bán chạy.'
   }
 };
 
@@ -61,6 +73,9 @@ const NAV_ICONS = {
   orders: 'fa-receipt',
   payments: 'fa-credit-card',
   reviews: 'fa-star',
+  inventory: 'fa-boxes-stacked',
+  vouchers: 'fa-ticket',
+  shifts: 'fa-cash-register',
   stats: 'fa-chart-line'
 };
 
@@ -80,7 +95,9 @@ const ENTITY_CONFIGS = {
       { name: 'password', label: 'Mật khẩu', type: 'password', requiredOnCreate: true, helper: 'Bỏ trống khi chỉnh sửa người dùng hiện tại.' },
       { name: 'avatar', label: 'Avatar', type: 'image' },
       { name: 'points', label: 'Điểm tích lũy', type: 'number', min: 0 },
+      { name: 'tier', label: 'Hạng thành viên', type: 'select', options: ['MEMBER', 'SILVER', 'GOLD', 'VIP'] },
       { name: 'role', label: 'Vai trò', type: 'select', options: ['CUSTOMER', 'HOST', 'STAFF', 'KITCHEN', 'ADMIN'] },
+      { name: 'pinCode', label: 'Mã PIN Quản lý (Duyệt hủy món UC23.3)', type: 'text', placeholder: 'VD: 123456' },
       { name: 'status', label: 'Trạng thái', type: 'select', options: ['ACTIVE', 'BLOCKED'] }
     ],
     columns: [
@@ -88,6 +105,7 @@ const ENTITY_CONFIGS = {
       { label: 'Tài khoản', render: row => row.username || '-' },
       { label: 'Liên hệ', render: row => [row.phone, row.email].filter(Boolean).join(' • ') || '-' },
       { label: 'Vai trò', render: row => statusChip(row.role, row.role) },
+      { label: 'Hạng thẻ', render: row => statusChip(row.tier || 'MEMBER', row.tier || 'MEMBER') },
       { label: 'Trạng thái', render: row => statusChip(row.status, row.status) },
       { label: 'Điểm', render: row => formatNumber(row.points ?? 0) }
     ],
@@ -98,6 +116,8 @@ const ENTITY_CONFIGS = {
       username: row.username || '',
       avatar: row.avatar || '',
       points: row.points ?? 0,
+      tier: row.tier || 'MEMBER',
+      pinCode: row.pinCode || '',
       role: row.role || 'CUSTOMER',
       status: row.status || 'ACTIVE'
     })
@@ -136,25 +156,29 @@ const ENTITY_CONFIGS = {
     fields: [
       { name: 'name', label: 'Tên món', type: 'text', required: true },
       { name: 'description', label: 'Mô tả', type: 'textarea' },
-      { name: 'price', label: 'Giá bán', type: 'number', required: true, min: 0, step: '0.01' },
-      { name: 'stock', label: 'Tồn kho', type: 'number', min: 0 },
+      { name: 'price', label: 'Giá bán (₫)', type: 'number', required: true, min: 0, step: '0.01' },
+      { name: 'costPrice', label: 'Giá vốn nguyên liệu dự kiến (₫ - Tính P&L)', type: 'number', min: 0, step: '0.01' },
+      { name: 'stock', label: 'Số lượng tồn kho (suất)', type: 'number', min: 0 },
       { name: 'isAvailable', label: 'Đang bán', type: 'checkbox' },
+      { name: 'isSecretMenu', label: '👑 Món thuộc Menu ẩn VIP (Chỉ khách hạng VIP thấy - UC25)', type: 'checkbox' },
       { name: 'category_id', label: 'Danh mục', type: 'select', options: state => (state.data.categories || []).map(category => ({ value: category.id, label: `${category.name} (#${category.id})` })) },
       { name: 'image', label: 'Ảnh', type: 'image' }
     ],
     columns: [
-      { label: 'Tên món', render: row => row.name || '-' },
+      { label: 'Tên món', render: row => `${row.name || '-'}${row.isSecretMenu ? ' 👑' : ''}` },
       { label: 'Danh mục', render: row => categoryLabel(row.category_id) },
-      { label: 'Giá', render: row => formatCurrency(row.price) },
-      { label: 'Kho', render: row => formatNumber(row.stock ?? 0) },
+      { label: 'Giá bán', render: row => formatCurrency(row.price) },
+      { label: 'Tồn kho', render: row => formatNumber(row.stock ?? 0) },
       { label: 'Sẵn sàng', render: row => statusChip(row.isAvailable ? 'AVAILABLE' : 'BLOCKED', row.isAvailable ? 'Có' : 'Không') }
     ],
     payload: row => ({
       name: row.name || '',
       description: row.description || '',
       price: row.price ?? 0,
+      costPrice: row.costPrice ?? 0,
       stock: row.stock ?? 0,
       isAvailable: row.isAvailable !== false,
+      isSecretMenu: Boolean(row.isSecretMenu),
       category_id: row.category_id || state.data.categories?.[0]?.id || '',
       image: row.image || ''
     })
@@ -222,7 +246,7 @@ const ENTITY_CONFIGS = {
     ]
   },
   reviews: {
-    endpoint: '/api/reviews?page=1&limit=200',
+    endpoint: '/api/reviews?page=1&limit=200&includeHidden=true',
     searchKey: 'search',
     createLabel: 'Làm mới danh sách',
     allowCreate: false,
@@ -232,6 +256,7 @@ const ENTITY_CONFIGS = {
       { label: 'Người đánh giá', render: row => row.user?.fullName || row.phone || '-' },
       { label: 'Món', render: row => row.dish_name || '-' },
       { label: 'Nội dung', render: row => row.content || '-' },
+      { label: 'Phản hồi Nhà hàng', render: row => row.reply || 'Chưa phản hồi' },
       { label: 'Số sao', render: row => '★'.repeat(row.rating || 0) },
       { label: 'Ngày tạo', render: row => formatDateTime(row.created_at || row.createdAt) }
     ]
@@ -279,6 +304,11 @@ const state = {
     orders: [],
     payments: [],
     reviews: [],
+    inventory: [],
+    recipes: [],
+    vouchers: [],
+    currentShift: null,
+    pnl: null,
     stats: null
   },
   filters: {
@@ -436,11 +466,17 @@ async function loadAllData() {
     reservations: api('/api/reservations'),
     orders: api('/api/orders'),
     payments: api('/api/payments'),
-    reviews: api('/api/reviews?page=1&limit=200')
+    reviews: api('/api/reviews?page=1&limit=200&includeHidden=true'),
+    inventory: api('/api/ops/inventory'),
+    recipes: api('/api/ops/recipes'),
+    vouchers: api('/api/ops/vouchers'),
+    currentShift: api('/api/ops/shifts/current'),
+    shiftLogs: api('/api/ops/shifts/logs'),
+    pnl: api('/api/ops/analytics/pnl'),
+    users: api('/api/users')
   };
 
   if (role === 'ADMIN') {
-    requests.users = api('/api/users');
     requests.stats = api(`/api/stats?${statsQuery.toString()}`);
   }
 
@@ -468,6 +504,9 @@ async function loadAllData() {
   }
   if (Array.isArray(state.data.payments)) {
     window.__paymentsList = state.data.payments;
+  }
+  if (Array.isArray(state.data.users)) {
+    window.__usersList = state.data.users;
   }
 }
 
@@ -510,21 +549,35 @@ function render() {
     return;
   }
 
+  const activeEl = document.activeElement;
+  let savedFocus = null;
+  if (activeEl && activeEl.tagName === 'INPUT' && (activeEl.dataset?.action === 'search-input' || activeEl.id)) {
+    savedFocus = {
+      id: activeEl.id || '',
+      action: activeEl.dataset?.action || '',
+      view: activeEl.dataset?.view || '',
+      selectionStart: activeEl.selectionStart,
+      selectionEnd: activeEl.selectionEnd
+    };
+  }
+
   const sidebarSections = role === 'ADMIN'
     ? [
         ['Tổng quan', ['overview']],
         ['Quản lý thực đơn', ['products', 'categories']],
+        ['Quản lý Kho & Tồn kho', ['inventory']],
         ['Phục vụ & đặt bàn', ['tables', 'reservations', 'orders']],
-        ['Thanh toán & Giao dịch', ['payments']],
-        ['Khách hàng', ['users', 'reviews']],
-        ['Báo cáo', ['stats']]
+        ['Thanh toán & Thu ngân', ['payments', 'shifts', 'vouchers']],
+        ['Khách hàng & Đánh giá', ['users', 'reviews']],
+        ['Báo cáo & P&L', ['stats']]
       ]
     : [
         ['Tổng quan', ['overview']],
         ['Quản lý thực đơn', ['products', 'categories']],
+        ['Quản lý Kho & Tồn kho', ['inventory']],
         ['Phục vụ & đặt bàn', ['tables', 'reservations', 'orders']],
-        ['Thanh toán & Giao dịch', ['payments']],
-        ['Khách hàng', ['reviews']]
+        ['Thanh toán & Thu ngân', ['payments', 'shifts', 'vouchers']],
+        ['Khách hàng & Đánh giá', ['users', 'reviews']]
       ];
 
   app.innerHTML = `
@@ -604,6 +657,24 @@ function render() {
   `;
 
   bindGlobalEvents();
+
+  if (savedFocus) {
+    let restoreEl = null;
+    if (savedFocus.id) {
+      restoreEl = document.getElementById(savedFocus.id);
+    } else if (savedFocus.action === 'search-input') {
+      const candidates = app.querySelectorAll(`[data-action="search-input"][data-view="${savedFocus.view}"]`);
+      restoreEl = candidates[candidates.length - 1] || candidates[0];
+    }
+    if (restoreEl) {
+      restoreEl.focus();
+      try {
+        if (typeof savedFocus.selectionStart === 'number') {
+          restoreEl.setSelectionRange(savedFocus.selectionStart, savedFocus.selectionEnd);
+        }
+      } catch (_) {}
+    }
+  }
 }
 
 function renderNonAdmin() {
@@ -708,8 +779,11 @@ function navItem(view) {
     reservations: 'Đặt bàn trước',
     orders: 'Quản lý đơn hàng',
     payments: 'Lịch sử thanh toán',
-    reviews: 'Đánh giá khách',
-    stats: 'Báo cáo doanh thu'
+    shifts: 'Ca thu ngân & Hủy PIN',
+    vouchers: 'Mã giảm giá (Voucher)',
+    inventory: 'Kho Barcode & Recipe',
+    reviews: 'Đánh giá & Phản hồi',
+    stats: 'Báo cáo & Lợi nhuận P&L'
   };
 
   let countBadge = '';
@@ -751,6 +825,18 @@ function renderActiveView() {
 
   if (state.activeView === 'stats') {
     return renderStats();
+  }
+
+  if (state.activeView === 'inventory') {
+    return renderInventoryView();
+  }
+
+  if (state.activeView === 'vouchers') {
+    return renderVouchersView();
+  }
+
+  if (state.activeView === 'shifts') {
+    return renderShiftsView();
   }
 
   return renderEntityView(state.activeView);
@@ -798,6 +884,7 @@ function renderOverview() {
       </div>
       <div style="display:flex; gap:0.6rem; flex-wrap:wrap">
         <button class="btn btn-primary" data-action="switch-view" data-view="orders" style="background:linear-gradient(135deg, #2563eb, #1d4ed8); font-weight:800; font-size:0.85rem"><i class="fa-solid fa-plus"></i> Quản lý Đơn POS</button>
+        <button class="btn btn-primary" data-action="switch-view" data-view="inventory" style="background:linear-gradient(135deg, #7c3aed, #6d28d9); font-weight:800; font-size:0.85rem"><i class="fa-solid fa-boxes-stacked"></i> Quản lý Kho & Tồn kho (${products.length} món)</button>
         <button class="btn btn-secondary" data-action="switch-view" data-view="tables" style="background:rgba(255,255,255,0.1); color:#fff; border:1px solid rgba(255,255,255,0.2); font-weight:700; font-size:0.85rem"><i class="fa-solid fa-chair"></i> Sơ đồ Bàn (${occupiedTables.length}/${tables.length})</button>
       </div>
     </div>
@@ -1035,19 +1122,77 @@ function renderOverview() {
         </div>
       </article>
     </section>
+
+    <!-- BẢNG QUẢN LÝ KHO & XEM SỐ LƯỢNG TỒN KHO TRỰC TIẾP TRÊN DASHBOARD ADMIN -->
+    <section class="dashboard-panel" style="margin-top:1.25rem">
+      <div class="dashboard-panel-header" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.8rem">
+        <div>
+          <h3 class="dashboard-panel-title"><i class="fa-solid fa-boxes-stacked" style="color:#7c3aed; margin-right:0.4rem"></i>Quản lý Kho & Xem Số Lượng Tồn Kho (Món Ăn & Nguyên Liệu)</h3>
+          <p class="dashboard-panel-copy">Theo dõi trực tiếp số lượng suất tồn kho của từng món ăn trên thực đơn và nguyên vật liệu trong kho. Bấm "+20 suất" để nạp nhanh tồn kho.</p>
+        </div>
+        <div style="display:flex; gap:0.5rem">
+          <button class="btn btn-primary btn-small" data-action="switch-view" data-view="inventory"><i class="fa-solid fa-barcode"></i> Mở Kho Barcode, FEFO & Recipe</button>
+          <button class="btn btn-secondary btn-small" data-action="switch-view" data-view="products"><i class="fa-solid fa-bowl-food"></i> Quản lý Món ăn</button>
+        </div>
+      </div>
+
+      <div class="dashboard-table-wrap" style="margin-top:0.6rem">
+        <table class="dashboard-orders-table">
+          <thead>
+            <tr>
+              <th>Mã món</th>
+              <th>Tên món ăn</th>
+              <th>Danh mục</th>
+              <th>Giá bán</th>
+              <th>Số lượng tồn kho</th>
+              <th>Trạng thái</th>
+              <th class="right">Nạp / Sửa nhanh tồn kho</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${products.slice(0, 12).map(p => {
+              const stockNum = Number(p.stock ?? 0);
+              const isLow = stockNum <= 5;
+              return `
+                <tr>
+                  <td><strong style="font-family:monospace">#${p.id}</strong></td>
+                  <td><strong>${escapeHtml(p.name)}</strong> ${p.isSecretMenu ? '<span class="badge-inline" style="background:#fef3c7; color:#b45309; font-size:0.7rem">👑 VIP</span>' : ''}</td>
+                  <td>${escapeHtml(categoryLabel(p.category_id))}</td>
+                  <td><strong style="color:#004ac6">${formatCurrency(p.price)}</strong></td>
+                  <td>
+                    <span class="badge-inline" style="background:${stockNum <= 0 ? '#fee2e2' : isLow ? '#ffedd5' : '#dcfce7'}; color:${stockNum <= 0 ? '#dc2626' : isLow ? '#c2410c' : '#15803d'}; font-weight:800; font-size:0.86rem">
+                      <i class="fa-solid fa-box"></i> ${formatNumber(stockNum)} suất
+                    </span>
+                  </td>
+                  <td>${statusChip(p.isAvailable !== false && stockNum > 0 ? 'AVAILABLE' : 'BLOCKED', p.isAvailable !== false && stockNum > 0 ? 'Đang bán' : 'Hết / Tạm ngưng')}</td>
+                  <td class="right">
+                    <div style="display:inline-flex; gap:0.35rem; align-items:center">
+                      <button class="btn btn-secondary btn-small" data-action="quick-add-stock" data-id="${p.id}" data-delta="20" title="Cộng nhanh thêm 20 suất vào tồn kho" style="color:#15803d; font-weight:800">+20 suất</button>
+                      <button class="btn btn-ghost btn-small" data-action="edit-record" data-view="products" data-id="${p.id}" title="Chỉnh sửa số lượng tồn kho"><i class="fa-solid fa-pen"></i></button>
+                    </div>
+                  </td>
+                </tr>
+              `;
+            }).join('')}
+          </tbody>
+        </table>
+      </div>
+    </section>
   `;
 }
 
 function renderStats() {
   const stats = state.data.stats || {};
+  const pnl = state.data.pnl || {};
   const products = state.data.products || [];
   const topProducts = products.slice(0, 5);
+  const forecastList = Array.isArray(pnl.topDishesForecast) ? pnl.topDishesForecast : [];
 
   return `
     <section class="entity-page-header">
       <div>
-        <h3 class="entity-page-title">Báo cáo & Thống kê</h3>
-        <p class="entity-page-copy">Lọc theo ngày, tháng hoặc năm để xem tổng đơn hàng, doanh thu và các món ăn bán chạy nhất.</p>
+        <h3 class="entity-page-title">Báo cáo Doanh thu, Lợi nhuận P&L & Dự báo</h3>
+        <p class="entity-page-copy">Phân tích doanh thu, giá vốn nguyên liệu (COGS), chi phí hao hụt (Waste), lợi nhuận ròng P&L và dự báo món ăn bán chạy nhắc kho chuẩn bị.</p>
       </div>
       <div class="entity-page-actions">
         <button class="btn btn-secondary" data-action="stats-reset"><i class="fa-solid fa-rotate-right" style="margin-right:0.4rem"></i>Đặt lại bộ lọc</button>
@@ -1055,6 +1200,75 @@ function renderStats() {
     </section>
 
     <section class="stats-shell" style="display:grid; gap:1.25rem">
+      <!-- BÁO CÁO LỢI NHUẬN P&L (PROFIT & LOSS) -->
+      <article class="dashboard-panel">
+        <div class="dashboard-panel-header">
+          <div>
+            <h3 class="dashboard-panel-title"><i class="fa-solid fa-chart-pie" style="color:#2563eb; margin-right:0.4rem"></i>Báo cáo Lợi nhuận (Lời/Lỗ - P&L) Toàn Hệ Thống</h3>
+            <p class="dashboard-panel-copy">Tính toán trực tiếp từ Doanh thu thực thu trừ Giá vốn nguyên liệu (COGS) và Chi phí hao hụt bếp (Waste).</p>
+          </div>
+          <span class="badge-inline" style="background:#dcfce7; color:#15803d; font-weight:800">Tỷ suất lợi nhuận: ${pnl.profitMargin ?? 0}%</span>
+        </div>
+        <div class="kpi-summary-strip" style="margin-top:0.5rem">
+          <div class="kpi-mini-card">
+            <div class="kpi-mini-icon blue"><i class="fa-solid fa-sack-dollar"></i></div>
+            <div class="kpi-mini-copy">
+              <span class="kpi-mini-label">Tổng Doanh Thu Thực Thu</span>
+              <span class="kpi-mini-value" style="color:#2563eb">${formatCurrency(pnl.totalRevenue || 0)}</span>
+            </div>
+          </div>
+          <div class="kpi-mini-card">
+            <div class="kpi-mini-icon amber"><i class="fa-solid fa-boxes-packing"></i></div>
+            <div class="kpi-mini-copy">
+              <span class="kpi-mini-label">Giá Vốn Nguyên Liệu (COGS)</span>
+              <span class="kpi-mini-value" style="color:#d97706">${formatCurrency(pnl.totalCOGS || 0)}</span>
+            </div>
+          </div>
+          <div class="kpi-mini-card">
+            <div class="kpi-mini-icon rose"><i class="fa-solid fa-triangle-exclamation"></i></div>
+            <div class="kpi-mini-copy">
+              <span class="kpi-mini-label">Chi Phí Hao Hụt Bếp (Waste)</span>
+              <span class="kpi-mini-value" style="color:#dc2626">${formatCurrency(pnl.wasteCost || 0)}</span>
+            </div>
+          </div>
+          <div class="kpi-mini-card">
+            <div class="kpi-mini-icon green"><i class="fa-solid fa-money-bill-trend-up"></i></div>
+            <div class="kpi-mini-copy">
+              <span class="kpi-mini-label">Lợi Nhuận Gộp (Gross Profit)</span>
+              <span class="kpi-mini-value" style="color:#16a34a">${formatCurrency(pnl.grossProfit || 0)}</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:1.25rem">
+          <h4 style="margin:0 0 0.7rem; font-size:0.95rem; color:#0f172a"><i class="fa-solid fa-wand-magic-sparkles" style="color:#7c3aed"></i> Dự báo món ăn bán chạy ngày mai (+15%) & Nhắc nhở kho chuẩn bị nguyên liệu</h4>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Món ăn</th>
+                  <th>Số lượng đã bán</th>
+                  <th>Doanh thu món</th>
+                  <th>Dự báo ngày mai (+15%)</th>
+                  <th>Khuyến nghị chuẩn bị kho</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${forecastList.length ? forecastList.map(d => `
+                  <tr>
+                    <td><strong>${escapeHtml(d.name)}</strong></td>
+                    <td>${formatNumber(d.soldQty)} phần</td>
+                    <td><strong style="color:#2563eb">${formatCurrency(d.revenue)}</strong></td>
+                    <td><span class="badge-inline" style="background:#dcfce7; color:#15803d; font-weight:800">${formatNumber(d.forecastTomorrowQty)} phần</span></td>
+                    <td>${escapeHtml(d.prepRecommendation)}</td>
+                  </tr>
+                `).join('') : `<tr><td colspan="5" style="text-align:center; color:#64748b; padding:1rem">Chưa có dữ liệu đơn hoàn thành để dự báo.</td></tr>`}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </article>
+
       <article class="dashboard-panel">
         <form class="stats-filters" data-form="stats-filter" style="display:flex; align-items:center; gap:1rem; flex-wrap:wrap">
           <div class="field" style="min-width: 160px; margin:0">
@@ -1086,7 +1300,7 @@ function renderStats() {
         <div class="kpi-mini-card">
           <div class="kpi-mini-icon green"><i class="fa-solid fa-money-bill-trend-up"></i></div>
           <div class="kpi-mini-copy">
-            <span class="kpi-mini-label">Tổng doanh thu</span>
+            <span class="kpi-mini-label">Tổng doanh thu kỳ lọc</span>
             <span class="kpi-mini-value">${formatCurrency(stats.totalRevenue || 0)}</span>
           </div>
         </div>
@@ -1153,6 +1367,522 @@ function renderStats() {
         </article>
       </div>
     </section>
+  `;
+}
+
+function renderInventoryView() {
+  const inventory = Array.isArray(state.data.inventory) ? state.data.inventory : [];
+  const recipes = Array.isArray(state.data.recipes) ? state.data.recipes : [];
+  const products = Array.isArray(state.data.products) ? state.data.products : [];
+  const today = new Date().toISOString().slice(0, 10);
+  const nextWeek = new Date(Date.now() + 7 * 86400000).toISOString().slice(0, 10);
+
+  const totalDishStock = products.reduce((sum, p) => sum + Number(p.stock ?? 0), 0);
+  const lowDishCount = products.filter(p => Number(p.stock ?? 0) <= 5 || p.isAvailable === false).length;
+  const totalBatchesCount = inventory.reduce((sum, ing) => sum + ((ing.batches || []).length), 0);
+
+  return `
+    <section class="entity-page-header">
+      <div>
+        <h3 class="entity-page-title">Quản lý Kho: Số Lượng Tồn Kho Món Ăn, Kho Barcode (FEFO) & Định Lượng Recipe</h3>
+        <p class="entity-page-copy">Xem và cập nhật trực tiếp số lượng tồn kho từng món ăn, quét Barcode nhập lô nguyên vật liệu (MFG/EXP - FEFO) và thiết lập công thức tự động trừ kho.</p>
+      </div>
+    </section>
+
+    <!-- 4 KPI TỒN KHO TỔNG QUAN -->
+    <div class="kpi-summary-strip" style="margin-bottom:1.25rem">
+      <div class="kpi-mini-card">
+        <div class="kpi-mini-icon blue"><i class="fa-solid fa-bowl-food"></i></div>
+        <div class="kpi-mini-copy">
+          <span class="kpi-mini-label">Tổng món thực đơn</span>
+          <span class="kpi-mini-value">${formatNumber(products.length)} món</span>
+        </div>
+      </div>
+      <div class="kpi-mini-card">
+        <div class="kpi-mini-icon green"><i class="fa-solid fa-boxes-stacked"></i></div>
+        <div class="kpi-mini-copy">
+          <span class="kpi-mini-label">Tổng số lượng tồn kho món</span>
+          <span class="kpi-mini-value">${formatNumber(totalDishStock)} suất</span>
+        </div>
+      </div>
+      <div class="kpi-mini-card">
+        <div class="kpi-mini-icon rose"><i class="fa-solid fa-triangle-exclamation"></i></div>
+        <div class="kpi-mini-copy">
+          <span class="kpi-mini-label">Món sắp hết / Hết kho (≤ 5)</span>
+          <span class="kpi-mini-value">${formatNumber(lowDishCount)} món</span>
+        </div>
+      </div>
+      <div class="kpi-mini-card">
+        <div class="kpi-mini-icon purple"><i class="fa-solid fa-barcode"></i></div>
+        <div class="kpi-mini-copy">
+          <span class="kpi-mini-label">Nguyên liệu Barcode & Lô FEFO</span>
+          <span class="kpi-mini-value">${formatNumber(inventory.length)} NL (${formatNumber(totalBatchesCount)} lô)</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- BẢNG 1: QUẢN LÝ & XEM SỐ LƯỢNG TỒN KHO TỪNG MÓN ĂN TRÊN THỰC ĐƠN -->
+    <article class="dashboard-panel" style="margin-bottom:1.25rem">
+      <div class="dashboard-panel-header" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.8rem">
+        <div>
+          <h3 class="dashboard-panel-title"><i class="fa-solid fa-boxes-stacked" style="color:#2563eb; margin-right:0.4rem"></i>Bảng Số Lượng Tồn Kho Món Ăn Thực Đơn (${products.length} món)</h3>
+          <p class="dashboard-panel-copy">Nhập số lượng tồn mới vào ô hoặc bấm "+20 suất" / "+50 suất" để nạp tồn kho tức thì cho từng món ăn.</p>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Tên món ăn</th>
+              <th>Danh mục</th>
+              <th>Giá bán</th>
+              <th>Giá vốn (COGS)</th>
+              <th>Số lượng tồn kho hiện tại</th>
+              <th>Trạng thái bán</th>
+              <th style="text-align:right">Cập nhật số lượng tồn kho</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${products.map(p => {
+              const stockNum = Number(p.stock ?? 0);
+              const isLow = stockNum <= 5;
+              return `
+                <tr>
+                  <td><strong>#${p.id}</strong></td>
+                  <td>
+                    <strong>${escapeHtml(p.name)}</strong>
+                    ${p.isSecretMenu ? `<span class="badge-inline" style="background:#fef3c7; color:#b45309; font-size:0.72rem; margin-left:0.3rem">👑 Menu ẩn VIP</span>` : ''}
+                  </td>
+                  <td>${escapeHtml(categoryLabel(p.category_id))}</td>
+                  <td><strong style="color:#004ac6">${formatCurrency(p.price)}</strong></td>
+                  <td><span class="muted">${formatCurrency(p.costPrice || Math.round(Number(p.price || 0) * 0.38))}</span></td>
+                  <td>
+                    <span class="badge-inline" style="background:${stockNum <= 0 ? '#fee2e2' : isLow ? '#ffedd5' : '#dcfce7'}; color:${stockNum <= 0 ? '#dc2626' : isLow ? '#c2410c' : '#15803d'}; font-weight:800; font-size:0.9rem">
+                      <i class="fa-solid fa-box"></i> ${formatNumber(stockNum)} suất
+                    </span>
+                  </td>
+                  <td>${statusChip(p.isAvailable !== false && stockNum > 0 ? 'AVAILABLE' : 'BLOCKED', p.isAvailable !== false && stockNum > 0 ? 'Đang phục vụ' : 'Hết / Ngưng')}</td>
+                  <td style="text-align:right">
+                    <div style="display:inline-flex; gap:0.35rem; align-items:center; justify-content:flex-end">
+                      <input type="number" min="0" value="${stockNum}" data-stock-input="${p.id}" style="width:82px; padding:0.35rem 0.5rem; border-radius:8px; border:1px solid #cbd5e1; font-weight:800; text-align:center" />
+                      <button type="button" class="btn btn-primary btn-small" data-action="save-product-stock" data-id="${p.id}" title="Lưu số lượng tồn kho đã nhập">Lưu</button>
+                      <button type="button" class="btn btn-secondary btn-small" data-action="quick-add-stock" data-id="${p.id}" data-delta="20" style="color:#15803d; font-weight:800" title="Cộng thêm 20 suất">+20</button>
+                    </div>
+                  </td>
+                </tr>
+              `;
+            }).join('')}
+          </tbody>
+        </table>
+      </div>
+    </article>
+
+    <div class="dashboard-grid-two" style="align-items:start">
+      <!-- 1. Quét Barcode Nhập Kho & Lô hàng FEFO -->
+      <article class="dashboard-panel">
+        <div class="dashboard-panel-header">
+          <div>
+            <h3 class="dashboard-panel-title"><i class="fa-solid fa-barcode" style="color:#7c3aed; margin-right:0.4rem"></i>Quét Barcode Nhập Kho Theo Lô (MFG / EXP)</h3>
+            <p class="dashboard-panel-copy">Tự động khởi tạo nguyên liệu nếu mã Barcode chưa tồn tại và tạo lô hàng mới.</p>
+          </div>
+        </div>
+
+        <form data-form="erp-barcode-import" style="display:grid; grid-template-columns:1fr 1fr; gap:0.75rem; margin-bottom:1.25rem; background:#f8fafc; padding:1rem; border-radius:14px; border:1px solid #e2e8f0">
+          <div class="field" style="margin:0">
+            <label>Mã Barcode / QR</label>
+            <input type="text" name="barcode" placeholder="VD: 8930001" required />
+          </div>
+          <div class="field" style="margin:0">
+            <label>Tên nguyên liệu</label>
+            <input type="text" name="name" placeholder="VD: Cá hồi Nauy tươi" required />
+          </div>
+          <div class="field" style="margin:0">
+            <label>Số lượng nhập</label>
+            <input type="number" name="quantity" min="1" step="0.01" placeholder="VD: 5000" required />
+          </div>
+          <div class="field" style="margin:0">
+            <label>Đơn vị & Giá vốn / đơn vị (₫)</label>
+            <div style="display:grid; grid-template-columns:90px 1fr; gap:0.4rem">
+              <input type="text" name="unit" value="gram" placeholder="gram" required />
+              <input type="number" name="unitCost" min="0" step="0.01" placeholder="Giá vốn (₫)" required />
+            </div>
+          </div>
+          <div class="field" style="margin:0">
+            <label>Ngày sản xuất (MFG)</label>
+            <input type="date" name="mfgDate" value="${today}" required />
+          </div>
+          <div class="field" style="margin:0">
+            <label>Hạn sử dụng (EXP - FEFO)</label>
+            <input type="date" name="expDate" value="${nextWeek}" required />
+          </div>
+          <div style="grid-column:1/-1">
+            <button type="submit" class="btn btn-primary" style="width:100%"><i class="fa-solid fa-plus"></i> Nhập Kho Lô Hàng Mới</button>
+          </div>
+        </form>
+
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Barcode</th>
+                <th>Nguyên liệu</th>
+                <th>Tổng tồn</th>
+                <th>Gợi ý xuất kho (FEFO - Hết hạn trước)</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${inventory.length ? inventory.map(i => `
+                <tr>
+                  <td><code>${escapeHtml(i.barcode)}</code> (#${i.id})</td>
+                  <td><strong>${escapeHtml(i.name)}</strong></td>
+                  <td><strong style="color:#004ac6">${formatNumber(i.totalQuantity)} ${escapeHtml(i.unit)}</strong></td>
+                  <td>
+                    ${i.fefoSuggestion
+                      ? `<span class="badge-inline" style="background:#fef2f2; color:#dc2626; font-weight:700">Lô ${escapeHtml(i.fefoSuggestion.batchCode)} • EXP: ${escapeHtml(i.fefoSuggestion.expDate)} (Còn ${formatNumber(i.fefoSuggestion.quantityRemaining)} ${escapeHtml(i.unit)})</span>`
+                      : `<span class="muted">Hết lô tồn</span>`}
+                  </td>
+                </tr>
+              `).join('') : `<tr><td colspan="4" style="text-align:center; padding:1.2rem; color:#64748b">Chưa có nguyên liệu trong kho. Hãy nhập lô đầu tiên bên trên!</td></tr>`}
+            </tbody>
+          </table>
+        </div>
+      </article>
+
+      <!-- 2. Định lượng Công thức (Recipe) -->
+      <article class="dashboard-panel">
+        <div class="dashboard-panel-header">
+          <div>
+            <h3 class="dashboard-panel-title"><i class="fa-solid fa-flask" style="color:#d97706; margin-right:0.4rem"></i>Định lượng Công thức Món ăn (Recipe)</h3>
+            <p class="dashboard-panel-copy">Khi đơn hàng hoàn tất hoặc hủy hao hụt bếp (Waste), hệ thống tự động trừ kho theo định lượng này ưu tiên lô FEFO.</p>
+          </div>
+        </div>
+
+        <form data-form="erp-recipe-save" style="display:grid; gap:0.75rem; margin-bottom:1.25rem; background:#f8fafc; padding:1rem; border-radius:14px; border:1px solid #e2e8f0">
+          <div class="field" style="margin:0">
+            <label>Chọn Món ăn</label>
+            <select name="product_id" required>
+              ${products.map(p => `<option value="${p.id}">#${p.id} • ${escapeHtml(p.name)}</option>`).join('')}
+            </select>
+          </div>
+          <div class="field" style="margin:0">
+            <label>Chọn Nguyên liệu trong kho</label>
+            <select name="ingredient_id" required>
+              ${inventory.length
+                ? inventory.map(ing => `<option value="${ing.id}">#${ing.id} • ${escapeHtml(ing.name)} (${escapeHtml(ing.unit)})</option>`).join('')
+                : `<option value="">-- Vui lòng nhập nguyên liệu ở cột bên trái trước --</option>`}
+            </select>
+          </div>
+          <div class="field" style="margin:0">
+            <label>Định lượng cần cho 1 phần ăn</label>
+            <input type="number" name="amountRequired" min="0.1" step="0.1" placeholder="VD: 150 (gram/ml)" required />
+          </div>
+          <button type="submit" class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Lưu Công Thức Định Lượng</button>
+        </form>
+
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Món ăn</th>
+                <th>Nguyên liệu</th>
+                <th>Định lượng / 1 suất</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${recipes.length ? recipes.map(r => `
+                <tr>
+                  <td><strong>${escapeHtml(r.product?.name || `Món #${r.product_id}`)}</strong></td>
+                  <td>${escapeHtml(r.ingredient?.name || `Nguyên liệu #${r.ingredient_id}`)}</td>
+                  <td><span class="badge-inline" style="background:#e0f2fe; color:#0284c7; font-weight:800">${formatNumber(r.amountRequired)} ${escapeHtml(r.ingredient?.unit || 'gram')}</span></td>
+                </tr>
+              `).join('') : `<tr><td colspan="3" style="text-align:center; padding:1.2rem; color:#64748b">Chưa thiết lập định lượng công thức nào.</td></tr>`}
+            </tbody>
+          </table>
+        </div>
+      </article>
+    </div>
+  `;
+}
+
+function renderVouchersView() {
+  const vouchers = Array.isArray(state.data.vouchers) ? state.data.vouchers : [];
+
+  return `
+    <section class="entity-page-header">
+      <div>
+        <h3 class="entity-page-title">Quản lý Mã Giảm Giá (Voucher Khuyến Mãi)</h3>
+        <p class="entity-page-copy">Tạo và quản lý mã Voucher áp dụng trực tiếp khi khách gọi món QR tại bàn, đặt Web Delivery hoặc tại quầy POS.</p>
+      </div>
+    </section>
+
+    <div class="dashboard-grid-two" style="align-items:start">
+      <article class="dashboard-panel">
+        <div class="dashboard-panel-header">
+          <div>
+            <h3 class="dashboard-panel-title"><i class="fa-solid fa-ticket" style="color:#16a34a; margin-right:0.4rem"></i>Tạo Mã Voucher Mới</h3>
+          </div>
+        </div>
+        <form data-form="erp-voucher-create" style="display:grid; gap:0.85rem">
+          <div class="field" style="margin:0">
+            <label>Mã Voucher (In hoa)</label>
+            <input type="text" name="code" placeholder="VD: SUSHI50K, VIP10" required />
+          </div>
+          <div class="field" style="margin:0">
+            <label>Loại giảm giá</label>
+            <select name="discountType">
+              <option value="FIXED">Giảm số tiền cố định (VNĐ)</option>
+              <option value="PERCENT">Giảm theo phần trăm (%)</option>
+            </select>
+          </div>
+          <div class="field" style="margin:0">
+            <label>Giá trị giảm (VNĐ hoặc %)</label>
+            <input type="number" name="discountValue" min="1" required placeholder="VD: 50000 hoặc 10" />
+          </div>
+          <div class="field" style="margin:0">
+            <label>Giá trị đơn hàng tối thiểu (₫)</label>
+            <input type="number" name="minOrderValue" min="0" value="100000" required />
+          </div>
+          <div class="field" style="margin:0">
+            <label>Giới hạn số lượt sử dụng</label>
+            <input type="number" name="usageLimit" min="1" value="100" required />
+          </div>
+          <button type="submit" class="btn btn-primary"><i class="fa-solid fa-plus"></i> Tạo Mã Giảm Giá</button>
+        </form>
+      </article>
+
+      <article class="dashboard-panel">
+        <div class="dashboard-panel-header">
+          <div>
+            <h3 class="dashboard-panel-title">Danh sách Voucher đang hoạt động (${vouchers.length})</h3>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Mã Voucher</th>
+                <th>Mức giảm</th>
+                <th>Đơn tối thiểu</th>
+                <th>Đã dùng</th>
+                <th>Trạng thái</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${vouchers.length ? vouchers.map(v => `
+                <tr>
+                  <td><strong style="font-family:monospace; color:#004ac6; font-size:0.95rem">${escapeHtml(v.code)}</strong></td>
+                  <td><strong style="color:#15803d">${v.discountType === 'PERCENT' ? `${v.discountValue}%` : formatCurrency(v.discountValue)}</strong></td>
+                  <td>${formatCurrency(v.minOrderValue || 0)}</td>
+                  <td>${formatNumber(v.usedCount || 0)} / ${formatNumber(v.usageLimit || 100)}</td>
+                  <td>${statusChip(v.isActive !== false ? 'SUCCESS' : 'BLOCKED', v.isActive !== false ? 'Đang bật' : 'Ngưng')}</td>
+                </tr>
+              `).join('') : `<tr><td colspan="5" style="text-align:center; padding:1.2rem; color:#64748b">Chưa có mã giảm giá nào.</td></tr>`}
+            </tbody>
+          </table>
+        </div>
+      </article>
+    </div>
+  `;
+}
+
+function renderShiftsView() {
+  const s = state.data.currentShift;
+  const orders = Array.isArray(state.data.orders) ? state.data.orders : [];
+  const shiftLogsData = state.data.shiftLogs || {};
+  const allShifts = Array.isArray(shiftLogsData.shifts) ? shiftLogsData.shifts : (s ? [s] : []);
+  const cancelledOrders = Array.isArray(shiftLogsData.cancelledOrders)
+    ? shiftLogsData.cancelledOrders
+    : orders.filter(o => String(o.status).toUpperCase() === 'CANCELLED');
+
+  return `
+    <section class="entity-page-header">
+      <div>
+        <h3 class="entity-page-title">Quản lý Ca Thu Ngân, Nhật Ký Ca & Hủy Món Bằng Mã PIN</h3>
+        <p class="entity-page-copy">Mở/Đóng ca đối soát tiền mặt thực đếm, duyệt hủy món/hao hụt bếp (Void/Waste) bằng mã PIN Quản lý, xem Nhật ký Log ca thu ngân và in hóa đơn GTGT (VAT 8%).</p>
+      </div>
+    </section>
+
+    <div class="dashboard-grid-two" style="align-items:start; margin-bottom:1.25rem">
+      <!-- 1. Quản lý Ca Thu Ngân -->
+      <article class="dashboard-panel">
+        <div class="dashboard-panel-header">
+          <div>
+            <h3 class="dashboard-panel-title"><i class="fa-solid fa-cash-register" style="color:#16a34a; margin-right:0.4rem"></i>Quản lý Ca Làm Việc Thu Ngân (Shift)</h3>
+          </div>
+        </div>
+
+        <div style="margin-bottom:1rem; padding:1rem; border-radius:14px; background:${s && s.status === 'OPEN' ? '#f0fdf4' : '#f8fafc'}; border:1px solid ${s && s.status === 'OPEN' ? '#bbf7d0' : '#e2e8f0'}">
+          ${s && s.status === 'OPEN' ? `
+            <div style="font-weight:800; color:#15803d; font-size:0.95rem">🟢 CA ĐANG MỞ (#${s.id}) • Nhân viên: ${escapeHtml(s.staff?.fullName || state.user?.fullName || 'Thu ngân')}</div>
+            <div style="font-size:0.85rem; color:#166534; margin-top:0.25rem">Tiền quỹ đầu ca: <strong>${formatCurrency(s.openingCash)}</strong> • Mở lúc: ${formatDateTime(s.openedAt)}</div>
+            ${s.note ? `<div style="font-size:0.8rem; color:#15803d; margin-top:0.35rem; padding-top:0.35rem; border-top:1px dashed #bbf7d0">📝 <b>Log trong ca:</b> ${escapeHtml(s.note)}</div>` : ''}
+          ` : s && s.id ? `
+            <div style="font-weight:800; color:#334155; font-size:0.95rem">⚪ Ca gần nhất (#${s.id}) đã đóng</div>
+            <div style="font-size:0.84rem; color:#475569; margin-top:0.25rem">
+              Kỳ vọng: <strong>${formatCurrency(s.expectedCash)}</strong> • Thực đếm: <strong>${formatCurrency(s.closingCashActual)}</strong> • Chênh lệch: <strong style="color:${Number(s.discrepancy) < 0 ? '#dc2626' : '#15803d'}">${formatCurrency(s.discrepancy)}</strong>
+            </div>
+            ${s.note ? `<div style="font-size:0.8rem; color:#475569; margin-top:0.35rem">📝 <b>Log ca:</b> ${escapeHtml(s.note)}</div>` : ''}
+          ` : `<div style="color:#64748b">⚪ Chưa có ca làm việc nào được mở trong phiên này.</div>`}
+        </div>
+
+        <form data-form="erp-shift-open" style="display:grid; grid-template-columns:1fr 1fr auto; gap:0.6rem; margin-bottom:1rem">
+          <input type="number" name="openingCash" placeholder="Tiền quỹ đầu ca (VNĐ)" required />
+          <input type="text" name="note" placeholder="Ghi chú mở ca" />
+          <button type="submit" class="btn btn-primary" style="background:#16a34a">Mở Ca Mới</button>
+        </form>
+
+        <form data-form="erp-shift-close" style="display:grid; grid-template-columns:1fr 1fr auto; gap:0.6rem">
+          <input type="number" name="closingCashActual" placeholder="Tiền mặt thực đếm cuối ca" required />
+          <input type="text" name="note" placeholder="Ghi chú bàn giao ca" />
+          <button type="submit" class="btn btn-danger">Đóng Ca & Đối Soát</button>
+        </form>
+      </article>
+
+      <!-- 2. Hủy món / Hao hụt bằng mã PIN & In Hóa Đơn VAT -->
+      <article class="dashboard-panel">
+        <div class="dashboard-panel-header">
+          <div>
+            <h3 class="dashboard-panel-title"><i class="fa-solid fa-ban" style="color:#dc2626; margin-right:0.4rem"></i>Hủy Đơn / Hao Hụt Bếp (Void / Waste - Cần PIN)</h3>
+            <p class="dashboard-panel-copy">Mã PIN Quản lý mặc định: <code>123456</code>. Mọi thao tác hủy đều được tự động ghi Log vào Ca thu ngân đang mở.</p>
+          </div>
+        </div>
+
+        <form data-form="erp-void-waste" style="display:grid; gap:0.75rem; margin-bottom:1.25rem">
+          <div class="field" style="margin:0">
+            <label>Chọn Đơn hàng cần hủy / báo hao hụt</label>
+            <select name="orderId" required>
+              ${orders.map(o => `<option value="${o.id}">Đơn #${o.id} • ${escapeHtml(o.User?.fullName || 'Khách vãng lai')} • ${formatCurrency(o.finalPrice ?? o.totalPrice)} (${o.status})</option>`).join('')}
+            </select>
+          </div>
+          <div class="field" style="margin:0">
+            <label>Hình thức xử lý</label>
+            <select name="isWaste">
+              <option value="false">Khách đổi ý / Trả món chưa nấu (Void - Hoàn lại tồn kho)</option>
+              <option value="true">Bếp làm hỏng / Đổ bỏ (Waste - Trừ kho Recipe & Ghi nhận hao hụt P&L)</option>
+            </select>
+          </div>
+          <div style="display:grid; grid-template-columns:1fr 180px; gap:0.6rem">
+            <input type="text" name="reason" placeholder="Nhập lý do hủy / hao hụt..." required />
+            <input type="password" name="managerPin" placeholder="Mã PIN (123456)" required />
+          </div>
+          <button type="submit" class="btn btn-danger"><i class="fa-solid fa-shield-halved"></i> Xác Nhận Duyệt Bằng Mã PIN Quản Lý</button>
+        </form>
+
+        <hr style="border:0; border-top:1px solid #e2e8f0; margin:1rem 0" />
+
+        <div class="dashboard-panel-header compact">
+          <div>
+            <h3 class="dashboard-panel-title"><i class="fa-solid fa-print" style="color:#2563eb; margin-right:0.4rem"></i>In Hóa Đơn Giá Trị Gia Tăng (VAT 8%)</h3>
+          </div>
+        </div>
+        <div style="display:flex; gap:0.6rem; align-items:center">
+          <select id="erp-print-order-id" style="flex:1; padding:0.65rem; border-radius:10px; border:1px solid #cbd5e1; font-weight:700">
+            ${orders.map(o => `<option value="${o.id}">Đơn #${o.id} • ${formatCurrency(o.finalPrice ?? o.totalPrice)} (${o.paymentStatus})</option>`).join('')}
+          </select>
+          <button type="button" class="btn btn-primary" data-action="print-vat-invoice"><i class="fa-solid fa-print"></i> In Hóa Đơn VAT</button>
+        </div>
+      </article>
+    </div>
+
+    <!-- 3. NHẬT KÝ LOG CA THU NGÂN (SHIFT HISTORY LOGS) -->
+    <article class="dashboard-panel" style="margin-bottom:1.25rem">
+      <div class="dashboard-panel-header">
+        <div>
+          <h3 class="dashboard-panel-title"><i class="fa-solid fa-clipboard-list" style="color:#004ac6; margin-right:0.4rem"></i>Nhật ký Lịch sử Ca Thu Ngân & Đối Soát Tiền Mặt (${allShifts.length} ca)</h3>
+          <p class="dashboard-panel-copy">Lưu vết toàn bộ lịch sử mở ca, đóng ca, chênh lệch tiền mặt và nhật ký hoạt động/hủy đơn phát sinh trong từng ca.</p>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Mã Ca</th>
+              <th>Nhân viên trực</th>
+              <th>Giờ mở ca</th>
+              <th>Giờ đóng ca</th>
+              <th>Quỹ đầu ca</th>
+              <th>Tiền kỳ vọng</th>
+              <th>Thực đếm</th>
+              <th>Chênh lệch</th>
+              <th>Trạng thái</th>
+              <th>Nhật ký / Ghi chú trong ca</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${allShifts.length ? allShifts.map(sh => {
+              const isOpen = String(sh.status).toUpperCase() === 'OPEN';
+              const diff = Number(sh.discrepancy || 0);
+              return `
+                <tr>
+                  <td><strong style="font-family:monospace">#CA-${sh.id}</strong></td>
+                  <td><strong>${escapeHtml(sh.staff?.fullName || sh.staff?.username || (sh.staff_id ? `NV #${sh.staff_id}` : 'Admin / Thu ngân'))}</strong></td>
+                  <td>${formatDateTime(sh.openedAt)}</td>
+                  <td>${sh.closedAt ? formatDateTime(sh.closedAt) : '<span class="muted">Đang trực...</span>'}</td>
+                  <td><strong>${formatCurrency(sh.openingCash || 0)}</strong></td>
+                  <td>${isOpen ? '<span class="muted">Chờ đóng ca</span>' : `<strong>${formatCurrency(sh.expectedCash || 0)}</strong>`}</td>
+                  <td>${isOpen ? '<span class="muted">-</span>' : `<strong>${formatCurrency(sh.closingCashActual || 0)}</strong>`}</td>
+                  <td>
+                    ${isOpen ? '<span class="muted">-</span>' : `<strong style="color:${diff < 0 ? '#dc2626' : '#15803d'}">${diff > 0 ? '+' : ''}${formatCurrency(diff)}</strong>`}
+                  </td>
+                  <td>${statusChip(isOpen ? 'SUCCESS' : 'COMPLETED', isOpen ? '🟢 ĐANG MỞ' : '⚪ ĐÃ ĐÓNG')}</td>
+                  <td style="max-width:300px; font-size:0.82rem; color:#334155">${escapeHtml(sh.note || 'Không có ghi chú')}</td>
+                </tr>
+              `;
+            }).join('') : `<tr><td colspan="10" style="text-align:center; padding:1.2rem; color:#64748b">Chưa có lịch sử ca thu ngân nào. Hãy mở ca mới ở phía trên!</td></tr>`}
+          </tbody>
+        </table>
+      </div>
+    </article>
+
+    <!-- 4. NHẬT KÝ HỦY ĐƠN / HAO HỤT BẾP (VOID & WASTE LOGS) -->
+    <article class="dashboard-panel">
+      <div class="dashboard-panel-header">
+        <div>
+          <h3 class="dashboard-panel-title"><i class="fa-solid fa-file-shield" style="color:#dc2626; margin-right:0.4rem"></i>Nhật ký Hủy Đơn & Hao Hụt Bếp (Void / Waste Audit Logs - ${cancelledOrders.length} đơn)</h3>
+          <p class="dashboard-panel-copy">Danh sách các đơn hàng đã hủy kèm phân loại Void (hoàn kho) hoặc Waste (hao hụt bếp), lý do hủy và thời gian ghi nhận.</p>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Mã đơn</th>
+              <th>Khách hàng</th>
+              <th>Bàn / Vị trí</th>
+              <th>Món trong đơn</th>
+              <th>Phân loại hủy</th>
+              <th>Lý do hủy / Hao hụt</th>
+              <th>Giá trị đơn</th>
+              <th>Thời gian cập nhật</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${cancelledOrders.length ? cancelledOrders.map(co => {
+              const tInfo = getOrderTableInfo(co, state.data.tables);
+              const itemsStr = (co.OrderItems || []).map(i => `${i.Product?.name || 'Món #' + i.product_id} (x${i.quantity})`).join(', ') || '-';
+              return `
+                <tr>
+                  <td><strong style="font-family:monospace">#${co.id}</strong></td>
+                  <td><strong>${escapeHtml(co.User?.fullName || 'Khách vãng lai')}</strong></td>
+                  <td><span class="badge-inline" style="background:#e0f2fe; color:#004ac6; font-weight:700">${escapeHtml(tInfo.label)}</span></td>
+                  <td style="font-size:0.82rem">${escapeHtml(itemsStr)}</td>
+                  <td>
+                    ${co.isWaste
+                      ? `<span class="badge-inline" style="background:#fee2e2; color:#dc2626; font-weight:800"><i class="fa-solid fa-fire"></i> WASTE (Hao hụt bếp)</span>`
+                      : `<span class="badge-inline" style="background:#fef3c7; color:#b45309; font-weight:800"><i class="fa-solid fa-rotate-left"></i> VOID (Hoàn kho)</span>`}
+                  </td>
+                  <td><strong>${escapeHtml(co.cancelReason || co.note || 'Hủy đơn tại quầy')}</strong></td>
+                  <td><strong style="color:#dc2626">${formatCurrency(co.finalPrice ?? co.totalPrice)}</strong></td>
+                  <td>${formatDateTime(co.updated_at || co.updatedAt || co.created_at)}</td>
+                </tr>
+              `;
+            }).join('') : `<tr><td colspan="8" style="text-align:center; padding:1.2rem; color:#64748b">Chưa có đơn hàng nào bị hủy / hao hụt.</td></tr>`}
+          </tbody>
+        </table>
+      </div>
+    </article>
   `;
 }
 
@@ -1670,9 +2400,10 @@ function renderReviewsGrid(records) {
         const name = rev.user?.fullName || rev.phone || 'Khách ẩn danh';
         const initials = userInitials({ fullName: name });
         const ratingStars = '★'.repeat(Number(rev.rating) || 5);
+        const isHidden = String(rev.status || 'VISIBLE').toUpperCase() === 'HIDDEN';
 
         return `
-          <article class="review-card">
+          <article class="review-card" style="display:flex; flex-direction:column; height:100%; ${isHidden ? 'opacity:0.68; border-style:dashed' : ''}">
             <div class="review-card-head">
               <div class="reviewer-info">
                 <div class="reviewer-avatar">${initials}</div>
@@ -1681,7 +2412,10 @@ function renderReviewsGrid(records) {
                   <div class="review-stars">${ratingStars}</div>
                 </div>
               </div>
-              <span class="muted" style="font-size:0.78rem">${formatDateTime(rev.created_at || rev.createdAt)}</span>
+              <div style="text-align:right">
+                ${statusChip(isHidden ? 'BLOCKED' : 'SUCCESS', isHidden ? 'Đang ẩn' : 'Hiển thị')}
+                <div class="muted" style="font-size:0.75rem; margin-top:0.2rem">${formatDateTime(rev.created_at || rev.createdAt)}</div>
+              </div>
             </div>
 
             ${rev.dish_name ? `<span class="review-dish-tag"><i class="fa-solid fa-bowl-food"></i> ${escapeHtml(rev.dish_name)}</span>` : ''}
@@ -1690,8 +2424,25 @@ function renderReviewsGrid(records) {
               "${escapeHtml(rev.content || 'Khách hàng không để lại lời nhắn.')}"
             </div>
 
-            <div class="row-actions" style="margin-top:auto; justify-content:flex-end">
-              <button class="btn btn-danger btn-small" data-action="delete-record" data-view="reviews" data-id="${rev.id}"><i class="fa-solid fa-trash"></i> Xóa đánh giá</button>
+            ${rev.reply ? `
+              <div style="background:#eff6ff; border-left:3px solid #2563eb; padding:0.75rem 0.9rem; border-radius:10px; font-size:0.84rem; color:#1e293b; margin-bottom:0.75rem">
+                <div style="font-weight:800; color:#1d4ed8; font-size:0.78rem; margin-bottom:0.2rem">
+                  <i class="fa-solid fa-reply"></i> Phản hồi từ Nhà hàng FutureSushi:
+                </div>
+                <div>${escapeHtml(rev.reply)}</div>
+              </div>
+            ` : ''}
+
+            <div class="row-actions" style="margin-top:auto; justify-content:flex-end; gap:0.4rem; flex-wrap:wrap">
+              <button class="btn btn-primary btn-small" data-action="reply-review" data-id="${rev.id}" data-reply="${escapeHtml(rev.reply || '')}">
+                <i class="fa-solid fa-reply"></i> ${rev.reply ? 'Sửa phản hồi' : 'Phản hồi'}
+              </button>
+              <button class="btn btn-secondary btn-small" data-action="toggle-review-status" data-id="${rev.id}" data-status="${isHidden ? 'VISIBLE' : 'HIDDEN'}">
+                <i class="fa-solid ${isHidden ? 'fa-eye' : 'fa-eye-slash'}"></i> ${isHidden ? 'Hiện lại' : 'Ẩn'}
+              </button>
+              <button class="btn btn-danger btn-small" data-action="delete-record" data-view="reviews" data-id="${rev.id}">
+                <i class="fa-solid fa-trash"></i> Xóa
+              </button>
             </div>
           </article>
         `;
@@ -1992,22 +2743,33 @@ function renderReviewsTable(records) {
             <th><i class="fa-solid fa-user" style="color:#3b82f6"></i> Người đánh giá</th>
             <th><i class="fa-solid fa-bowl-food" style="color:#f59e0b"></i> Món ăn</th>
             <th><i class="fa-solid fa-comment" style="color:#64748b"></i> Nội dung đánh giá</th>
+            <th><i class="fa-solid fa-reply" style="color:#2563eb"></i> Phản hồi Nhà hàng</th>
             <th><i class="fa-solid fa-star" style="color:#eab308"></i> Số sao</th>
             <th><i class="fa-regular fa-clock" style="color:#64748b"></i> Ngày tạo</th>
             <th style="text-align:right">Thao tác</th>
           </tr>
         </thead>
         <tbody>
-          ${list.map(record => `
+          ${list.map(record => {
+            const isHidden = String(record.status || 'VISIBLE').toUpperCase() === 'HIDDEN';
+            return `
             <tr>
               <td><strong>${escapeHtml(record.user?.fullName || record.phone || 'Khách vãng lai')}</strong></td>
               <td>${record.dish_name ? `<span class="review-dish-tag"><i class="fa-solid fa-bowl-food"></i> ${escapeHtml(record.dish_name)}</span>` : '-'}</td>
               <td><span style="color:#334155; font-style:italic">"${escapeHtml(record.content || 'Khách không để lại nhận xét.')}"</span></td>
+              <td>${record.reply ? `<span style="color:#1d4ed8; font-weight:600">${escapeHtml(record.reply)}</span>` : '<span class="muted">Chưa phản hồi</span>'}</td>
               <td><span style="color:#eab308; font-weight:800">${'★'.repeat(record.rating || 0)}</span></td>
               <td><span style="font-size:0.82rem; color:#64748b">${escapeHtml(formatDateTime(record.created_at || record.createdAt))}</span></td>
-              <td style="text-align:right"><button class="btn btn-danger btn-small" data-action="delete-record" data-view="reviews" data-id="${record.id}"><i class="fa-solid fa-trash"></i> Xóa</button></td>
+              <td style="text-align:right">
+                <div class="row-actions" style="justify-content:flex-end">
+                  <button class="btn btn-primary btn-small" data-action="reply-review" data-id="${record.id}" data-reply="${escapeHtml(record.reply || '')}"><i class="fa-solid fa-reply"></i> Phản hồi</button>
+                  <button class="btn btn-secondary btn-small" data-action="toggle-review-status" data-id="${record.id}" data-status="${isHidden ? 'VISIBLE' : 'HIDDEN'}">${isHidden ? 'Hiện' : 'Ẩn'}</button>
+                  <button class="btn btn-danger btn-small" data-action="delete-record" data-view="reviews" data-id="${record.id}"><i class="fa-solid fa-trash"></i> Xóa</button>
+                </div>
+              </td>
             </tr>
-          `).join('')}
+          `;
+          }).join('')}
         </tbody>
       </table>
     </div>
@@ -2264,17 +3026,20 @@ function toDatetimeLocal(value) {
 function renderOrderModal() {
   const tables = state.data.tables || [];
   const products = state.data.products || [];
+  const users = Array.isArray(state.data.users) ? state.data.users : [];
+  const vouchers = Array.isArray(state.data.vouchers) ? state.data.vouchers.filter(v => v.isActive !== false) : [];
+  const prefill = state.modal?.prefill || {};
   const defaultItems = [
     { product_id: products[0]?.id || '', quantity: 1, note: '' }
   ];
 
   return `
     <div class="modal-backdrop" data-action="close-modal">
-      <div class="modal-card" data-action="stop-propagation">
+      <div class="modal-card" data-action="stop-propagation" style="max-width:740px">
         <div class="modal-head">
           <div>
-            <h3 class="modal-title">Tạo đơn hàng</h3>
-            <div class="subtle">Đơn hàng mới sẽ được tạo trực tiếp qua endpoint hiện có.</div>
+            <h3 class="modal-title">Tạo đơn hàng POS (Tìm kiếm Thành viên tích điểm / Vãng lai & Voucher)</h3>
+            <div class="subtle">Hỗ trợ tìm kiếm khách hàng thành viên theo Tên / SĐT, tự động đồng bộ khách từ lịch Đặt bàn của bàn được chọn và áp mã Voucher.</div>
           </div>
           <button class="btn btn-ghost btn-small" data-action="close-modal">Đóng</button>
         </div>
@@ -2282,39 +3047,67 @@ function renderOrderModal() {
         <form class="modal-body" data-form="order-create">
           <div class="modal-grid">
             <div class="field">
-              <label for="orderTable">Bàn</label>
-              <select id="orderTable" name="table_id">
-                <option value="">Khách mang đi / chưa gán bàn</option>
-                ${tables.map(table => `<option value="${table.id}">#${table.tableNumber} • ${escapeHtml(table.status)}</option>`).join('')}
+              <label for="orderTable">Vị trí Bàn ăn (Tự động đồng bộ khách đặt bàn)</label>
+              <select id="orderTable" name="table_id" data-action="pos-order-table-change">
+                <option value="">Khách mang đi (Takeaway) / Chưa gán bàn</option>
+                ${tables.map(table => `<option value="${table.id}" ${String(prefill.table_id) === String(table.id) ? 'selected' : ''}>Bàn #${table.tableNumber} • ${escapeHtml(table.calculatedStatus || table.status)} (${table.capacity || 4} chỗ)</option>`).join('')}
               </select>
             </div>
+
             <div class="field">
-              <label for="orderPoints">Điểm dùng</label>
-              <input id="orderPoints" name="used_points" type="number" min="0" step="1" value="0" />
+              <label for="posMemberSearchInput"><i class="fa-solid fa-magnifying-glass" style="color:#2563eb"></i> Tìm kiếm Khách hàng Thành viên tích điểm</label>
+              <input id="posMemberSearchInput" type="search" placeholder="Gõ Tên, SĐT hoặc Username để lọc nhanh thành viên..." autocomplete="off" />
             </div>
+
+            <div class="field">
+              <label for="orderCustomerSelect">Chọn Khách hàng (Thành viên / Vãng lai)</label>
+              <select id="orderCustomerSelect" name="user_id">
+                <option value="">👤 Khách vãng lai (Không tích điểm)</option>
+                ${users.map(u => `<option value="${u.id}" data-search="${escapeHtml(`${u.fullName || ''} ${u.phone || ''} ${u.username || ''} ${u.email || ''}`.toLowerCase())}" ${String(prefill.user_id) === String(u.id) ? 'selected' : ''}>⭐ ${escapeHtml(u.fullName || u.username)} (${escapeHtml(u.phone || '-')}) • Hạng ${escapeHtml(u.tier || 'MEMBER')} • ${formatNumber(u.points || 0)} điểm</option>`).join('')}
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="orderCustomerPhone">Hoặc nhập SĐT Thành viên trực tiếp</label>
+              <input id="orderCustomerPhone" name="customerPhone" type="text" value="${escapeHtml(prefill.phone && !prefill.user_id ? prefill.phone : '')}" placeholder="Nhập SĐT thành viên (VD: 0901234567)..." />
+            </div>
+
+            <div class="field">
+              <label for="orderVoucherCode">Mã giảm giá (Voucher Khuyến mãi)</label>
+              <select id="orderVoucherCode" name="voucherCode">
+                <option value="">-- Không dùng Voucher --</option>
+                ${vouchers.map(v => `<option value="${escapeHtml(v.code)}">🎟️ ${escapeHtml(v.code)} — Giảm ${v.discountType === 'PERCENT' ? `${v.discountValue}%` : formatCurrency(v.discountValue)} (Đơn từ ${formatCurrency(v.minOrderValue || 0)})</option>`).join('')}
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="orderPoints">Dùng điểm tích lũy của Thành viên (1 điểm = 1₫)</label>
+              <input id="orderPoints" name="used_points" type="number" min="0" step="1000" value="0" />
+            </div>
+
             <div class="field full">
-              <label for="orderNote">Ghi chú</label>
-              <textarea id="orderNote" name="note" placeholder="Ghi chú cho bếp hoặc thu ngân"></textarea>
+              <label for="orderNote">Ghi chú đơn hàng</label>
+              <input id="orderNote" name="note" type="text" placeholder="Ghi chú cho bếp hoặc thu ngân (VD: ít cay...)" />
             </div>
           </div>
 
           <div>
             <div class="section-head" style="margin-bottom:0.6rem">
               <div>
-                <h4 class="section-title" style="font-size:1.08rem">Món trong đơn</h4>
-                <p class="section-description">Thêm nhiều món để gửi đúng payload items cho backend.</p>
+                <h4 class="section-title" style="font-size:1.08rem">Danh sách món trong đơn</h4>
+                <p class="section-description">Chọn món, số lượng và ghi chú riêng cho từng món.</p>
               </div>
-              <button type="button" class="btn btn-secondary btn-small" data-action="add-order-item">Thêm món</button>
+              <button type="button" class="btn btn-secondary btn-small" data-action="add-order-item"><i class="fa-solid fa-plus"></i> Thêm món</button>
             </div>
             <div class="card-list" data-order-items>
               ${defaultItems.map((item, index) => renderOrderItemRow(index, item)).join('')}
             </div>
           </div>
 
-          <div class="note-box">Gợi ý: nếu muốn thanh toán ngay, hãy tạo đơn xong rồi quay lại tab Đơn hàng để đổi trạng thái và thanh toán.</div>
+          <div class="note-box">💡 Khi thanh toán đơn hàng của Thành viên, hệ thống sẽ tự động cộng điểm tích lũy (+5% giá trị đơn) và tự động xét nâng hạng thẻ (SILVER / GOLD / VIP).</div>
 
           <div class="modal-actions">
-            <button type="submit" class="btn btn-primary">Tạo đơn</button>
+            <button type="submit" class="btn btn-primary"><i class="fa-solid fa-check"></i> Tạo đơn hàng</button>
             <button type="button" class="btn btn-secondary" data-action="close-modal">Hủy</button>
           </div>
         </form>
@@ -2545,12 +3338,77 @@ function bindGlobalEvents() {
         case 'reservation-confirm':
           await simpleAction(`/api/reservations/${id}/confirm`, { method: 'PUT' }, 'Đã xác nhận đặt bàn thành công');
           break;
-        case 'reservation-checkin':
-          await simpleAction(`/api/reservations/${id}/check-in`, { method: 'PUT' }, 'Đã check-in đặt bàn');
+        case 'reservation-checkin': {
+          const tableSelect = app.querySelector(`select[data-res-table-select="${id}"]`);
+          const chosenTableId = tableSelect?.value ? Number(tableSelect.value) : null;
+          await simpleAction(`/api/reservations/${id}/check-in`, {
+            method: 'PUT',
+            body: JSON.stringify({ force: true, table_id: chosenTableId })
+          }, 'Đã Check-in nhận bàn thành công');
           break;
+        }
         case 'reservation-cancel':
           await simpleAction(`/api/reservations/${id}/cancel`, { method: 'PUT' }, 'Đã hủy đặt bàn');
           break;
+        case 'reply-review': {
+          const currentReply = target.dataset.reply || '';
+          const replyText = window.prompt('Nhập nội dung phản hồi của Nhà hàng FutureSushi cho đánh giá này:', currentReply);
+          if (replyText === null) break;
+          await simpleAction(`/api/reviews/${id}/reply`, {
+            method: 'PUT',
+            body: JSON.stringify({ reply: replyText })
+          }, 'Đã lưu phản hồi của nhà hàng thành công!');
+          break;
+        }
+        case 'toggle-review-status': {
+          const nextStatus = target.dataset.status || 'HIDDEN';
+          await simpleAction(`/api/reviews/${id}/status`, {
+            method: 'PUT',
+            body: JSON.stringify({ status: nextStatus })
+          }, nextStatus === 'HIDDEN' ? 'Đã ẩn đánh giá' : 'Đã hiển thị lại đánh giá');
+          break;
+        }
+        case 'print-vat-invoice': {
+          const orderId = app.querySelector('#erp-print-order-id')?.value;
+          if (!orderId) {
+            toast('warning', 'Chưa chọn đơn', 'Vui lòng chọn mã đơn hàng cần in hóa đơn VAT.');
+            break;
+          }
+          const order = await api(`/api/orders/${orderId}`);
+          const sub = Number(order.totalPrice || 0);
+          const disc = Number(order.discountAmount || 0);
+          const vat = Math.round(Math.max(0, sub - disc) * 0.08);
+          const total = Number(order.finalPrice || 0) + (order.vatAmount ? 0 : vat);
+          const win = window.open('', '_blank', 'width=440,height=680');
+          if (win) {
+            win.document.write(`
+              <html><head><title>Hóa đơn VAT #${order.id}</title>
+              <style>body{font-family:monospace;padding:20px;line-height:1.5} table{width:100%;border-collapse:collapse} td,th{padding:4px 0;text-align:left} .right{text-align:right}</style>
+              </head><body onload="window.print()">
+                <h2 style="text-align:center;margin:0">FUTURESUSHI RESTAURANT</h2>
+                <p style="text-align:center;margin:4px 0;font-size:12px">HÓA ĐƠN GIÁ TRỊ GIA TĂNG (VAT 8%)<br/>Mã HĐ: #${order.id} • Ngày: ${new Date(order.created_at || Date.now()).toLocaleString('vi-VN')}</p>
+                <hr/>
+                <div>Khách hàng: ${escapeHtml(order.User?.fullName || 'Khách vãng lai')}</div>
+                <div>Vị trí: ${order.table_id ? 'Bàn #' + order.table_id : 'Mang đi / Giao hàng'}</div>
+                <hr/>
+                <table>
+                  <thead><tr><th>Món ăn</th><th>SL</th><th class="right">Thành tiền</th></tr></thead>
+                  <tbody>
+                    ${(order.OrderItems || []).map(i => `<tr><td>${escapeHtml(i.Product?.name || 'Món #' + i.product_id)}</td><td>x${i.quantity}</td><td class="right">${formatCurrency(i.totalPrice)}</td></tr>`).join('')}
+                  </tbody>
+                </table>
+                <hr/>
+                <div>Tạm tính: <span style="float:right">${formatCurrency(sub)}</span></div>
+                <div>Chiết khấu (Hạng thẻ / Điểm / Voucher): <span style="float:right">-${formatCurrency(disc)}</span></div>
+                <div>Thuế GTGT (VAT 8%): <span style="float:right">${formatCurrency(vat)}</span></div>
+                <h3 style="margin:8px 0">TỔNG THANH TOÁN: <span style="float:right">${formatCurrency(total)}</span></h3>
+                <p style="text-align:center;font-size:12px;margin-top:20px">Cảm ơn Quý khách và hẹn gặp lại!</p>
+              </body></html>
+            `);
+            win.document.close();
+          }
+          break;
+        }
         case 'save-table-status': {
           const select = app.querySelector(`[data-action="table-status-select"][data-id="${id}"]`);
           const status = target.dataset.status || select?.value || 'AVAILABLE';
@@ -2594,13 +3452,47 @@ function bindGlobalEvents() {
         case 'table-status-select':
           break;
         case 'search-input':
-          state.filters[view] = target.value;
-          render();
           break;
         case 'clear-search':
           state.filters[view] = '';
           render();
           break;
+        case 'quick-add-stock': {
+          const product = (state.data.products || []).find(p => String(p.id) === String(id));
+          const delta = Number(target.dataset.delta || 20);
+          if (product) {
+            const newStock = Math.max(0, Number(product.stock || 0) + delta);
+            await simpleAction(`/api/products/${id}`, {
+              method: 'PUT',
+              body: JSON.stringify({ ...product, stock: newStock, isAvailable: true })
+            }, `Đã nạp thêm +${delta} suất cho "${product.name}" (Tồn mới: ${newStock} suất)`);
+          }
+          break;
+        }
+        case 'save-product-stock': {
+          const product = (state.data.products || []).find(p => String(p.id) === String(id));
+          const stockInput = app.querySelector(`input[data-stock-input="${id}"]`);
+          if (product && stockInput) {
+            const newStock = Math.max(0, Number(stockInput.value || 0));
+            await simpleAction(`/api/products/${id}`, {
+              method: 'PUT',
+              body: JSON.stringify({ ...product, stock: newStock, isAvailable: newStock > 0 })
+            }, `Đã cập nhật tồn kho món "${product.name}" thành ${newStock} suất`);
+          }
+          break;
+        }
+        case 'create-order-for-table': {
+          state.modal = {
+            kind: 'order-form',
+            prefill: {
+              table_id: target.dataset.tableId || '',
+              user_id: target.dataset.userId || '',
+              phone: target.dataset.phone || ''
+            }
+          };
+          render();
+          break;
+        }
         case 'add-order-item':
           addOrderItem();
           break;
@@ -2732,6 +3624,25 @@ function bindGlobalEvents() {
       } catch (err) {
         toast('danger', 'Cập nhật thất bại', err.message || 'Không thể đổi trạng thái bàn.');
       }
+    } else if (target.matches('[data-action="pos-order-table-change"]')) {
+      const tableId = target.value;
+      const tableObj = (state.data.tables || []).find(t => String(t.id) === String(tableId));
+      const resv = tableObj?.activeReservation || (state.data.reservations || []).find(r =>
+        String(r.table_id) === String(tableId) &&
+        ['PENDING', 'CONFIRMED', 'COMPLETED'].includes(String(r.status).toUpperCase())
+      );
+      if (resv) {
+        const selectEl = app.querySelector('#orderCustomerSelect');
+        const phoneEl = app.querySelector('#orderCustomerPhone');
+        if (selectEl && resv.user_id) {
+          selectEl.value = String(resv.user_id);
+        } else if (selectEl) {
+          selectEl.value = '';
+        }
+        if (phoneEl && resv.guestPhone) {
+          phoneEl.value = resv.guestPhone;
+        }
+      }
     }
   };
 
@@ -2740,6 +3651,29 @@ function bindGlobalEvents() {
     if (target.matches('[data-action="search-input"]')) {
       state.filters[target.dataset.view] = target.value;
       render();
+    } else if (target.matches('[data-action="pos-member-search"]')) {
+      const keyword = String(target.value || '').trim().toLowerCase();
+      const selectEl = app.querySelector('#orderCustomerSelect');
+      if (selectEl) {
+        let firstMatchedValue = null;
+        [...selectEl.options].forEach(opt => {
+          if (!opt.value) {
+            opt.hidden = false;
+            return;
+          }
+          const searchText = String(opt.dataset.search || opt.textContent || '').toLowerCase();
+          const matched = !keyword || searchText.includes(keyword);
+          opt.hidden = !matched;
+          if (matched && firstMatchedValue === null && keyword) {
+            firstMatchedValue = opt.value;
+          }
+        });
+        if (keyword && firstMatchedValue) {
+          selectEl.value = firstMatchedValue;
+        } else if (!keyword) {
+          selectEl.value = '';
+        }
+      }
     }
   };
 
@@ -2769,6 +3703,64 @@ function bindGlobalEvents() {
         await loadAllData();
         state.loading = false;
         render();
+      } else if (formName === 'erp-barcode-import') {
+        const payload = Object.fromEntries(new FormData(form));
+        const res = await api('/api/ops/inventory/import-barcode', {
+          method: 'POST',
+          body: JSON.stringify(payload)
+        });
+        toast('success', 'Nhập kho thành công', res.message || 'Đã nhập lô hàng mới vào kho.');
+        form.reset();
+        await reloadAfterMutation();
+      } else if (formName === 'erp-recipe-save') {
+        const payload = Object.fromEntries(new FormData(form));
+        const res = await api('/api/ops/recipes', {
+          method: 'POST',
+          body: JSON.stringify(payload)
+        });
+        toast('success', 'Đã lưu công thức', res.message || 'Đã cập nhật định lượng Recipe.');
+        form.reset();
+        await reloadAfterMutation();
+      } else if (formName === 'erp-voucher-create') {
+        const payload = Object.fromEntries(new FormData(form));
+        await api('/api/ops/vouchers', {
+          method: 'POST',
+          body: JSON.stringify(payload)
+        });
+        toast('success', 'Đã tạo Voucher', `Mã giảm giá ${payload.code} đã sẵn sàng sử dụng.`);
+        form.reset();
+        await reloadAfterMutation();
+      } else if (formName === 'erp-shift-open') {
+        const payload = Object.fromEntries(new FormData(form));
+        const res = await api('/api/ops/shifts/open', {
+          method: 'POST',
+          body: JSON.stringify(payload)
+        });
+        toast('success', 'Mở ca thành công', res.message || 'Đã mở ca thu ngân.');
+        form.reset();
+        await reloadAfterMutation();
+      } else if (formName === 'erp-shift-close') {
+        const payload = Object.fromEntries(new FormData(form));
+        const res = await api('/api/ops/shifts/close', {
+          method: 'POST',
+          body: JSON.stringify(payload)
+        });
+        toast('success', 'Đã đóng ca & đối soát', `${res.message} • Chênh lệch: ${formatCurrency(res.data?.discrepancy || 0)}`);
+        form.reset();
+        await reloadAfterMutation();
+      } else if (formName === 'erp-void-waste') {
+        const f = Object.fromEntries(new FormData(form));
+        const res = await api(`/api/ops/orders/${f.orderId}/void-waste`, {
+          method: 'POST',
+          body: JSON.stringify({
+            managerPin: f.managerPin,
+            reason: f.reason,
+            isWaste: f.isWaste === 'true'
+          })
+        });
+        toast('success', 'Đã duyệt hủy / hao hụt', res.message || 'Thao tác thành công.');
+        form.reset();
+        await reloadAfterMutation();
       }
     } catch (error) {
       toast('danger', 'Lưu thất bại', error.message || 'Không thể lưu dữ liệu.');
@@ -2900,9 +3892,11 @@ function normalizePayload(view, payload, mode, id) {
 
   if (view === 'products') {
     body.price = Number(body.price || 0);
+    body.costPrice = Number(body.costPrice || Math.round(Number(body.price || 0) * 0.38));
     body.stock = Number(body.stock || 0);
     body.category_id = Number(body.category_id || 0);
     body.isAvailable = Boolean(body.isAvailable);
+    body.isSecretMenu = Boolean(body.isSecretMenu);
   }
 
   if (view === 'categories') {
@@ -2949,8 +3943,17 @@ function submitOrderForm(form) {
     throw new Error('Đơn hàng phải có ít nhất một món.');
   }
 
+  const selectedUserId = formData.get('user_id') ? Number(formData.get('user_id')) : null;
+  const customerPhone = String(formData.get('customerPhone') || '').trim();
+  const voucherCode = String(formData.get('voucherCode') || '').trim().toUpperCase();
+  const isMember = Boolean(selectedUserId || customerPhone);
+
   const body = {
     table_id: formData.get('table_id') ? Number(formData.get('table_id')) : null,
+    customerType: isMember ? 'MEMBER' : 'GUEST',
+    user_id: selectedUserId,
+    customerPhone: customerPhone || null,
+    voucherCode: voucherCode || null,
     items,
     note: String(formData.get('note') || ''),
     used_points: Number(formData.get('used_points') || 0)
@@ -3210,5 +4213,9 @@ document.addEventListener('input', event => {
   }
 });
 
+const initialViewParam = new URLSearchParams(window.location.search).get('view');
+if (initialViewParam && VIEW_META[initialViewParam]) {
+  state.activeView = initialViewParam;
+}
 render();
 boot();

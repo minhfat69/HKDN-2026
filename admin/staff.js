@@ -328,12 +328,15 @@ function renderTablesGrid(tables) {
     });
 
     // Active reservation lookup
-    const activeRes = allRes.find(r => {
+    const activeRes = table.activeReservation || allRes.find(r => {
       const rTableId = String(r.table_id ?? r.table?.id ?? '');
       const rTableNum = String(r.table?.tableNumber ?? '');
       const matches = (rTableId === tableIdStr || rTableNum === tableNumStr) && (rTableId !== '' || rTableNum !== '');
-      return matches && ['PENDING', 'CONFIRMED'].includes(String(r.status || '').toUpperCase());
+      return matches && ['PENDING', 'CONFIRMED', 'CHECKED_IN', 'ARRIVED'].includes(String(r.status || '').toUpperCase());
     });
+
+    const cleanResPhone = activeRes ? String(activeRes.guestPhone || activeRes.User?.phone || '').trim() : '';
+    const matchedResMember = activeRes ? (activeRes.User || (state.users || []).find(u => (activeRes.user_id && String(u.id) === String(activeRes.user_id)) || (cleanResPhone && String(u.phone || '').trim() === cleanResPhone))) : null;
 
     let customerDisplay = 'Bàn sẵn sàng đón khách';
     let customerIcon = 'fa-chair';
@@ -412,6 +415,15 @@ function renderTablesGrid(tables) {
           </div>
           <span class="muted" style="font-size:0.8rem; font-weight:700">${escapeHtml(durationText)}</span>
         </div>
+
+        ${activeRes ? `
+          <div style="padding:0.45rem 0.7rem; border-radius:10px; background:${matchedResMember ? '#fffbeb' : '#f8fafc'}; border:1px solid ${matchedResMember ? '#fde68a' : '#e2e8f0'}; font-size:0.78rem; display:flex; justify-content:space-between; align-items:center; gap:0.4rem; flex-wrap:wrap">
+            <span><i class="fa-solid fa-phone" style="color:#004ac6"></i> <strong>${escapeHtml(cleanResPhone || '-')}</strong></span>
+            ${matchedResMember
+              ? `<span class="badge-inline" style="background:#fef3c7; color:#b45309; font-weight:800"><i class="fa-solid fa-crown"></i> Thành viên: ${escapeHtml(matchedResMember.fullName)} (${escapeHtml(matchedResMember.tier || 'MEMBER')} • ${formatNumber(matchedResMember.points || 0)}p)</span>`
+              : `<span class="badge-inline" style="background:#f1f5f9; color:#475569; font-weight:700"><i class="fa-regular fa-user"></i> Khách vãng lai</span>`}
+          </div>
+        ` : ''}
 
         <div class="order-stepper table-stepper" title="Tiến trình trạng thái bàn">
           <div class="order-stepper-line"></div>
@@ -576,28 +588,23 @@ function renderReservationsTable(records) {
         const resDate = new Date(res.reservationTime);
         const diffMins = !isNaN(resDate) ? (now - resDate) / 60000 : null;
 
+        const assignableTables = (state.tables || []).filter(t => ['AVAILABLE', 'BOOKED'].includes(String(t.status || '').toUpperCase()) || Number(t.id) === Number(res.table_id));
+        const tableSelectHtml = ['PENDING', 'CONFIRMED'].includes(status) && assignableTables.length > 0 ? `
+          <select class="table-quick-select" data-staff-res-table="${res.id}" style="flex:1; min-width:120px; font-weight:700; font-size:0.82rem; padding:0.35rem 0.5rem">
+            ${assignableTables.map(t => `<option value="${t.id}" ${Number(t.id) === Number(res.table_id) ? 'selected' : ''}>Bàn #${t.tableNumber} (${t.capacity || 4} chỗ)</option>`).join('')}
+          </select>
+        ` : '';
+
         let confirmBtnHtml = '';
         let checkinBtnHtml = '';
         let cancelBtnHtml = '';
 
         if (status === 'PENDING') {
           confirmBtnHtml = `<button class="btn btn-primary btn-small res-action-btn" data-action="confirm-reservation" data-id="${res.id}" title="Xác nhận đơn đặt bàn"><i class="fa-solid fa-check"></i> Duyệt</button>`;
-          if (diffMins !== null && diffMins >= -30 && diffMins <= 30) {
-            checkinBtnHtml = `<button class="btn btn-primary btn-small res-action-btn" data-action="checkin-reservation" data-id="${res.id}" title="Nhận bàn cho khách"><i class="fa-solid fa-user-check"></i> Nhận bàn</button>`;
-          }
+          checkinBtnHtml = `<button class="btn btn-primary btn-small res-action-btn" style="background:#16a34a" data-action="checkin-reservation" data-id="${res.id}" title="Nhận bàn cho khách"><i class="fa-solid fa-user-check"></i> Nhận bàn</button>`;
           cancelBtnHtml = `<button class="btn btn-danger btn-small res-action-btn" data-action="cancel-reservation" data-id="${res.id}" title="Hủy lịch đặt bàn"><i class="fa-solid fa-xmark"></i> Hủy</button>`;
         } else if (status === 'CONFIRMED') {
-          if (diffMins !== null) {
-            if (diffMins >= -30 && diffMins <= 30) {
-              checkinBtnHtml = `<button class="btn btn-primary btn-small res-action-btn" data-action="checkin-reservation" data-id="${res.id}" title="Nhận bàn cho khách"><i class="fa-solid fa-user-check"></i> Nhận bàn</button>`;
-            } else if (diffMins < -30) {
-              checkinBtnHtml = `<span class="res-disabled-pill" title="Chỉ mở nút Nhận bàn trong khoảng 30 phút trước hoặc 30 phút sau giờ đặt bàn (${formatDateTime(res.reservationTime)})"><i class="fa-solid fa-clock"></i> Chưa tới giờ</span>`;
-            } else {
-              checkinBtnHtml = `<span class="res-disabled-pill" title="Đã trễ quá 30 phút so với giờ đặt bàn (${formatDateTime(res.reservationTime)})"><i class="fa-solid fa-triangle-exclamation"></i> Quá 30p</span>`;
-            }
-          } else {
-            checkinBtnHtml = `<button class="btn btn-primary btn-small res-action-btn" data-action="checkin-reservation" data-id="${res.id}"><i class="fa-solid fa-user-check"></i> Nhận bàn</button>`;
-          }
+          checkinBtnHtml = `<button class="btn btn-primary btn-small res-action-btn" style="background:#16a34a" data-action="checkin-reservation" data-id="${res.id}" title="Nhận bàn cho khách"><i class="fa-solid fa-user-check"></i> Nhận bàn</button>`;
           cancelBtnHtml = `<button class="btn btn-danger btn-small res-action-btn" data-action="cancel-reservation" data-id="${res.id}" title="Hủy lịch đặt bàn"><i class="fa-solid fa-xmark"></i> Hủy</button>`;
         }
 
@@ -629,7 +636,8 @@ function renderReservationsTable(records) {
 
             ${res.note ? `<div class="res-note-box"><i class="fa-solid fa-quote-left"></i><span>"${escapeHtml(res.note)}"</span></div>` : ''}
 
-            <div class="row-actions" style="margin-top:auto; display:flex; gap:0.5rem; justify-content:flex-end; align-items:center">
+            <div class="row-actions" style="margin-top:auto; display:flex; gap:0.5rem; flex-wrap:wrap; justify-content:flex-end; align-items:center">
+              ${tableSelectHtml}
               ${confirmBtnHtml}
               ${checkinBtnHtml}
               ${cancelBtnHtml}
@@ -1216,9 +1224,14 @@ function bindGlobalActions() {
     const checkinBtn = event.target.closest('[data-action="checkin-reservation"]');
     if (checkinBtn) {
       const resId = checkinBtn.dataset.id;
+      const selEl = document.querySelector(`select[data-staff-res-table="${resId}"]`);
+      const chosenTableId = selEl?.value ? Number(selEl.value) : null;
       try {
-        await api(`/api/reservations/${resId}/check-in`, { method: 'PUT' });
-        alert(`Đã Check-in thành công cho lịch đặt bàn #${resId}!`);
+        await api(`/api/reservations/${resId}/check-in`, {
+          method: 'PUT',
+          body: JSON.stringify({ force: true, table_id: chosenTableId })
+        });
+        alert(`Đã Check-in nhận bàn thành công cho lịch đặt bàn #${resId}!`);
         await bootstrap();
       } catch (err) {
         alert(err.message || 'Không thể Check-in đặt bàn');

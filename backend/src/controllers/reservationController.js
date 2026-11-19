@@ -48,9 +48,20 @@ exports.createReservation = async (req, res, next) => {
             });
         }
 
+        let resolvedUserId = user_id || null;
+        if (!resolvedUserId && guestPhone && typeof User?.findOne === 'function') {
+            const matchedUser = await User.findOne({
+                where: { phone: String(guestPhone).trim() },
+                transaction: t
+            });
+            if (matchedUser) {
+                resolvedUserId = matchedUser.id;
+            }
+        }
+
         const reservation = await Reservation.create({
             table_id: availableTable.id,
-            user_id: user_id || null,
+            user_id: resolvedUserId,
             guestName,
             guestPhone,
             reservationTime: startTime,
@@ -91,25 +102,41 @@ exports.checkIn = async (req, res, next) => {
             return res.status(400).json({ message: "Trạng thái đặt bàn không hợp lệ để nhận bàn" });
         }
 
-        // Logic check: Only allow check-in within 30 mins before or 30 mins after reservationTime
-        const now = new Date();
-        const resTime = new Date(reservation.reservationTime);
-        const diffMins = (now - resTime) / 60000;
+        // Logic check: Only allow check-in within 30 mins before or 30 mins after reservationTime (unless force/table_id is passed from Host/Staff UI)
+        const forceCheckIn = Boolean(req.body && (req.body.force || req.body.table_id));
+        if (!forceCheckIn) {
+            const now = new Date();
+            const resTime = new Date(reservation.reservationTime);
+            const diffMins = (now - resTime) / 60000;
 
-        if (diffMins < -30 || diffMins > 30) {
-            await t.rollback();
-            return res.status(400).json({
-                message: "Chỉ có thể nhấn nhận bàn trong khoảng 30 phút trước hoặc 30 phút sau giờ đặt bàn!"
-            });
+            if (diffMins < -30 || diffMins > 30) {
+                await t.rollback();
+                return res.status(400).json({
+                    message: "Chỉ có thể nhấn nhận bàn trong khoảng 30 phút trước hoặc 30 phút sau giờ đặt bàn!"
+                });
+            }
+        }
+
+        const targetTableId = (req.body && req.body.table_id) ? Number(req.body.table_id) : reservation.table_id;
+        if (req.body && req.body.table_id && Number(req.body.table_id) !== Number(reservation.table_id)) {
+            if (reservation.table_id) {
+                await RestaurantTable.update(
+                    { status: 'AVAILABLE' },
+                    { where: { id: reservation.table_id, status: 'BOOKED' }, transaction: t }
+                );
+            }
+            reservation.table_id = targetTableId;
         }
 
         reservation.status = 'CHECKED_IN';
         await reservation.save({ transaction: t });
 
-        await RestaurantTable.update(
-            { status: 'OCCUPIED' },
-            { where: { id: reservation.table_id }, transaction: t }
-        );
+        if (targetTableId) {
+            await RestaurantTable.update(
+                { status: 'OCCUPIED' },
+                { where: { id: targetTableId }, transaction: t }
+            );
+        }
 
         await t.commit();
         res.json({ message: "Xác nhận nhận bàn thành công" });
@@ -208,6 +235,40 @@ exports.getAllReservations = async (req, res, next) => {
             include: [{ model: RestaurantTable, as: 'table' }, { model: User, as: 'User' }],
             order: [['reservationTime', 'ASC']]
         });
+
+        // Đồng bộ tự động khách đặt bàn với tài khoản Thành viên qua Số điện thoại (nếu user_id chưa gán)
+        if (typeof User?.findAll === 'function' && Array.isArray(reservations) && reservations.length > 0) {
+            const allUsers = await User.findAll({
+                attributes: ['id', 'fullName', 'phone', 'email', 'username', 'points', 'totalSpent', 'tier', 'membershipTier', 'role']
+            });
+            const phoneMap = new Map();
+            for (const u of allUsers) {
+                if (u.phone) phoneMap.set(String(u.phone).trim(), u);
+            }
+
+            const enriched = reservations.map(r => {
+                const plain = typeof r.toJSON === 'function' ? r.toJSON() : { ...r };
+                const cleanPhone = String(plain.guestPhone || '').trim();
+                const matchedUser = plain.User || (cleanPhone ? phoneMap.get(cleanPhone) : null);
+                if (matchedUser) {
+                    const userJson = typeof matchedUser.toJSON === 'function' ? matchedUser.toJSON() : matchedUser;
+                    plain.User = userJson;
+                    plain.user_id = plain.user_id || userJson.id;
+                    plain.isMember = true;
+                    plain.customerType = 'MEMBER';
+                    plain.memberTier = userJson.tier || userJson.membershipTier || 'MEMBER';
+                    plain.memberPoints = userJson.points ?? 0;
+                } else {
+                    plain.isMember = false;
+                    plain.customerType = 'GUEST';
+                    plain.memberTier = null;
+                    plain.memberPoints = 0;
+                }
+                return plain;
+            });
+            return res.json(enriched);
+        }
+
         res.json(reservations);
     } catch (error) {
         next(error);

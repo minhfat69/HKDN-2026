@@ -1,4 +1,4 @@
-const { RestaurantTable, Reservation, Order } = require('../models');
+const { RestaurantTable, Reservation, Order, User } = require('../models');
 const { Op } = require('sequelize');
 
 exports.getAllTables = async (req, res, next) => {
@@ -8,6 +8,16 @@ exports.getAllTables = async (req, res, next) => {
         });
         const now = new Date();
         const expiryThreshold = new Date(now.getTime() - 30 * 60000);
+
+        let phoneUserMap = new Map();
+        if (typeof User?.findAll === 'function') {
+            const allUsers = await User.findAll({
+                attributes: ['id', 'fullName', 'phone', 'username', 'points', 'totalSpent', 'tier', 'membershipTier', 'role']
+            }).catch(() => []);
+            for (const u of allUsers || []) {
+                if (u.phone) phoneUserMap.set(String(u.phone).trim(), typeof u.toJSON === 'function' ? u.toJSON() : u);
+            }
+        }
 
         const updatedTables = await Promise.all(tables.map(async (table) => {
             const tableData = table.toJSON();
@@ -49,6 +59,7 @@ exports.getAllTables = async (req, res, next) => {
                         ? `${Math.floor(diffMins / 60)}h ${diffMins % 60}p`
                         : `${diffMins}p`;
                     tableData.guestCount = checkInRes.numberOfGuests;
+                    tableData.activeReservation = typeof checkInRes.toJSON === 'function' ? checkInRes.toJSON() : checkInRes;
                 }
             }
 
@@ -67,11 +78,41 @@ exports.getAllTables = async (req, res, next) => {
                 const resTime = new Date(activeReservation.reservationTime);
                 if (now >= new Date(resTime.getTime() - 30 * 60000)) {
                     tableData.calculatedStatus = 'BOOKED';
-                    tableData.activeReservation = activeReservation;
+                    tableData.activeReservation = typeof activeReservation.toJSON === 'function' ? activeReservation.toJSON() : activeReservation;
 
                     if (now >= resTime) {
                         tableData.waitingAlert = true;
                     }
+                }
+            }
+
+            // Nếu bàn đang có lịch đặt trước (PENDING/CONFIRMED/CHECKED_IN), đồng bộ thông tin Thành viên hay Khách vãng lai qua SĐT
+            if (!tableData.activeReservation) {
+                const anyActiveRes = await Reservation.findOne({
+                    where: {
+                        table_id: table.id,
+                        status: { [Op.in]: ['PENDING', 'CONFIRMED', 'CHECKED_IN'] }
+                    },
+                    order: [['reservationTime', 'ASC']]
+                });
+                if (anyActiveRes) {
+                    tableData.activeReservation = typeof anyActiveRes.toJSON === 'function' ? anyActiveRes.toJSON() : anyActiveRes;
+                }
+            }
+
+            if (tableData.activeReservation) {
+                const cleanPhone = String(tableData.activeReservation.guestPhone || '').trim();
+                const matchedMember = cleanPhone ? phoneUserMap.get(cleanPhone) : null;
+                if (matchedMember) {
+                    tableData.activeReservation.User = matchedMember;
+                    tableData.activeReservation.user_id = tableData.activeReservation.user_id || matchedMember.id;
+                    tableData.activeReservation.isMember = true;
+                    tableData.activeReservation.customerType = 'MEMBER';
+                    tableData.activeReservation.memberTier = matchedMember.tier || 'MEMBER';
+                    tableData.activeReservation.memberPoints = matchedMember.points ?? 0;
+                } else {
+                    tableData.activeReservation.isMember = false;
+                    tableData.activeReservation.customerType = 'GUEST';
                 }
             }
 

@@ -1,6 +1,6 @@
 const {
     User, Product, Order, OrderItem, RestaurantTable, Payment,
-    Voucher, Shift, Ingredient, InventoryBatch, Recipe, sequelize
+    Voucher, Shift, Ingredient, InventoryBatch, Recipe, VoidLog, sequelize
 } = require('../models');
 const { Op } = require('sequelize');
 
@@ -42,30 +42,88 @@ async function deductIngredientsByOrder(orderId, transaction) {
 }
 exports.deductIngredientsByOrder = deductIngredientsByOrder;
 
-// 1. KIỂM TRA VOUCHER & ĐẶC QUYỀN HẠNG THÀNH VIÊN (TIERING)
+// 1. TRA CỨU & TÌM KIẾM THÀNH VIÊN BẰNG TÊN / SĐT & KIỂM TRA VOUCHER / HẠNG THÀNH VIÊN (TIERING)
+exports.searchMembers = async (req, res) => {
+    try {
+        const q = String(req.query.q || '').trim();
+        const where = {};
+        if (q) {
+            where[Op.or] = [
+                { fullName: { [Op.like]: `%${q}%` } },
+                { phone: { [Op.like]: `%${q}%` } },
+                { username: { [Op.like]: `%${q}%` } },
+                { email: { [Op.like]: `%${q}%` } }
+            ];
+        }
+        const users = await User.findAll({
+            where,
+            attributes: ['id', 'fullName', 'phone', 'email', 'username', 'points', 'totalSpent', 'tier', 'membershipTier', 'role', 'status'],
+            order: [['points', 'DESC'], ['id', 'ASC']],
+            limit: 30
+        });
+        res.json(users);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+};
+
+exports.lookupMemberByPhone = async (req, res) => {
+    try {
+        const phone = String(req.query.phone || '').trim();
+        if (!phone) return res.status(400).json({ message: 'Vui lòng nhập số điện thoại hoặc tên thành viên' });
+        const user = await User.findOne({
+            where: {
+                [Op.or]: [
+                    { phone },
+                    { phone: { [Op.like]: `%${phone}%` } },
+                    { fullName: { [Op.like]: `%${phone}%` } },
+                    { username: phone }
+                ]
+            },
+            attributes: ['id', 'fullName', 'phone', 'email', 'username', 'points', 'totalSpent', 'tier', 'membershipTier', 'role']
+        });
+        if (!user) return res.status(404).json({ message: 'Không tìm thấy tài khoản thành viên phù hợp' });
+        res.json(user);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+};
+
 exports.previewDiscount = async (req, res) => {
     try {
-        const { subtotal, voucherCode, user_id } = req.body;
+        const { subtotal, voucherCode, user_id, phone } = req.body;
         const amount = Number(subtotal || 0);
         let tierDiscount = 0;
         let tierName = 'MEMBER';
+        let memberInfo = null;
 
+        let user = null;
         if (user_id) {
-            const user = await User.findByPk(user_id);
-            if (user) {
-                tierName = user.tier || 'MEMBER';
-                const tierRates = { MEMBER: 0, SILVER: 0.03, GOLD: 0.05, VIP: 0.10 };
-                tierDiscount = Math.round(amount * (tierRates[tierName] || 0));
-            }
+            user = await User.findByPk(user_id);
+        } else if (phone) {
+            user = await User.findOne({ where: { phone: String(phone).trim() } });
+        }
+        if (user) {
+            tierName = user.tier || 'MEMBER';
+            const tierRates = { MEMBER: 0, SILVER: 0.03, GOLD: 0.05, VIP: 0.10 };
+            tierDiscount = Math.round(amount * (tierRates[tierName] || 0));
+            memberInfo = {
+                id: user.id,
+                fullName: user.fullName,
+                phone: user.phone,
+                points: user.points || 0,
+                tier: tierName
+            };
         }
 
         let voucherDiscount = 0;
+        let appliedVoucher = null;
         if (voucherCode) {
             const v = await Voucher.findOne({ where: { code: voucherCode.trim().toUpperCase(), isActive: true } });
             if (!v) return res.status(404).json({ message: 'Mã giảm giá không tồn tại hoặc đã ngừng hoạt động' });
             if (v.expiredAt && new Date(v.expiredAt) < new Date()) return res.status(400).json({ message: 'Mã giảm giá đã hết hạn' });
-            if (v.usedCount >= v.usageLimit) return res.status(400).json({ message: 'Mã giảm giá đã hết lượt sử dụng' });
-            if (amount < Number(v.minOrderValue)) return res.status(400).json({ message: `Đơn tối thiểu ${Number(v.minOrderValue).toLocaleString('vi-VN')}đ để dùng mã này` });
+            if (v.usageLimit > 0 && v.usedCount >= v.usageLimit) return res.status(400).json({ message: 'Mã giảm giá đã hết lượt sử dụng' });
+            if (amount < Number(v.minOrderValue || 0)) return res.status(400).json({ message: `Đơn tối thiểu ${Number(v.minOrderValue).toLocaleString('vi-VN')}đ để dùng mã này` });
 
             if (v.discountType === 'PERCENT') {
                 voucherDiscount = Math.round((amount * Number(v.discountValue)) / 100);
@@ -73,13 +131,14 @@ exports.previewDiscount = async (req, res) => {
             } else {
                 voucherDiscount = Number(v.discountValue);
             }
+            appliedVoucher = { id: v.id, code: v.code, discountType: v.discountType, discountValue: v.discountValue };
         }
 
         const totalDiscount = tierDiscount + voucherDiscount;
         const vatAmount = Math.round(Math.max(0, amount - totalDiscount) * 0.08);
-        const finalPrice = Math.max(0, amount - totalDiscount + vatAmount);
+        const finalPrice = Math.max(0, amount - totalDiscount);
 
-        res.json({ subtotal: amount, tierName, tierDiscount, voucherDiscount, totalDiscount, vatAmount, finalPrice });
+        res.json({ subtotal: amount, tierName, tierDiscount, voucherDiscount, totalDiscount, vatAmount, finalPrice, memberInfo, appliedVoucher });
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
@@ -206,14 +265,39 @@ exports.voidOrWasteOrder = async (req, res) => {
             await deductIngredientsByOrder(order.id, t);
         }
 
+        const cancelReasonText = reason || (isWaste ? 'Bếp làm hỏng (Waste)' : 'Khách trả món (Void)');
         await order.update({
             status: 'CANCELLED',
-            cancelReason: reason || (isWaste ? 'Bếp làm hỏng (Waste)' : 'Khách trả món (Void)'),
+            cancelReason: cancelReasonText,
             isWaste: !!isWaste
         }, { transaction: t });
 
+        // Lưu vào bảng void_logs
+        const adminUser = await User.findOne({ where: { role: 'ADMIN' }, transaction: t });
+        const authorizerId = (req.user && req.user.id) || (adminUser ? adminUser.id : 1);
+        if (VoidLog && typeof VoidLog.create === 'function') {
+            for (const item of order.OrderItems || []) {
+                await VoidLog.create({
+                    order_item_id: item.id,
+                    type: isWaste ? 'WASTE' : 'VOID',
+                    reason: cancelReasonText,
+                    quantity: item.quantity || 1,
+                    authorizedBy: authorizerId
+                }, { transaction: t });
+            }
+        }
+
+        // Ghi log trực tiếp vào Ca thu ngân đang mở (nếu có)
+        const openShift = await Shift.findOne({ where: { status: 'OPEN' }, order: [['id', 'DESC']], transaction: t });
+        if (openShift) {
+            const timeStr = new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
+            const logLine = `[${timeStr}] Hủy đơn #${order.id} (${isWaste ? 'WASTE - Hao hụt bếp' : 'VOID - Hoàn kho'}): ${cancelReasonText} (${Number(order.finalPrice || order.totalPrice || 0).toLocaleString('vi-VN')}đ)`;
+            const nextNote = openShift.note ? `${openShift.note} | ${logLine}` : logLine;
+            await openShift.update({ note: nextNote }, { transaction: t });
+        }
+
         await t.commit();
-        res.json({ message: `Đã duyệt hủy đơn #${order.id} bằng mã PIN Quản lý (${isWaste ? 'Hao hụt Bếp' : 'Hoàn kho'})`, data: order });
+        res.json({ message: `Đã duyệt hủy đơn #${order.id} bằng mã PIN Quản lý (${isWaste ? 'Hao hụt Bếp' : 'Hoàn kho'}) và ghi vào nhật ký ca!`, data: order });
     } catch (err) {
         await t.rollback();
         res.status(400).json({ message: err.message });
@@ -274,8 +358,51 @@ exports.closeShift = async (req, res) => {
 };
 
 exports.getCurrentShift = async (req, res) => {
-    const shift = await Shift.findOne({ order: [['id', 'DESC']] });
+    const shift = await Shift.findOne({
+        include: [{ model: User, as: 'staff', attributes: ['id', 'fullName', 'username'] }],
+        order: [['id', 'DESC']]
+    });
     res.json(shift || null);
+};
+
+exports.getShiftLogs = async (req, res) => {
+    try {
+        const [shifts, cancelledOrders, voidLogs] = await Promise.all([
+            Shift.findAll({
+                include: [{ model: User, as: 'staff', attributes: ['id', 'fullName', 'username', 'role'] }],
+                order: [['id', 'DESC']],
+                limit: 30
+            }),
+            Order.findAll({
+                where: { status: 'CANCELLED' },
+                include: [
+                    { model: User, as: 'User', attributes: ['id', 'fullName', 'phone'] },
+                    { model: RestaurantTable, as: 'RestaurantTable' },
+                    { model: OrderItem, as: 'OrderItems', include: [{ model: Product, as: 'Product', attributes: ['id', 'name'] }] }
+                ],
+                order: [['updated_at', 'DESC']],
+                limit: 30
+            }),
+            VoidLog && typeof VoidLog.findAll === 'function'
+                ? VoidLog.findAll({
+                    include: [
+                        { model: User, as: 'authorizer', attributes: ['id', 'fullName', 'username'] },
+                        { model: OrderItem, as: 'orderItem', include: [{ model: Product, as: 'Product', attributes: ['id', 'name'] }] }
+                    ],
+                    order: [['id', 'DESC']],
+                    limit: 50
+                }).catch(() => [])
+                : []
+        ]);
+
+        res.json({
+            shifts,
+            cancelledOrders,
+            voidLogs
+        });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
 };
 
 // 4. ADMIN: QUẢN LÝ KHO BARCODE, LÔ HÀNG MFG/EXP (FEFO), ĐỊNH LƯỢNG RECIPE & BÁO CÁO P&L

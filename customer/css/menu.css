@@ -100,56 +100,41 @@
 ==================================================*/
 
 .menu-layout {
-
     display:grid;
-
-    grid-template-columns:3fr 1fr;
-
-    gap:35px;
-
+    grid-template-columns:1fr 380px;
+    gap:32px;
     align-items:start;
-
 }
-
 
 /*==================================================
                     PRODUCT GRID
 ==================================================*/
 
 .product-grid {
-
     display:grid;
-
     grid-template-columns:
         repeat(
             auto-fill,
-            minmax(280px,1fr)
+            minmax(260px,1fr)
         );
-
-    gap:28px;
-
+    gap:24px;
+    align-items:stretch;
 }
-
 
 /*==================================================
                     PRODUCT CARD
 ==================================================*/
 
 .product-card {
-
     background:#18181b;
-
-    border:1px solid rgba(255,255,255,.07);
-
-    border-radius:22px;
-
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:20px;
     overflow:hidden;
-
-    box-shadow:
-        0 18px 45px rgba(0,0,0,.35);
-
-    transition:.3s;
-
+    box-shadow: 0 14px 36px rgba(0,0,0,.35);
+    transition:.28s ease;
+    display:flex;
+    flex-direction:column;
+    height:100%;
 }
 
 
@@ -207,64 +192,47 @@
 ==================================================*/
 
 .product-content {
-
-    padding:22px;
-
+    padding:20px;
     background:#18181b;
-
+    display:flex;
+    flex-direction:column;
+    flex:1;
 }
-
 
 /*================ PRODUCT NAME =================*/
 
 .product-content h3 {
-
     color:#ffffff;
-
-    font-size:21px;
-
+    font-size:19px;
     font-weight:700;
-
-    margin-bottom:10px;
-
-    line-height:1.4;
-
+    margin-bottom:8px;
+    line-height:1.35;
 }
-
 
 /*================ DESCRIPTION =================*/
 
 .product-content p {
-
     color:#b5b5b5;
-
-    line-height:1.7;
-
-    min-height:55px;
-
-    font-size:14px;
-
+    line-height:1.6;
+    font-size:13.5px;
+    margin-bottom:14px;
+    display:-webkit-box;
+    -webkit-line-clamp:2;
+    -webkit-box-orient:vertical;
+    overflow:hidden;
 }
-
 
 /*==================================================
                     PRODUCT FOOTER
 ==================================================*/
 
 .product-footer {
-
     display:flex;
-
     justify-content:space-between;
-
     align-items:center;
-
-    margin-top:20px;
-
-    padding-top:16px;
-
-    border-top:1px solid rgba(255,255,255,.07);
-
+    margin-top:auto;
+    padding-top:14px;
+    border-top:1px solid rgba(255,255,255,.08);
 }
 
 

@@ -165,6 +165,8 @@ CREATE TABLE IF NOT EXISTS `reviews` (
   `content` text,
   `rating` integer NOT NULL,
   `status` ENUM ('VISIBLE', 'HIDDEN') DEFAULT 'VISIBLE' COMMENT 'Mới thêm — UC33 kiểm duyệt',
+  `reply` text COMMENT 'Phản hồi của nhà hàng cho đánh giá khách hàng',
+  `replied_at` timestamp NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );

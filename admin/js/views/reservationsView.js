@@ -47,7 +47,8 @@ export function renderReservationsGrid(records, activeFilter = 'ALL') {
     return `<div class="empty-state"><strong>Không tìm thấy lịch đặt bàn ở trạng thái này</strong></div>`;
   }
 
-  const now = new Date();
+  const tables = Array.isArray(window.__tablesList) ? window.__tablesList : [];
+  const allUsers = Array.isArray(window.__usersList) ? window.__usersList : [];
 
   return `
     <div class="reservations-grid">
@@ -56,42 +57,45 @@ export function renderReservationsGrid(records, activeFilter = 'ALL') {
         const tableStr = res.table?.tableNumber ? `#${res.table.tableNumber}` : res.table_id ? `#${res.table_id}` : 'Chưa xếp';
         const rawStatus = String(res.status || 'PENDING').toUpperCase();
 
-        const resDate = new Date(res.reservationTime);
-        const diffMins = !isNaN(resDate) ? (now - resDate) / 60000 : null;
+        const cleanPhone = String(res.guestPhone || '').trim();
+        const matchedUser = res.User || allUsers.find(u =>
+          (res.user_id && String(u.id) === String(res.user_id)) ||
+          (cleanPhone && String(u.phone || '').trim() === cleanPhone)
+        );
+        const isMember = Boolean(matchedUser || res.isMember);
+        const memberBadgeHtml = isMember
+          ? `<span class="badge-inline" style="background:#fef3c7; color:#b45309; font-weight:800; font-size:0.74rem"><i class="fa-solid fa-crown"></i> Thành viên (${escapeHtml(matchedUser?.tier || res.memberTier || 'MEMBER')} • ${formatNumber(matchedUser?.points ?? res.memberPoints ?? 0)}đ)</span>`
+          : `<span class="badge-inline" style="background:#f1f5f9; color:#475569; font-weight:700; font-size:0.74rem"><i class="fa-regular fa-user"></i> Khách vãng lai</span>`;
+
+        const assignableTables = tables.filter(t => ['AVAILABLE', 'BOOKED'].includes(String(t.status || '').toUpperCase()) || Number(t.id) === Number(res.table_id));
+        const tableSelectHtml = ['PENDING', 'CONFIRMED'].includes(rawStatus) && assignableTables.length > 0 ? `
+          <select class="inline-input" data-res-table-select="${res.id}" style="flex:1; min-width:130px; font-weight:700; font-size:0.82rem; padding:0.38rem 0.6rem">
+            ${assignableTables.map(t => `<option value="${t.id}" ${Number(t.id) === Number(res.table_id) ? 'selected' : ''}>Bàn #${t.tableNumber} (${t.capacity || 4} chỗ)</option>`).join('')}
+          </select>
+        ` : '';
 
         let confirmBtnHtml = '';
         let checkinBtnHtml = '';
         let cancelBtnHtml = '';
 
         if (rawStatus === 'PENDING') {
-          confirmBtnHtml = `<button class="btn btn-primary btn-small res-action-btn" data-action="reservation-confirm" data-id="${res.id}" title="Xác nhận đơn đặt bàn"><i class="fa-solid fa-check"></i> Xác nhận</button>`;
-          if (diffMins !== null && diffMins >= -30 && diffMins <= 30) {
-            checkinBtnHtml = `<button class="btn btn-primary btn-small res-action-btn" data-action="reservation-checkin" data-id="${res.id}" title="Nhận bàn cho khách"><i class="fa-solid fa-user-check"></i> Nhận bàn</button>`;
-          }
+          confirmBtnHtml = `<button class="btn btn-primary btn-small res-action-btn" data-action="reservation-confirm" data-id="${res.id}" title="Xác nhận đơn đặt bàn"><i class="fa-solid fa-check"></i> Duyệt</button>`;
+          checkinBtnHtml = `<button class="btn btn-primary btn-small res-action-btn" style="background:#16a34a" data-action="reservation-checkin" data-id="${res.id}" title="Check-in nhận bàn cho khách"><i class="fa-solid fa-user-check"></i> Nhận bàn</button>`;
           cancelBtnHtml = `<button class="btn btn-danger btn-small res-action-btn" data-action="reservation-cancel" data-id="${res.id}" title="Hủy lịch đặt bàn"><i class="fa-solid fa-xmark"></i> Hủy</button>`;
         } else if (rawStatus === 'CONFIRMED') {
-          if (diffMins !== null) {
-            if (diffMins >= -30 && diffMins <= 30) {
-              checkinBtnHtml = `<button class="btn btn-primary btn-small res-action-btn" data-action="reservation-checkin" data-id="${res.id}" title="Nhận bàn cho khách"><i class="fa-solid fa-user-check"></i> Nhận bàn</button>`;
-            } else if (diffMins < -30) {
-              checkinBtnHtml = `<span class="res-disabled-pill" title="Chỉ mở nút Nhận bàn trong khoảng 30 phút trước hoặc 30 phút sau giờ đặt bàn"><i class="fa-solid fa-clock"></i> Chưa tới giờ</span>`;
-            } else {
-              checkinBtnHtml = `<span class="res-disabled-pill" title="Đã quá 30 phút so với giờ đặt bàn"><i class="fa-solid fa-triangle-exclamation"></i> Quá 30p</span>`;
-            }
-          } else {
-            checkinBtnHtml = `<button class="btn btn-primary btn-small res-action-btn" data-action="reservation-checkin" data-id="${res.id}"><i class="fa-solid fa-user-check"></i> Nhận bàn</button>`;
-          }
+          checkinBtnHtml = `<button class="btn btn-primary btn-small res-action-btn" style="background:#16a34a" data-action="reservation-checkin" data-id="${res.id}" title="Check-in nhận bàn cho khách"><i class="fa-solid fa-user-check"></i> Nhận bàn</button>`;
           cancelBtnHtml = `<button class="btn btn-danger btn-small res-action-btn" data-action="reservation-cancel" data-id="${res.id}" title="Hủy lịch đặt bàn"><i class="fa-solid fa-xmark"></i> Hủy</button>`;
         }
 
         return `
-          <article class="reservation-card">
+          <article class="reservation-card" style="display:flex; flex-direction:column; height:100%">
             <div class="reservation-header">
               <div class="guest-info">
                 <div class="guest-avatar">${initials}</div>
                 <div>
                   <div class="guest-name">#${res.id} • ${escapeHtml(res.guestName || 'Khách')}</div>
                   <div class="guest-phone"><i class="fa-solid fa-phone"></i> ${escapeHtml(res.guestPhone || '-')}</div>
+                  <div style="margin-top:0.25rem">${memberBadgeHtml}</div>
                 </div>
               </div>
               ${RESERVATION_STATUS_MAP[rawStatus] || rawStatus}
@@ -110,7 +114,8 @@ export function renderReservationsGrid(records, activeFilter = 'ALL') {
 
             ${res.note ? `<div class="res-note-box"><i class="fa-solid fa-quote-left"></i><span>"${escapeHtml(res.note)}"</span></div>` : ''}
 
-            <div class="row-actions" style="margin-top:auto; display:flex; gap:0.5rem; justify-content:flex-end; align-items:center">
+            <div class="row-actions" style="margin-top:auto; padding-top:0.65rem; display:flex; gap:0.45rem; flex-wrap:wrap; justify-content:flex-end; align-items:center">
+              ${tableSelectHtml}
               ${confirmBtnHtml}
               ${checkinBtnHtml}
               ${cancelBtnHtml}
