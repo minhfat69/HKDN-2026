@@ -34,6 +34,18 @@ module.exports = (sequelize) => {
                 min: 1,
                 max: 5
             }
+        },
+        status: {
+            type: DataTypes.ENUM("VISIBLE", "HIDDEN"),
+            defaultValue: "VISIBLE"
+        },
+        reply: {
+            type: DataTypes.TEXT,
+            allowNull: true
+        },
+        replied_at: {
+            type: DataTypes.DATE,
+            allowNull: true
         }
     }, {
         tableName: 'reviews',

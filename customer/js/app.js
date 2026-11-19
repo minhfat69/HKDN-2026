@@ -609,9 +609,10 @@ async function loadHeaderPoints() {
         const data =
             await response.json();
 
-        // Phải dùng ?? để trường hợp points = 0 vẫn hiển thị
-        headerPoints.textContent =
-            data.points ?? 0;
+        const pts = data.points ?? 0;
+        const userObj = getCurrentUser();
+        const tier = data.tier || userObj?.tier || "";
+        headerPoints.textContent = tier ? `${Number(pts).toLocaleString("vi-VN")} • ${tier}` : Number(pts).toLocaleString("vi-VN");
 
     } catch (error) {
 

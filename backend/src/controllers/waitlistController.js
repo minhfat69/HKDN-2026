@@ -88,7 +88,7 @@ exports.notifyEntry = async (req, res) => {
     }
 };
 
-// Xếp khách vào bàn: bàn phải đang AVAILABLE
+// Xếp khách vào bàn: hỗ trợ bàn đã chọn hoặc tự động lấy bàn trống phù hợp
 exports.seatEntry = async (req, res) => {
     const t = await sequelize.transaction();
     try {
@@ -97,19 +97,27 @@ exports.seatEntry = async (req, res) => {
             await t.rollback();
             return res.status(404).json({ message: 'Khách không còn trong hàng chờ' });
         }
-        const table = await RestaurantTable.findByPk(req.body.table_id, { transaction: t, lock: t.LOCK.UPDATE });
+        let table = null;
+        if (req.body && req.body.table_id) {
+            table = await RestaurantTable.findByPk(req.body.table_id, { transaction: t, lock: t.LOCK.UPDATE });
+        } else {
+            const suggested = await findSuggestedTable(entry.partySize);
+            if (suggested) {
+                table = await RestaurantTable.findByPk(suggested.id, { transaction: t, lock: t.LOCK.UPDATE });
+            }
+        }
         if (!table) {
             await t.rollback();
-            return res.status(404).json({ message: 'Không tìm thấy bàn' });
+            return res.status(404).json({ message: 'Không tìm thấy bàn trống phù hợp, vui lòng chọn bàn trên sơ đồ' });
         }
-        if (table.status !== 'AVAILABLE') {
+        if (!['AVAILABLE', 'BOOKED'].includes(String(table.status).toUpperCase())) {
             await t.rollback();
-            return res.status(400).json({ message: `Bàn ${table.tableNumber} không trống (${table.status})` });
+            return res.status(400).json({ message: `Bàn ${table.tableNumber} hiện đang bận (${table.status})` });
         }
         await table.update({ status: 'OCCUPIED' }, { transaction: t });
         await entry.update({ status: 'SEATED', seatedAt: new Date(), table_id: table.id }, { transaction: t });
         await t.commit();
-        res.status(200).json({ message: `Đã xếp khách vào bàn ${table.tableNumber}`, data: entry });
+        res.status(200).json({ message: `Đã xếp khách ${entry.guestName} vào Bàn #${table.tableNumber}`, data: entry });
     } catch (error) {
         await t.rollback();
         res.status(500).json({ message: error.message });

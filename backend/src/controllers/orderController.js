@@ -1,14 +1,64 @@
-const { Order, OrderItem, Product, RestaurantTable, User, Reservation, Payment, sequelize } = require('../models');
+const { Order, OrderItem, Product, RestaurantTable, User, Reservation, Payment, Voucher, sequelize } = require('../models');
 const { deductIngredientsByOrder } = require('./operationsController');
+
+async function awardLoyaltyPointsForOrder(order, t) {
+    if (!order || !order.user_id || order.isPointsAdded || typeof User?.findByPk !== 'function') return null;
+    const user = await User.findByPk(order.user_id, { transaction: t });
+    if (!user || typeof user.update !== 'function') return null;
+
+    const paidAmount = Number(order.finalPrice || order.totalPrice || 0);
+    // Tích điểm: 5% giá trị đơn (hoặc tối thiểu 10 điểm nếu đơn > 0)
+    const earnedPoints = paidAmount > 0 ? Math.max(10, Math.round(paidAmount * 0.05)) : 0;
+    const nextPoints = Number(user.points || 0) + earnedPoints;
+    const nextSpent = Number(user.totalSpent || 0) + paidAmount;
+
+    let nextTier = user.tier || 'MEMBER';
+    let nextMembershipTier = user.membershipTier || 'BAC';
+    if (nextSpent >= 5000000 || nextPoints >= 500000) {
+        nextTier = 'VIP';
+        nextMembershipTier = 'VIP';
+    } else if (nextSpent >= 2000000 || nextPoints >= 200000) {
+        nextTier = 'GOLD';
+        nextMembershipTier = 'VANG';
+    } else if (nextSpent >= 500000 || nextPoints >= 50000) {
+        nextTier = 'SILVER';
+        nextMembershipTier = 'BAC';
+    }
+
+    await user.update({
+        points: nextPoints,
+        totalSpent: nextSpent,
+        tier: nextTier,
+        membershipTier: nextMembershipTier
+    }, { transaction: t });
+
+    if (typeof order.update === 'function') {
+        await order.update({ isPointsAdded: true }, { transaction: t });
+    }
+    return { earnedPoints, totalPoints: nextPoints, tier: nextTier };
+}
 
 exports.createOrder = async (req, res, next) => {
     const t = await sequelize.transaction();
     try {
-        const { table_id, items, note, used_points } = req.body;
-        // Ưu tiên lấy userId từ Token để chính xác tuyệt đối
-        const user_id = req.user ? req.user.id : (req.body.user_id || null);
+        const { table_id, items, note, used_points, voucherCode, customerPhone, customerType } = req.body;
+        // Xác định user_id: hỗ trợ chọn Khách vãng lai (GUEST) hoặc Thành viên (qua user_id, SĐT, hoặc Token khách hàng)
+        let user_id = null;
+        if (String(customerType || '').toUpperCase() === 'GUEST') {
+            user_id = null;
+        } else if (req.body.user_id) {
+            user_id = Number(req.body.user_id) || null;
+        } else if (customerPhone && typeof User?.findOne === 'function') {
+            const memberByPhone = await User.findOne({ where: { phone: String(customerPhone).trim() }, transaction: t });
+            if (!memberByPhone) {
+                throw new Error(`Không tìm thấy tài khoản thành viên với SĐT "${customerPhone}"!`);
+            }
+            user_id = memberByPhone.id;
+        } else if (req.user && !['ADMIN', 'STAFF', 'HOST', 'KITCHEN'].includes(String(req.user.role || '').toUpperCase())) {
+            user_id = req.user.id;
+        }
 
-        console.log(">>> Create Order Request:", { table_id, user_id, used_points });
+        console.log(">>> Create Order Request:", { table_id, user_id, used_points, voucherCode });
 
         if (!items || !items.length) {
             return res.status(400).json({ message: "Đơn hàng phải có ít nhất một món ăn" });
@@ -61,16 +111,18 @@ exports.createOrder = async (req, res, next) => {
             }
         }
 
-        // Xử lý điểm thưởng (1 điểm = 1đ)
+        // Xử lý điểm thưởng (1 điểm = 1đ) + Voucher giảm giá + Chiết khấu hạng thành viên
         let discountAmount = 0;
         const pointsToUse = parseInt(used_points) || 0;
+        let appliedVoucherId = null;
+        let appliedVoucherCode = null;
 
         if (user_id && pointsToUse > 0) {
             const user = await User.findByPk(user_id, { transaction: t });
             console.log(">>> Found User for points:", user ? { id: user.id, points: user.points } : "Not Found");
 
             if (user && user.points >= pointsToUse) {
-                discountAmount = pointsToUse;
+                discountAmount += pointsToUse;
                 // Trừ điểm của người dùng
                 const newPoints = user.points - pointsToUse;
                 await user.update({ points: newPoints }, { transaction: t });
@@ -78,12 +130,51 @@ exports.createOrder = async (req, res, next) => {
             } else if (user && user.points < pointsToUse) {
                 throw new Error(`Số điểm tích lũy (${user.points}) không đủ để áp dụng (${pointsToUse})`);
             }
+        } else if (user_id && pointsToUse === 0 && voucherCode && typeof User?.findByPk === 'function') {
+            // Khi khách thành viên áp mã hoặc gọi món có chọn thành viên, tính thêm ưu đãi hạng thẻ nếu có
+            const memberUser = await User.findByPk(user_id, { transaction: t });
+            if (memberUser && memberUser.tier) {
+                const tierRates = { MEMBER: 0, SILVER: 0.03, GOLD: 0.05, VIP: 0.10 };
+                const tierDisc = Math.round(totalPrice * (tierRates[memberUser.tier] || 0));
+                discountAmount += tierDisc;
+            }
+        }
+
+        if (voucherCode && typeof Voucher?.findOne === 'function') {
+            const cleanCode = String(voucherCode).trim().toUpperCase();
+            const voucher = await Voucher.findOne({ where: { code: cleanCode, isActive: true }, transaction: t });
+            if (!voucher) {
+                throw new Error(`Mã giảm giá "${cleanCode}" không tồn tại hoặc đã ngừng hoạt động!`);
+            }
+            if (voucher.expiredAt && new Date(voucher.expiredAt) < new Date()) {
+                throw new Error(`Mã giảm giá "${cleanCode}" đã hết hạn sử dụng!`);
+            }
+            if (voucher.usageLimit > 0 && voucher.usedCount >= voucher.usageLimit) {
+                throw new Error(`Mã giảm giá "${cleanCode}" đã hết lượt sử dụng!`);
+            }
+            if (totalPrice < Number(voucher.minOrderValue || 0)) {
+                throw new Error(`Đơn hàng cần tối thiểu ${Number(voucher.minOrderValue).toLocaleString('vi-VN')}đ để áp dụng mã "${cleanCode}"!`);
+            }
+
+            let vDisc = 0;
+            if (voucher.discountType === 'PERCENT') {
+                vDisc = Math.round((totalPrice * Number(voucher.discountValue)) / 100);
+                if (voucher.maxDiscount) vDisc = Math.min(vDisc, Number(voucher.maxDiscount));
+            } else {
+                vDisc = Number(voucher.discountValue || 0);
+            }
+            discountAmount += vDisc;
+            appliedVoucherId = voucher.id;
+            appliedVoucherCode = voucher.code;
+            if (typeof voucher.update === 'function') {
+                await voucher.update({ usedCount: Number(voucher.usedCount || 0) + 1 }, { transaction: t });
+            }
         }
 
         const finalPrice = Math.max(0, totalPrice - discountAmount);
         console.log(">>> Pricing calculation:", { totalPrice, discountAmount, finalPrice });
 
-        const order = await Order.create({
+        const orderPayload = {
             table_id,
             user_id: user_id || null,
             totalPrice,
@@ -92,7 +183,12 @@ exports.createOrder = async (req, res, next) => {
             note,
             status: 'PENDING',
             paymentStatus: 'UNPAID'
-        }, { transaction: t });
+        };
+        if (appliedVoucherId) orderPayload.voucher_id = appliedVoucherId;
+        if (appliedVoucherCode) orderPayload.voucherCode = appliedVoucherCode;
+        if (pointsToUse > 0) orderPayload.pointsUsed = pointsToUse;
+
+        const order = await Order.create(orderPayload, { transaction: t });
 
         const itemsWithOrderId = orderItemsData.map(item => ({
             product_id: item.product_id,
@@ -142,7 +238,7 @@ exports.getAllOrders = async (req, res, next) => {
             where: whereClause,
             include: [
                 { model: RestaurantTable, as: 'RestaurantTable' },
-                { model: User, as: 'User', attributes: ['id', 'fullName', 'phone'] },
+                { model: User, as: 'User', attributes: ['id', 'fullName', 'phone', 'points', 'tier'] },
                 {
                     model: OrderItem,
                     as: 'OrderItems',
@@ -164,7 +260,7 @@ exports.getOrderById = async (req, res, next) => {
         const order = await Order.findByPk(id, {
             include: [
                 { model: RestaurantTable, as: 'RestaurantTable' },
-                { model: User, as: 'User', attributes: ['id', 'fullName', 'phone'] },
+                { model: User, as: 'User', attributes: ['id', 'fullName', 'phone', 'points', 'tier'] },
                 {
                     model: OrderItem,
                     as: 'OrderItems',
@@ -360,6 +456,7 @@ exports.payAllOrdersByTable = async (req, res, next) => {
                     paidAt: new Date()
                 }, { transaction: t });
             }
+            await awardLoyaltyPointsForOrder(o, t);
         }
 
         await RestaurantTable.update(
@@ -436,6 +533,8 @@ exports.payOrder = async (req, res, next) => {
                 paidAt: new Date()
             }, { transaction: t });
         }
+
+        await awardLoyaltyPointsForOrder(order, t);
 
         if (order.table_id) {
             await RestaurantTable.update(

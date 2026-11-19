@@ -1,5 +1,5 @@
 /*==================================================
-                REVIEW
+                REVIEW PAGE
 ==================================================*/
 
 const reviewForm = document.getElementById("reviewForm");
@@ -8,273 +8,148 @@ const stars = document.querySelectorAll("#starRating i");
 
 let rating = 5;
 
-/*==================================================
-                STAR RATING
-==================================================*/
-
 stars.forEach(star => {
-
     star.addEventListener("click", () => {
-
         rating = Number(star.dataset.value);
-
         updateStars();
-
     });
-
 });
 
 function updateStars() {
-
     stars.forEach(star => {
-
         if (Number(star.dataset.value) <= rating) {
-
             star.classList.remove("fa-regular");
             star.classList.add("fa-solid");
             star.classList.add("active");
-
         } else {
-
             star.classList.remove("fa-solid");
             star.classList.add("fa-regular");
             star.classList.remove("active");
-
         }
-
     });
-
 }
 
-updateStars();
+function escapeReviewHtml(str) {
+    return String(str ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
 
-
-
-/*==================================================
-                RENDER
-==================================================*/
-
-function renderReview(review){
+function renderReview(review) {
+    const reviewerName = review.user?.fullName || review.phone || "Khách hàng";
+    const createdDate = review.created_at || review.createdAt
+        ? new Date(review.created_at || review.createdAt).toLocaleDateString("vi-VN")
+        : "";
+    const replyDate = review.replied_at
+        ? new Date(review.replied_at).toLocaleDateString("vi-VN")
+        : "";
 
     reviewList.innerHTML += `
+        <div class="review-card">
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:10px;">
+                <div>
+                    <h3 style="margin-bottom:4px;">${escapeReviewHtml(reviewerName)}</h3>
+                    <div class="stars" style="margin:6px 0;">${renderStars(review.rating)}</div>
+                </div>
+                ${createdDate ? `<small>${createdDate}</small>` : ""}
+            </div>
 
-    <div class="review-card">
+            <strong style="display:inline-block; margin:8px 0 6px; color:#facc15;">
+                <i class="fa-solid fa-utensils"></i> ${escapeReviewHtml(review.dish_name || "Đánh giá nhà hàng")}
+            </strong>
 
-        <h3>
+            <p style="margin-bottom:14px;">"${escapeReviewHtml(review.content || "")}"</p>
 
-            ${review.user?.fullName || "Khách hàng"}
-
-        </h3>
-
-        <div class="stars">
-
-            ${renderStars(review.rating)}
-
+            ${review.reply ? `
+                <div class="restaurant-reply-box">
+                    <div class="restaurant-reply-head">
+                        <span><i class="fa-solid fa-reply"></i> Phản hồi từ Nhà hàng FutureSuShi</span>
+                        ${replyDate ? `<small style="color:#a1a1aa; font-weight:400;">${replyDate}</small>` : ""}
+                    </div>
+                    <div>${escapeReviewHtml(review.reply)}</div>
+                </div>
+            ` : ""}
         </div>
-
-        <strong>
-
-            ${review.dish_name || "Đánh giá nhà hàng"}
-
-        </strong>
-
-        <p>
-
-            ${review.content}
-
-        </p>
-
-    </div>
-
     `;
-
 }
 
+if (reviewForm) {
+    reviewForm.addEventListener("submit", async function(e) {
+        e.preventDefault();
+        let user = null;
+        try {
+            user = JSON.parse(localStorage.getItem(USER_KEY));
+        } catch (_) {}
 
-/*==================================================
-                SUBMIT
-==================================================*/
+        const dishName = document.getElementById("reviewTitle")?.value?.trim() || "Trải nghiệm tại FutureSuShi";
+        const content = document.getElementById("reviewContent")?.value?.trim() || "";
 
-if(reviewForm){
+        if (!content) {
+            showToast("Vui lòng nhập nội dung đánh giá của bạn.");
+            return;
+        }
 
-    reviewForm.addEventListener(
+        let phone = user?.phone || null;
+        if (!user) {
+            phone = prompt("Nhập tên hoặc SĐT của bạn (để trống nếu muốn ẩn danh):", "Khách hàng") || "Khách vãng lai";
+        }
 
-"submit",
+        const body = {
+            user_id: user?.id || null,
+            phone,
+            dish_name: dishName,
+            content,
+            rating
+        };
 
-async function(e){
+        try {
+            const result = await api("/api/reviews", {
+                method: "POST",
+                body: JSON.stringify(body)
+            });
+            showToast(result.message || "Cảm ơn bạn đã gửi đánh giá!");
+            reviewForm.reset();
+            rating = 5;
+            updateStars();
+            loadReviews();
+        } catch (error) {
+            showToast(error.message);
+        }
+    });
+}
 
-    e.preventDefault();
-
-    const user = JSON.parse(
-
-        localStorage.getItem(USER_KEY)
-
-    );
-
-    if(!user){
-
-        showToast(
-
-            "Vui lòng đăng nhập."
-
-        );
-
-        return;
-
-    }
-
-    const body={
-
-        user_id:user.id,
-
-        phone:user.phone,
-
-        dish_name:
-
-        document.getElementById(
-
-            "reviewTitle"
-
-        ).value,
-
-        content:
-
-        document.getElementById(
-
-            "reviewContent"
-
-        ).value,
-
-        rating:rating
-
-    };
-
-    try{
-
-        const result=
-
-        await api(
-
-            "/api/reviews",
-
-            {
-
-                method:"POST",
-
-                body:JSON.stringify(body)
-
-            }
-
-        );
-
-        showToast(
-
-            result.message
-
-        );
-
-        reviewForm.reset();
-
-        rating=5;
-
-        updateStars();
-
-        loadReviews();
-
-    }
-
-    catch(error){
-
-        console.log(error);
-
-        showToast(
-
-            error.message
-
-        );
-
-    }
-
-})
-};
-
-
-
-/*==================================================
-                LOAD REVIEW
-==================================================*/
-
-async function loadReviews(){
-
-    try{
-
-        const data = await api("/api/reviews");
-
+async function loadReviews() {
+    try {
+        const data = await api("/api/reviews?page=1&limit=50");
         renderReviews(data.reviews);
-
-    }
-
-    catch(error){
-
+    } catch (error) {
         console.log(error);
-
     }
-
 }
 
-/*==================================================
-                RENDER REVIEWS
-==================================================*/
-
-function renderReviews(reviews){
-
+function renderReviews(reviews) {
     reviewList.innerHTML = "";
-
-    if(!reviews || reviews.length===0){
-
-        reviewList.innerHTML = `
-
-        <div class="empty">
-
-            Chưa có đánh giá.
-
-        </div>
-
-        `;
-
+    if (!reviews || reviews.length === 0) {
+        reviewList.innerHTML = `<div class="empty" style="grid-column:1/-1">Chưa có đánh giá.</div>`;
         return;
-
     }
-
     reviews.forEach(renderReview);
-
 }
 
-
-function renderStars(number){
-
-    let html="";
-
-    for(let i=1;i<=5;i++){
-
-        if(i<=number){
-
+function renderStars(number) {
+    let html = "";
+    for (let i = 1; i <= 5; i++) {
+        if (i <= number) {
             html += '<i class="fa-solid fa-star active"></i>';
-
-        }
-
-        else{
-
+        } else {
             html += '<i class="fa-regular fa-star"></i>';
-
         }
-
     }
-
     return html;
-
 }
 
 updateStars();
-
 loadReviews();

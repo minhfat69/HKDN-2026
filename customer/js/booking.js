@@ -2,100 +2,122 @@
                 BOOKING
 ==================================================*/
 
-const bookingForm=document.getElementById("bookingForm");
-
-const reservationList=document.getElementById("reservationList");
+const bookingForm = document.getElementById("bookingForm");
+const reservationList = document.getElementById("reservationList");
+let matchedMemberForBooking = null;
+let phoneCheckTimer = null;
 
 /*==================================================
                 INIT
 ==================================================*/
 
-document.addEventListener(
+document.addEventListener("DOMContentLoaded", () => {
+    if (!bookingForm) return;
 
-"DOMContentLoaded",
+    // Điền mặc định ngày hôm nay & giờ hiện tại + 1 tiếng
+    const dateInput = document.getElementById("reservationDate");
+    const timeInput = document.getElementById("reservationTime");
+    if (dateInput && !dateInput.value) {
+        dateInput.value = new Date().toISOString().slice(0, 10);
+    }
+    if (timeInput && !timeInput.value) {
+        timeInput.value = "19:00";
+    }
 
-()=>{
+    // Tạo badge thông báo Thành viên / Khách vãng lai ngay dưới ô SĐT
+    const phoneInput = document.getElementById("phone");
+    if (phoneInput && !document.getElementById("bookingPhoneMemberBadge")) {
+        const badgeEl = document.createElement("div");
+        badgeEl.id = "bookingPhoneMemberBadge";
+        badgeEl.style.cssText = "font-size:12.5px; margin-top:4px; color:#94a3b8;";
+        badgeEl.textContent = "💡 Nhập SĐT để hệ thống tự động nhận diện Thành viên tích điểm hoặc Khách vãng lai.";
+        phoneInput.parentElement.appendChild(badgeEl);
 
-bookingForm.addEventListener(
+        phoneInput.addEventListener("input", e => {
+            clearTimeout(phoneCheckTimer);
+            const val = e.target.value.trim();
+            phoneCheckTimer = setTimeout(() => checkBookingPhoneMember(val), 250);
+        });
+    }
 
-"submit",
+    const user = JSON.parse(localStorage.getItem(USER_KEY) || "null");
+    if (user) {
+        if (document.getElementById("fullName")) document.getElementById("fullName").value = user.fullName || "";
+        if (phoneInput && user.phone) {
+            phoneInput.value = user.phone;
+            checkBookingPhoneMember(user.phone);
+        }
+    }
 
-submitBooking
-
-);
-
-loadReservations();
-
+    bookingForm.addEventListener("submit", submitBooking);
+    loadReservations();
 });
+
+async function checkBookingPhoneMember(phoneStr) {
+    const badgeEl = document.getElementById("bookingPhoneMemberBadge");
+    if (!badgeEl) return;
+    const clean = String(phoneStr || "").trim();
+    if (clean.length < 6) {
+        matchedMemberForBooking = null;
+        badgeEl.innerHTML = `<span style="color:#94a3b8;">👤 Khách vãng lai (Nhập SĐT đã đăng ký để đồng bộ Thành viên)</span>`;
+        return;
+    }
+    try {
+        const member = await api(`/api/ops/members/lookup?phone=${encodeURIComponent(clean)}`);
+        matchedMemberForBooking = member;
+        const nameInput = document.getElementById("fullName");
+        if (nameInput && !nameInput.value.trim() && member.fullName) {
+            nameInput.value = member.fullName;
+        }
+        badgeEl.innerHTML = `<span style="color:#4ade80; font-weight:600;">⭐ Thành viên: ${member.fullName} (Hạng ${member.tier || "MEMBER"} • ${Number(member.points || 0).toLocaleString("vi-VN")} điểm) — Tự động đồng bộ vào Bàn!</span>`;
+    } catch (_) {
+        matchedMemberForBooking = null;
+        badgeEl.innerHTML = `<span style="color:#facc15;">👤 Khách vãng lai (SĐT chưa đăng ký tài khoản thành viên)</span>`;
+    }
+}
 
 
 /*==================================================
             CREATE RESERVATION
 ==================================================*/
 
-async function submitBooking(e){
-
+async function submitBooking(e) {
     e.preventDefault();
 
-    const user = JSON.parse(localStorage.getItem(USER_KEY));
+    const user = JSON.parse(localStorage.getItem(USER_KEY) || "null");
+    const effectiveUserId = user?.id || matchedMemberForBooking?.id || null;
 
     const body = {
-
         guestName: document.getElementById("fullName").value.trim(),
-
         guestPhone: document.getElementById("phone").value.trim(),
-
-        reservationTime:
-            `${document.getElementById("reservationDate").value} ${document.getElementById("reservationTime").value}:00`,
-
-        numberOfGuests:
-            Number(document.getElementById("numberOfGuests").value),
-
-        note:
-            document.getElementById("note").value.trim(),
-
-        user_id: user ? user.id : null
-
+        reservationTime: `${document.getElementById("reservationDate").value} ${document.getElementById("reservationTime").value}:00`,
+        numberOfGuests: Number(document.getElementById("numberOfGuests").value),
+        note: document.getElementById("note").value.trim(),
+        user_id: effectiveUserId
     };
 
-    try{
+    try {
+        const result = await api("/api/reservations", {
+            method: "POST",
+            body: JSON.stringify(body)
+        });
 
-        const result = await api(
-
-            "/api/reservations",
-
-            {
-
-                method:"POST",
-
-                body:JSON.stringify(body)
-
-            }
-
-        );
-
-        showToast(result.message);
-
+        showToast(result.message || "Đặt bàn thành công!");
+        const savedPhone = body.guestPhone;
         bookingForm.reset();
 
-if(user){
-
-    document.getElementById("fullName").value = user.fullName || "";
-
-}
+        if (user) {
+            document.getElementById("fullName").value = user.fullName || "";
+            if (user.phone) document.getElementById("phone").value = user.phone;
+        } else if (savedPhone) {
+            document.getElementById("phone").value = savedPhone;
+        }
 
         loadReservations();
-
-    }
-
-    catch(error){
-
+    } catch (error) {
         console.log(error);
-
         showToast(error.message);
-
     }
-
 }
 
 
@@ -103,54 +125,32 @@ if(user){
             HISTORY
 ==================================================*/
 
-async function loadReservations(){
+async function loadReservations() {
+    const token = localStorage.getItem(TOKEN_KEY);
+    const phoneVal = document.getElementById("phone")?.value?.trim() || "";
 
-const token=
+    try {
+        if (token) {
+            const data = await api("/api/reservations/my-reservations");
+            renderReservations(data);
+            return;
+        }
 
-localStorage.getItem(
+        if (phoneVal.length >= 6) {
+            const all = await api("/api/reservations");
+            const matched = Array.isArray(all) ? all.filter(r => String(r.guestPhone || "").includes(phoneVal)) : [];
+            renderReservations(matched);
+            return;
+        }
 
-TOKEN_KEY
-
-);
-
-if(!token){
-
-reservationList.innerHTML=
-
-`
-
-<div class="empty">
-
-Đăng nhập để xem lịch sử.
-
-</div>
-
-`;
-
-return;
-
-}
-
-try{
-
-const data=
-
-await api(
-
-"/api/reservations/my-reservations"
-
-);
-
-renderReservations(data);
-
-}
-
-catch(error){
-
-console.log(error);
-
-}
-
+        reservationList.innerHTML = `
+            <div class="empty">
+                Nhập SĐT đặt bàn hoặc Đăng nhập để xem lịch sử đặt bàn của bạn.
+            </div>
+        `;
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 
@@ -186,16 +186,17 @@ list.forEach(renderReservation);
             RENDER RESERVATION
 ==================================================*/
 
-function renderReservation(item){
+function renderReservation(item) {
+    const isMember = Boolean(item.isMember || item.user_id || item.User);
+    const memberBadge = isMember
+        ? `<span style="display:inline-block; padding:3px 9px; border-radius:99px; background:rgba(244,180,0,0.18); color:#fde047; font-size:11.5px; font-weight:700; margin-bottom:8px;">⭐ Thành viên (${item.memberTier || item.User?.tier || "MEMBER"})</span>`
+        : `<span style="display:inline-block; padding:3px 9px; border-radius:99px; background:rgba(255,255,255,0.08); color:#cbd5e1; font-size:11.5px; font-weight:600; margin-bottom:8px;">👤 Khách vãng lai</span>`;
 
     reservationList.innerHTML += `
-
     <div class="reservation-item">
-
+        ${memberBadge}
         <h4>
-
-            ${formatDate(item.reservationTime)}
-
+            ${formatDate(item.reservationTime)} ${item.table_id ? `• Bàn #${item.Table?.tableNumber || item.table_id}` : ""}
         </h4>
 
         <p>

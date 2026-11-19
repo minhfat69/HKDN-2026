@@ -11,8 +11,9 @@ const Order = require('./Order')(sequelize);
 const OrderItem = require('./OrderItem')(sequelize);
 const Payment = require('./Payment')(sequelize);
 const Review = require('./Review')(sequelize);
+const Notification = require('./Notification')(sequelize);
 const Waitlist = require('./Waitlist')(sequelize);
-const { Voucher, Shift, Ingredient, InventoryBatch, Recipe } = require('./AdvancedModels')(sequelize);
+const { Voucher, Shift, Ingredient, InventoryBatch, Recipe, InventoryTransaction, VoidLog } = require('./AdvancedModels')(sequelize);
 
 Category.hasMany(Product, { foreignKey: 'category_id', as: 'products' });
 Product.belongsTo(Category, { foreignKey: 'category_id', as: 'category' });
@@ -69,6 +70,22 @@ Recipe.belongsTo(Ingredient, { foreignKey: 'ingredient_id', as: 'ingredient' });
 User.hasMany(Shift, { foreignKey: 'staff_id', as: 'shifts' });
 Shift.belongsTo(User, { foreignKey: 'staff_id', as: 'staff' });
 
+User.hasMany(Notification, { foreignKey: 'user_id', as: 'notifications' });
+Notification.belongsTo(User, { foreignKey: 'user_id', as: 'user' });
+
+Voucher.hasMany(Order, { foreignKey: 'voucher_id', as: 'orders' });
+Order.belongsTo(Voucher, { foreignKey: 'voucher_id', as: 'voucher' });
+
+Ingredient.hasMany(InventoryTransaction, { foreignKey: 'ingredient_id', as: 'transactions' });
+InventoryTransaction.belongsTo(Ingredient, { foreignKey: 'ingredient_id', as: 'ingredient' });
+InventoryBatch.hasMany(InventoryTransaction, { foreignKey: 'batch_id', as: 'transactions' });
+InventoryTransaction.belongsTo(InventoryBatch, { foreignKey: 'batch_id', as: 'batch' });
+
+OrderItem.hasMany(VoidLog, { foreignKey: 'order_item_id', as: 'voidLogs' });
+VoidLog.belongsTo(OrderItem, { foreignKey: 'order_item_id', as: 'orderItem' });
+User.hasMany(VoidLog, { foreignKey: 'authorizedBy', as: 'authorizedVoidLogs' });
+VoidLog.belongsTo(User, { foreignKey: 'authorizedBy', as: 'authorizer' });
+
 module.exports = {
     sequelize,
     connectDB,
@@ -83,10 +100,13 @@ module.exports = {
     OrderItem,
     Payment,
     Review,
+    Notification,
     Waitlist,
     Voucher,
     Shift,
     Ingredient,
     InventoryBatch,
-    Recipe
+    Recipe,
+    InventoryTransaction,
+    VoidLog
 };

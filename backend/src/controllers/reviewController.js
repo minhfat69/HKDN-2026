@@ -3,10 +3,16 @@ const { Op } = require('sequelize');
 
 exports.getAllReviews = async (req, res, next) => {
     try {
-        const { page = 1, limit = 10, date } = req.query;
+        const { page = 1, limit = 10, date, includeHidden } = req.query;
         const offset = (page - 1) * limit;
 
         const whereClause = {};
+        if (includeHidden !== 'true') {
+            whereClause[Op.or] = [
+                { status: 'VISIBLE' },
+                { status: null }
+            ];
+        }
         if (date) {
             const startDate = new Date(date);
             startDate.setHours(0, 0, 0, 0);
@@ -51,16 +57,63 @@ exports.createReview = async (req, res, next) => {
         }
 
         const newReview = await Review.create({
-            user_id,
-            phone,
+            user_id: user_id || null,
+            phone: phone || null,
             dish_name,
             content,
-            rating
+            rating,
+            status: 'VISIBLE'
         });
 
         res.status(201).json({
             message: "Cảm ơn bạn đã gửi đánh giá!",
             review: newReview
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+exports.replyReview = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const { reply } = req.body;
+        const review = await Review.findByPk(id);
+
+        if (!review) {
+            return res.status(404).json({ message: "Không tìm thấy đánh giá" });
+        }
+
+        await review.update({
+            reply: reply ? String(reply).trim() : null,
+            replied_at: reply ? new Date() : null
+        });
+
+        res.json({
+            message: "Đã gửi phản hồi của nhà hàng thành công!",
+            review
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+exports.updateReviewStatus = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const { status } = req.body;
+        const review = await Review.findByPk(id);
+
+        if (!review) {
+            return res.status(404).json({ message: "Không tìm thấy đánh giá" });
+        }
+
+        const nextStatus = String(status || '').toUpperCase() === 'HIDDEN' ? 'HIDDEN' : 'VISIBLE';
+        await review.update({ status: nextStatus });
+
+        res.json({
+            message: nextStatus === 'HIDDEN' ? "Đã ẩn đánh giá khỏi trang khách hàng" : "Đã hiển thị lại đánh giá",
+            review
         });
     } catch (error) {
         next(error);
